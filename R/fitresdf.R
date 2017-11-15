@@ -1,3 +1,12 @@
+#' Append fitted values and residuals to a data frame.
+#'
+#' @param data A data frame.
+#' @param model An lm or glm object.
+#' @return A data frame.
+#' @examples
+#' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
+#' head(fitresdf(data = mtcars, model = model.lm))
+
 ######################################################################################
 ### Robert Schnitman
 ### 2017-11-14
@@ -18,6 +27,6 @@ fitresdf <- function(data, model) {
   data$fit          <- predict(model)
   data$residual     <- resid(model)
   data$residual_pct <- with(data, residual/fit)
-  
+
   data
 }

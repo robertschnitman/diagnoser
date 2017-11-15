@@ -1,6 +1,17 @@
+#' Convert raw text into a word-frequency data frame.
+#'
+#' @param filename A raw text document, preferably in a .txt file.
+#' @param stopwords Specification for stopwords.
+#' @return A data frame.
+#' @examples
+#' library(tm)
+#' wfreqdf('nonsense.txt', 'english')
+
+
 #####################################################################################
 ### Robert Schnitman
 ### 2017-11-14
+###
 ###
 ### PURPOSE: Convert raw text into data frame with word frequencies.
 ### LIBRARY DEPENDENCY: tm (>= v.0.7.).
@@ -13,46 +24,29 @@
 
 ##### === BEGIN === #####
 
-#### cleancorpus() - to be used in wfreqdf ####
-
-cleancorpus <- function(corpus, stopwords) {
-  bad_leftovers <- c('the', 'this', 'but', 'about',
-                     'and', 'that', 'with', 
-                     'for')                       # leftover words not removed normally from tm_map()
-  
-  corpus <- tm_map(corpus, removePunctuation)
-  corpus <- tm_map(corpus, stripWhitespace)
-  corpus <- tm_map(corpus, removeNumbers)
-  corpus <- tm_map(corpus, content_transformer(tolower))
-  corpus <- tm_map(corpus, removeWords, stopwords(stopwords))
-  corpus <- tm_map(corpus, removeWords, bad_leftovers)
-  
-  corpus
-}
-
-
 #### wfreqdf() - Convert corpus into data frame of word frequencies. ####
 
 wfreqdf <- function(filename, stopwords) {                   # filename should be a txt file.
-  bad_leftovers <- c('the', 'this', 'but', 'about',
-                     'and', 'that', 'with', 
+  badleftovers <- c('the', 'this', 'but', 'about',
+                     'and', 'that', 'with',
                      'for')                                  # leftover words not removed normally from tm_map()
-  
+
   text    <- readLines(filename)                             # Get text file,
   corpus  <- Corpus(VectorSource(text))                      # Convert vectorized text into a corpus.
-  ccorpus <- cleancorpus(corpus, stopwords)                  # Filter out useless words.
+  ccorpus <- clean_corpus(corpus, stopwords)                 # Filter out useless words.
   tdmtext <- TermDocumentMatrix(corpus)                      # Convert corpus to Term Document Matrix.
   mtext   <- as.matrix(tdmtext)                              # Convert TDM to normal matrix.
   vtext   <- sort(rowSums(mtext), decreasing = TRUE)         # vector of words with frequency count.
   dtext   <- data.frame(word = names(vtext), freq = vtext)   # Dataframe of vtext.
-  
-  ### Filter out bad_leftovers ####  
+
+  ### Filter out bad_leftovers ####
   d2text <- subset(dtext, !word %in% bad_leftovers)
-  
+
   ### Print dataframe - descending order ###
   row.names(d2text) <- NULL
   d2text                      # should already be in descending order.
-  
+
 }
-  
+
+
 ##### === END === #####
