@@ -9,8 +9,8 @@
 ###   3. Improve output from the broom library.
 ###
 ### INPUTS:
-###   1. lm object. E.g. model.lm <- lm(y ~ x).
-###   2. conf = Confidence Level. Options are 90, 95, and 99.
+###   1. model = lm object. E.g. model.lm <- lm(y ~ x).
+###   2. conf  = Confidence Level. Options are 90, 95, and 99.
 ###
 ### OUTPUT: data frame.
 ###
@@ -20,11 +20,11 @@
 
 ##### === BEGIN === #####
 
-lmdf <- function(model.lm, conf = 95) { # "conf" = Confidence level.
+lmdf <- function(model, conf = 95) { # "conf" = Confidence level.
                                          #   Options are 90, 95, and 99.
   
   ### Save model estimates as a data frame. ###
-  summary.df <- as.data.frame(summary(model.lm)$coefficients)
+  summary.df <- as.data.frame(summary(model)$coefficients)
   
   ### Replace column names ###
   names(summary.df)[names(summary.df) == 'Std. Error'] <- 'se'
