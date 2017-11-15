@@ -8,8 +8,10 @@
 ###   2. Add/rename statistics for model results.
 ###   3. Improve output as seen in the broom library.
 ###
-### INPUT  = GLM model object. 
-###   e.g. model.glm <- glm(y ~ x, family = binomial('logit')).
+### INPUTS:
+###   1. model = GLM object. 
+###        E.g. model.glm <- glm(y ~ x, family = binomial('logit')).
+###   2. conf = Confidence Level. Options are 90, 95, and 99.
 ###
 ### OUTPUT = data frame.
 ###
@@ -19,7 +21,7 @@
 
 ##### === BEGIN === #####
 
-glmdf <- function(model.glm, conf = 95) { 
+glmdf <- function(model, conf = 95) { 
   # conf = Confidence level. Options are 90, 95, and 99.
   
   ### set up t/z statistics groups for value replacements in "Replace column names" ###
@@ -27,7 +29,7 @@ glmdf <- function(model.glm, conf = 95) {
   z_grp <- c('binomial', 'poisson')
   
   ### Save model estimates as a data frame. ###
-  summary.df <- as.data.frame(summary(model.glm)$coefficients)
+  summary.df <- as.data.frame(summary(model)$coefficients)
   
   ### Replace column names ###
   names(summary.df) <- gsub('Std. Error', 'se', names(summary.df))
