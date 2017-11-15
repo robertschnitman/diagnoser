@@ -11,7 +11,7 @@ The following sections provide examples.
 
 ## 2. diagnose()
 
-The function diagnose() provides an alternative for the plot(model.lm) approach. The Q-Q, Scale-Location, and Residuals-vs.-Leverage plots in the latter option can present difficulties in interpretations. For example, Cook's Distance ("Leverage") typically is not taught at the secondary and undergraduate level--when it is, teachers will forego explanation of the math and focus on the interpretation, leaving students in the dark. If the goal is to maximize student's understanding of diagnosing their results, one option is to replace the three previously mentioned graphs with histograms and an addition of another variable: residuals as a proportion of the fitted values (i.e. residuals ÷ fitted values).
+The function diagnose() provides an alternative to the plot(model.lm) approach. The Q-Q, Scale-Location, and Residuals-vs.-Leverage plots in the latter option can present difficulties in interpretations. For example, Cook's Distance ("Leverage") typically is not taught at the secondary and undergraduate level--when it is, teachers will forego explanation of the math and focus on the interpretation, leaving students in the dark. If the goal is to maximize student's understanding of diagnosing their results, one option is to replace the three previously mentioned graphs with histograms and an addition of another variable: residuals as a proportion of the fitted values (i.e. residuals ÷ fitted values).
 
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
