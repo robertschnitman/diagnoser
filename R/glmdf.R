@@ -32,8 +32,9 @@ glmdf <- function(model, conf = 95) {
   summary.df <- as.data.frame(summary(model)$coefficients)
   
   ### Replace column names ###
-  names(summary.df) <- gsub('Std. Error', 'se', names(summary.df))
-  names(summary.df) <- gsub('Estimate', 'beta', names(summary.df))
+  names(summary.df) <- gsub('Estimate',   'beta', names(summary.df))
+  names(summary.df) <- gsub('Std. Error', 'se',   names(summary.df))
+  
   
   names(summary.df) <- if (model.glm$family[1] %in% t_grp) {
     gsub('t value', 't', names(summary.df))
@@ -45,31 +46,31 @@ glmdf <- function(model, conf = 95) {
   names(summary.df) <- gsub('^Pr.*', 'p', names(summary.df))
   
   ### Generate new variables ###
-  summary.df$term      <- rownames(summary.df)                 # Intercept & independent variables.
+  summary.df$term      <- rownames(summary.df)                  # Intercept & independent variables.
   
-  summary.df$moe        <- with(summary.df,                    # % Margin of Error defined by conf argument.
+  summary.df$moe       <- with(summary.df,                      # % Margin of Error defined by conf argument.
                                 if      (conf == 95) {1.960*se}
                                 else if (conf == 90) {1.645*se}
                                 else if (conf == 99) {2.576*se}
                                 else {stop('Please correctly specify confidence level (conf argument)! \n  Your options are 90, 95, and 99. (b \' v \')b ')}
   )
   
-  summary.df$ci_lower   <- with(summary.df, beta - moe)        # Confidence Interval: lower limit.
-  summary.df$ci_upper   <- with(summary.df, beta + moe)        # Confidence Interval: upper limit.
+  summary.df$ci_lower  <- with(summary.df, beta - moe)         # Confidence Interval: lower limit.
+  summary.df$ci_upper  <- with(summary.df, beta + moe)         # Confidence Interval: upper limit.
   
   ### Remove row names (redundant with term variable) ###
   row.names(summary.df) <- NULL
   
   ### Print reordered columns ###
   if (model.glm$family[1] %in% t_grp) {
-  summary.df[, c('term',         # Intercept and independent variables.
-                 'beta',         # Coefficients.
-                 'se',           # Standard Error
-                 'moe',          # % Margin of Error, being specified by conf argument.
-                 'ci_lower',     # Lower bound of confidence interval.
-                 'ci_upper',     # Upper bound of confidence interval.
-                 't',            # T-statistic.
-                 'p')]           # p-value.
+    summary.df[, c('term',         # Intercept and independent variables.
+                   'beta',         # Coefficients.
+                   'se',           # Standard Error
+                   'moe',          # % Margin of Error, being specified by conf argument.
+                   'ci_lower',     # Lower bound of confidence interval.
+                   'ci_upper',     # Upper bound of confidence interval.
+                   't',            # T-statistic.
+                   'p')]           # p-value.
   } else if (model.glm$family[1] %in% z_grp) {
     summary.df[, c('term',       # Intercept and independent variables.
                    'beta',       # Coefficients.
@@ -87,3 +88,5 @@ glmdf <- function(model, conf = 95) {
 
 ## z-statistics & critical value source: Armstrong State University. 2017-11-14.
 ##   http://www.math.armstrong.edu/statsonline/5/5.3.2.html
+## T-statistics & critical value source: Texas A&M University. 2017-11-14.
+##   https://www.stat.tamu.edu/~lzhou/stat302/T-Table.pdf
