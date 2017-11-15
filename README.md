@@ -4,6 +4,12 @@
 ***Recommended Citation:  
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Schnitman, Robert (2017). GitHub Repository: schnitr. https://github.com/robertschnitman/schnitr***
 
+## 0. Installation  
+```r
+# install.packages("devtools")
+devtools::install_github("robertschnitman/schnitr")
+```
+
 ## 1. Introduction
 
 This repository hosts my family of R functions for statistical modeling, diagnostics, and data management. Many of them are inspired by tidyverse's broom library; but I was not quite satisfied with the mentioned library's outputs (such as the lack of confidence intervals for OLS estimates). Others are simply "shortcuts" for standard procedures, such as residual analysis and word frequencies. More functions will be added as they come.
