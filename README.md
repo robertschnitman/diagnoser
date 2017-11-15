@@ -1,7 +1,8 @@
 # schnitr
-*Robert Schnitman*
-
-*2017-11-14*
+***Robert Schnitman***  
+***2017-11-14***  
+***Recommended Citation:  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Schnitman, Robert (2017). GitHub Repository: schnitr. https://github.com/robertschnitman/schnitr***
 
 ## 1. Introduction
 
