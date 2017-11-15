@@ -4,8 +4,8 @@
 #' @param conf A confidence level. Either 90, 95, or 99.
 #' @return A data frame.
 #' @examples
-#' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-#' lmdf(model = model.lm, conf = 90)
+#' model.glm <- glm(data = mtcars, formula = am ~ mpg + gear, family = binomial(link = 'logit'))
+#' glmdf(model = model.glm, conf = 90)
 
 ######################################################################################
 ### Robert Schnitman
