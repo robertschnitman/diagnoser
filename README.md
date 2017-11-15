@@ -159,7 +159,7 @@ glmdf(model = model.glm, conf = 99)
     ## 2     0.969446  1.370145880 0.1706414
     ## 3  8958.257954  0.005852429 0.9953305
 
-## 5. clean\_corpus() and wfreqdf()
+## 5. cleancorpus() and wfreqdf()
 
 When I first learned about using the tm library, the process for converting raw text into a data frame of word frequencies was tedious: several tm\_map()'s had to be applied to the corpus and transformations for the TDM-to-dataframe ordeal. As a result, I created two functions specifically for the overall procedure from raw text to data frame. It is especially useful for bar charts.
 
@@ -167,7 +167,7 @@ At this time, these functions "work" for English stop words. Other languages can
 
 ``` r
 # library(tm) assumed.
-# wfreqdf() depends on clean_corpus().
+# wfreqdf() depends on cleancorpus().
 # setting stopwords is based on the tm library. E.g. English --> stopwords = 'english'
 # nonsense.txt is found in the main schnitr directory.
 
