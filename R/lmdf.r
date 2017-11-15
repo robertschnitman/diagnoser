@@ -27,23 +27,23 @@ lmdf <- function(model, conf = 95) { # "conf" = Confidence level.
   summary.df <- as.data.frame(summary(model)$coefficients)
   
   ### Replace column names ###
-  names(summary.df)[names(summary.df) == 'Std. Error'] <- 'se'
-  names(summary.df)[names(summary.df) == 'Estimate']   <- 'beta'
-  names(summary.df)[names(summary.df) == 't value']    <- 't'
-  names(summary.df)[names(summary.df) == 'Pr(>|t|)']   <- 'p'
+  names(summary.df) <- gsub('Estimate',   'beta', names(summary.df))
+  names(summary.df) <- gsub('Std. Error', 'se',   names(summary.df))
+  names(summary.df) <- gsub('t value',    't',    names(summary.df))
+  names(summary.df) <- gsub('^Pr.*',      'p',    names(summary.df))
   
   ### Generate new variables ###
-  summary.df$term      <- rownames(summary.df)                 # Intercept & independent variables.
+  summary.df$term     <- rownames(summary.df)                 # Intercept & independent variables.
   
-  summary.df$moe        <- with(summary.df,                    # % Margin of Error defined by conf argument.
-                                if      (conf == 95) {1.960*se}
-                                else if (conf == 90) {1.645*se}
-                                else if (conf == 99) {2.576*se}
-                                else {stop('Please correctly specify confidence level (conf argument)! \n  Your options are 90, 95, and 99. (b \' v \')b ')}
-                                )
+  summary.df$moe      <- with(summary.df,                     # % Margin of Error defined by conf argument.
+                              if      (conf == 95) {1.960*se}
+                              else if (conf == 90) {1.645*se}
+                              else if (conf == 99) {2.576*se}
+                              else {stop('Please correctly specify confidence level (conf argument)! \n  Your options are 90, 95, and 99. (b \' v \')b ')}
+  )
   
-  summary.df$ci_lower   <- with(summary.df, beta - moe)        # Confidence Interval: lower.
-  summary.df$ci_upper   <- with(summary.df, beta + moe)        # Confidence Interval: upper.
+  summary.df$ci_lower <- with(summary.df, beta - moe)         # Confidence Interval: lower.
+  summary.df$ci_upper <- with(summary.df, beta + moe)         # Confidence Interval: upper.
   
   ### Remove row names (redundant with term variable) ###
   row.names(summary.df) <- NULL
