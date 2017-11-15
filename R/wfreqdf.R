@@ -2,7 +2,6 @@
 ### Robert Schnitman
 ### 2017-11-14
 ###
-###
 ### PURPOSE: Convert raw text into data frame with word frequencies.
 ### LIBRARY DEPENDENCY: tm (>= v.0.7.).
 ###
