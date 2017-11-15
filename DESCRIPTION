@@ -1,6 +1,6 @@
 Package: schnitr
 Type: Package
-Title: Models-to-Data-Frames, Diagnostics, and Data Management
+Title: Modeling, Diagnostics, and Data Management
 Version: 0.0.1
 Author: Robert Schnitman <robertschnitman@gmail.com>
 Maintainer: Robert Schnitman <robertschnitman@gmail.com>
