@@ -6,10 +6,11 @@
 ###   1. Save summary(glm())$coefficients as
 ###      a formatted data frame.
 ###   2. Add/rename statistics for model results.
-###   3. Improve output from the broom library.
+###   3. Improve output as seen in the broom library.
 ###
 ### INPUT  = GLM model object. 
 ###   e.g. model.glm <- glm(y ~ x, family = binomial('logit')).
+###
 ### OUTPUT = data frame.
 ###
 ### RECOMMENDED CITATION:
@@ -58,7 +59,7 @@ glmdf <- function(model.glm, conf = 95) {
   row.names(summary.df) <- NULL
   
   ### Print reordered columns ###
-  if      (model.glm$family[1] %in% t_grp) {
+  if (model.glm$family[1] %in% t_grp) {
   summary.df[, c('term',         # Intercept and independent variables.
                  'beta',         # Coefficients.
                  'se',           # Standard Error
