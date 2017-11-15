@@ -19,7 +19,7 @@ library(tm)
 #### clean_corpus() - to be used in wfreqdf ####
 
 clean_corpus <- function(corpus, stopwords) {
-  bad_leftovers <- c('the', 'this', 'but', 
+  bad_leftovers <- c('the', 'this', 'but', 'about',
                      'and', 'that', 'with', 
                      'for')                       # leftover words not removed normally from tm_map()
   
@@ -37,7 +37,7 @@ clean_corpus <- function(corpus, stopwords) {
 #### wfreqdf() - Convert corpus into data frame of word frequencies. ####
 
 wfreqdf <- function(filename, stopwords) {                   # filename should be a txt file.
-  bad_leftovers <- c('the', 'this', 'but', 
+  bad_leftovers <- c('the', 'this', 'but', 'about',
                      'and', 'that', 'with', 
                      'for')                                  # leftover words not removed normally from tm_map()
   
@@ -57,5 +57,5 @@ wfreqdf <- function(filename, stopwords) {                   # filename should b
   d2text                      # should already be in descending order.
   
 }
-
+  
 ##### === END === #####
