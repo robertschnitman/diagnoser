@@ -8,8 +8,11 @@
 ###   2. Add/rename statistics for model results.
 ###   3. Improve output from the broom library.
 ###
-### INPUT  = lm object. E.g. model.lm <- lm(y ~ x).
-### OUTPUT = data frame.
+### INPUTS:
+###   1. lm object. E.g. model.lm <- lm(y ~ x).
+###   2. conf = Confidence Level. Options are 90, 95, and 99.
+###
+### OUTPUT: data frame.
 ###
 ### RECOMMENDED CITATION:
 ###  Schnitman, Robert (2017). lmdf.r. https://github.com/robertschnitman/schnitr
