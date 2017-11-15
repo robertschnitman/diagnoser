@@ -14,8 +14,6 @@
 
 ##### === BEGIN === #####
 
-library(tm)
-
 #### clean_corpus() - to be used in wfreqdf ####
 
 clean_corpus <- function(corpus, stopwords) {
