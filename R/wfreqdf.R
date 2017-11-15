@@ -2,7 +2,6 @@
 ### Robert Schnitman
 ### 2017-11-14
 ###
-###
 ### PURPOSE: Convert raw text into data frame with word frequencies.
 ### LIBRARY DEPENDENCY: tm (>= v.0.7.).
 ###
@@ -14,9 +13,9 @@
 
 ##### === BEGIN === #####
 
-#### clean_corpus() - to be used in wfreqdf ####
+#### cleancorpus() - to be used in wfreqdf ####
 
-clean_corpus <- function(corpus, stopwords) {
+cleancorpus <- function(corpus, stopwords) {
   bad_leftovers <- c('the', 'this', 'but', 'about',
                      'and', 'that', 'with', 
                      'for')                       # leftover words not removed normally from tm_map()
@@ -41,7 +40,7 @@ wfreqdf <- function(filename, stopwords) {                   # filename should b
   
   text    <- readLines(filename)                             # Get text file,
   corpus  <- Corpus(VectorSource(text))                      # Convert vectorized text into a corpus.
-  ccorpus <- clean_corpus(corpus, stopwords)                 # Filter out useless words.
+  ccorpus <- cleancorpus(corpus, stopwords)                  # Filter out useless words.
   tdmtext <- TermDocumentMatrix(corpus)                      # Convert corpus to Term Document Matrix.
   mtext   <- as.matrix(tdmtext)                              # Convert TDM to normal matrix.
   vtext   <- sort(rowSums(mtext), decreasing = TRUE)         # vector of words with frequency count.
