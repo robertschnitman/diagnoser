@@ -168,17 +168,18 @@ At this time, these functions "work" for English stop words. Other languages can
 # library(tm) assumed.
 # wfreqdf() depends on clean_corpus().
 # setting stopwords is based on the tm library. E.g. English --> stopwords = 'english'
+# nonsense.txt is found in the main schnitr directory.
 
-head(wfreqdf(filename = 'letter.txt', stopwords = 'english'))
+head(wfreqdf(filename = 'nonsense.txt', stopwords = 'english'))
 ```
 
-    ##   word freq
-    ## 1 have   86
-    ## 2  you   56
-    ## 3  are   44
-    ## 4 will   43
-    ## 5  our   40
-    ## 6 they   36
+    ##          word freq
+    ## 1     journal    3
+    ## 2      former    2
+    ## 3        just    2
+    ## 4 statistical    2
+    ## 5         you    2
+    ## 6  achievable    1
 
 ## 6. Conclusion and Future Work
 
