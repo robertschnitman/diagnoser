@@ -4,10 +4,12 @@
 \alias{cdiagnose}
 \title{Graphically diagnose model residuals ("classic" version with ggplot2 graphics).}
 \usage{
-cdiagnose(model)
+cdiagnose(model, se = FALSE)
 }
 \arguments{
 \item{model}{An lm or glm object.}
+
+\item{se}{Boolean. For overlaying standard errors.}
 }
 \value{
 2x2 charts similar to plot(model.lm).
@@ -20,5 +22,6 @@ model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 cdiagnose(model.lm)
 }
 \seealso{
-\url{https://github.com/robertschnitman/diagnoser} and Raju Rimal (inspiration for Residuals vs. Leverage): \url{https://rpubs.com/therimalaya/43190}
+\url{https://github.com/robertschnitman/diagnoser} and
+Raju Rimal (inspiration for Residuals vs. Leverage): \url{https://rpubs.com/therimalaya/43190}
 }
