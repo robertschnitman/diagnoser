@@ -21,3 +21,6 @@ Transform lm() object into a data frame with margin of error and confidence inte
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 lmdf(model = model.lm, conf = 90)
 }
+\seealso{
+\url{https://github.com/robertschnitman/schnitr}
+}

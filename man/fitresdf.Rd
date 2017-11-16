@@ -21,3 +21,6 @@ Append fitted values and residuals to a data frame.
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 head(fitresdf(data = mtcars, model = model.lm))
 }
+\seealso{
+\url{https://github.com/robertschnitman/schnitr}
+}

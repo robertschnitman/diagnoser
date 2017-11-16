@@ -19,3 +19,6 @@ Graphically diagnose model residuals.
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 diagnose(model.lm)
 }
+\seealso{
+\url{https://github.com/robertschnitman/schnitr}
+}

@@ -21,3 +21,6 @@ Clean corpus by removing punctuation, stripping whitespace, and others.
 library(tm)
 cleancorpus(my_corpus, 'english')
 }
+\seealso{
+\url{https://github.com/robertschnitman/schnitr}
+}

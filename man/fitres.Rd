@@ -19,3 +19,6 @@ Create matrix of model fit, residuals, and residuals as a proportion of the fitt
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 fitres(model.lm)
 }
+\seealso{
+\url{https://github.com/robertschnitman/schnitr}
+}

@@ -21,3 +21,6 @@ Convert raw text into a word-frequency data frame.
 library(tm)
 wfreqdf('nonsense.txt', 'english')
 }
+\seealso{
+\url{https://github.com/robertschnitman/schnitr}
+}
