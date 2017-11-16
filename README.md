@@ -1,8 +1,8 @@
-# schnitr
+# diagnoser
 ***Robert Schnitman***  
 ***2017-11-14***  
 ***Recommended Citation:  
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Schnitman, Robert (2017). GitHub Repository: schnitr. https://github.com/robertschnitman/schnitr***
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Schnitman, Robert (2017). GitHub Repository: diagnoser. https://github.com/robertschnitman/diagnoser***
 
 ## 0. Installation
 ```r
@@ -11,16 +11,16 @@
 # install.packages("devtools")
 #   Some functions depend on the following libraries:
 #     tm (>= 0.7.0), ggplot2 (>= 2.2.1), gridExtra (>= 2.3)
-devtools::install_github("robertschnitman/schnitr")
+devtools::install_github("robertschnitman/diagnoser")
 ```
 
 ## 1. Introduction
 
-This repository hosts my family of R functions for statistical modeling, diagnostics, and data management. Many of them are inspired by tidyverse's broom library; but I was not quite satisfied with the mentioned library's outputs (such as the lack of confidence intervals for OLS estimates). Others are simply "shortcuts" for standard procedures, such as residual analysis and word frequencies. More functions will be added as they come.
+This repository hosts my family of R functions for diagnostics, statistical modeling, and data management. Many of them are inspired by tidyverse's broom library; but I was not quite satisfied with the mentioned library's outputs (such as the lack of confidence intervals for OLS estimates). Others are simply "shortcuts" for standard procedures, such as residual analysis and word frequencies. More functions will be added as they come.
 
 The following sections provide examples.
 
-## 2. diagnose(), ggdiagnose(), & cdiagnose()
+## 2. diagnose(), ggdiagnose(), and cdiagnose()
 
 The functions diagnose() and ggdiagnose() provide alternatives for the plot(lm()) approach. The Q-Q, Scale-Location, and Residuals-vs.-Leverage plots in the latter method can present difficulties in interpretations. For example, Cook's Distance ("Leverage") typically is not taught at the secondary and undergraduate levels--when it is, teachers will forego explanation of the math due to its complexity and instead focus solely on the interpretation, leaving students in the dark on how the statistic works. If the goal is to maximize students' comprehension of detecting heteroskedasticity, one option is to replace the three previously mentioned graphs with histograms and an addition of another variable: residuals as a percentage of the fitted values (i.e. (residuals ÷ fitted values)\*100).
 
@@ -205,7 +205,7 @@ At this time, these functions "work" for English stop words. Other languages can
 # library(tm) assumed.
 # wfreqdf() depends on cleancorpus().
 # setting stopwords is based on the tm library. E.g. English --> stopwords = 'english'
-# nonsense.txt is found in the main schnitr directory.
+# nonsense.txt is found in the main diagnoser directory.
 
 head(wfreqdf(filename = 'nonsense.txt', stopwords = 'english'))
 ```
