@@ -9,9 +9,7 @@ Description: Family of R functions for statistical modeling, diagnostics, and da
     such as residual analysis and word frequencies.
 URL: https://github.com/robertschnitman/schnitr
 BugReports: https://github.com/robertschnitman/schnitr/issues
-Depends: R (>= 3.4.2)
-Imports:
-    tm (>= 0.7.0)
+Depends: R (>= 3.4.2), tm (>= 0.7.0), ggplot2 (>= 2.2.1), gridExtra (>= 2.3)
 License: GNU General Public License v3.0
 Encoding: UTF-8
 LazyData: TRUE
