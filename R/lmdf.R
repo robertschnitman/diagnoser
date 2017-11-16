@@ -72,9 +72,6 @@ lmdf <- function(model, conf = 95) { # "conf" = Confidence level.
 }
 
 ##### === END === #####
-library(car)
-model.lm <- lm(mpg ~ gear + wt, mtcars)
-lmdf(model.lm)
 
 ## T-statistics & critical value source: Texas A&M University. 2017-11-14.
 ##   https://www.stat.tamu.edu/~lzhou/stat302/T-Table.pdf
