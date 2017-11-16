@@ -4,9 +4,13 @@
 ***Recommended Citation:  
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Schnitman, Robert (2017). GitHub Repository: schnitr. https://github.com/robertschnitman/schnitr***
 
-## 0. Installation  
+## 0. Installation
 ```r
+# Ensure that you are running R 3.4.2 or higher.
+#
 # install.packages("devtools")
+#   Some functions depend on the following libraries:
+#     tm (>= 0.7.0), ggplot2 (>= 2.2.1), gridExtra (>= 2.3)
 devtools::install_github("robertschnitman/schnitr")
 ```
 
@@ -204,7 +208,7 @@ I hope to improve upon these existing functions and create new ones that (1) min
 
 1. Functions similar to broom's glance() (perhaps with other model diagnostics and making "statistic" be clear that it is referring to the F-statistic).  
 2. ~~ggplot2 version of diagnose().~~  
-3. Add VIF in lmdf() & glmdf().  
+3. Add VIF in lmdf() & glmdf(). Feasible solution with tidyr, but I would rather stay close to base R as much as possible.
 4. For wfreqdf, test for Japanese stop words (my kanji is extremely weak).
 
 *End of Document*
