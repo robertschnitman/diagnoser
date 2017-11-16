@@ -4,9 +4,7 @@ Title: Modeling, Diagnostics, and Data Management
 Version: 0.0.2.0
 Author: Robert Schnitman <robertschnitman@gmail.com>
 Maintainer: Robert Schnitman <robertschnitman@gmail.com>
-Description: Family of R functions for statistical modeling, diagnostics, and data management. 
-    Many of them are inspired by tidyverse's broom library. Others are simply "shortcuts" for standard procedures, 
-    such as residual analysis and word frequencies.
+Description: Family of R functions for statistical modeling, diagnostics, and data management. Many of them are inspired by tidyverse's broom library. Others are simply "shortcuts" for standard procedures, such as residual analysis and word frequencies.
 URL: https://github.com/robertschnitman/schnitr
 BugReports: https://github.com/robertschnitman/schnitr/issues
 Depends: R (>= 3.4.2), tm (>= 0.7.0), ggplot2 (>= 2.2.1), gridExtra (>= 2.3)
