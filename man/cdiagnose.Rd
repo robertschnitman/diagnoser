@@ -20,6 +20,5 @@ model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 cdiagnose(model.lm)
 }
 \seealso{
-\url{https://github.com/robertschnitman/diagnoser}
-\n Raju Rimal (inspiration for Residuals vs. Leverage): \url{https://rpubs.com/therimalaya/43190}
+\url{https://github.com/robertschnitman/diagnoser} and Raju Rimal (inspiration for Residuals vs. Leverage): \url{https://rpubs.com/therimalaya/43190}
 }
