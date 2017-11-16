@@ -72,7 +72,7 @@ cdiagnose <- function(model, se = FALSE) {
     theme_bw()
 
   ### Figure 3 - Scale-Location ###
-  f3 <- ggplot(df, aes(y = sqrt(sr), x = fit)) +
+  f3 <- ggplot(df, aes(y = sqrt(abs(sr)), x = fit)) +
     geom_point(color = 'salmon') +
     geom_smooth(method = 'loess',
                 se     = se,
