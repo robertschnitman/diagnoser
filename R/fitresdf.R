@@ -6,7 +6,7 @@
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' head(fitresdf(data = mtcars, model = model.lm))
-#' @seealso \url{https://github.com/robertschnitman/schnitr}
+#' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ######################################################################################
 ### Robert Schnitman
@@ -21,7 +21,7 @@
 ### OUTPUT: data frame.
 ###
 ### RECOMMENDED CITATION:
-###  Schnitman, Robert (2017). fitresdf.r. https://github.com/robertschnitman/schnitr
+###  Schnitman, Robert (2017). fitresdf.r. https://github.com/robertschnitman/diagnoser
 ######################################################################################
 
 fitresdf <- function(data, model) {

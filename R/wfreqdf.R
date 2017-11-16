@@ -6,7 +6,7 @@
 #' @examples
 #' library(tm)
 #' wfreqdf('nonsense.txt', 'english')
-#' @seealso \url{https://github.com/robertschnitman/schnitr}
+#' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 
 #####################################################################################
@@ -18,7 +18,7 @@
 ### LIBRARY DEPENDENCY: tm (>= v.0.7.).
 ###
 ### RECOMMENDED CITATION:
-###  Schnitman, Robert (2017). wfreqdf.r. https://github.com/robertschnitman/schnitr
+###  Schnitman, Robert (2017). wfreqdf.r. https://github.com/robertschnitman/diagnoser
 #####################################################################################
 
 ### 2017-11-14: Added stopwords argument, but I am only confident that these functions work for English only. ( ' ^ ')

@@ -6,7 +6,7 @@
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' lmdf(model = model.lm, conf = 90)
-#' @seealso \url{https://github.com/robertschnitman/schnitr}
+#' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 #####################################################################################
 ### Robert Schnitman
@@ -26,7 +26,7 @@
 ###
 ### LIBRARY DEPENDENCY: car.
 ### RECOMMENDED CITATION:
-###  Schnitman, Robert (2017). lmdf.r. https://github.com/robertschnitman/schnitr
+###  Schnitman, Robert (2017). lmdf.r. https://github.com/robertschnitman/diagnoser
 #####################################################################################
 
 ##### === BEGIN === #####

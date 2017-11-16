@@ -6,7 +6,7 @@
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' ggdiagnose(model.lm, bins = NROW(mtcars))
-#' @seealso \url{https://github.com/robertschnitman/schnitr}
+#' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ########################################################################################
 ### Robert Schnitman
@@ -22,7 +22,7 @@
 ### OUTPUT: 2x2 plot with ggplot2 graphics.
 ###
 ### RECOMMENDED CITATION:
-###  Schnitman, Robert (2017). ggdiagnose.r. https://github.com/robertschnitman/schnitr
+###  Schnitman, Robert (2017). ggdiagnose.r. https://github.com/robertschnitman/diagnoser
 ########################################################################################
 
 

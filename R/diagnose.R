@@ -5,7 +5,7 @@
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' diagnose(model.lm)
-#' @seealso \url{https://github.com/robertschnitman/schnitr}
+#' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ######################################################################################
 ### Robert Schnitman
@@ -20,7 +20,7 @@
 ### OUTPUT: 2x2 plot with base graphics.
 ###
 ### RECOMMENDED CITATION:
-###  Schnitman, Robert (2017). diagnose.r. https://github.com/robertschnitman/schnitr
+###  Schnitman, Robert (2017). diagnose.r. https://github.com/robertschnitman/diagnoser
 ######################################################################################
 
 

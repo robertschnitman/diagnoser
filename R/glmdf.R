@@ -6,7 +6,7 @@
 #' @examples
 #' model.glm <- glm(data = mtcars, formula = am ~ mpg + gear, family = binomial(link = 'logit'))
 #' glmdf(model = model.glm, conf = 90)
-#' @seealso \url{https://github.com/robertschnitman/schnitr}
+#' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ######################################################################################
 ### Robert Schnitman
@@ -26,7 +26,7 @@
 ### OUTPUT = data frame.
 ###
 ### RECOMMENDED CITATION:
-###  Schnitman, Robert (2017). glmdf.r. https://github.com/robertschnitman/schnitr
+###  Schnitman, Robert (2017). glmdf.r. https://github.com/robertschnitman/diagnoser
 ######################################################################################
 
 ##### === BEGIN === #####

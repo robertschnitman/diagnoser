@@ -5,7 +5,7 @@
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' fitres(model.lm)
-#' @seealso \url{https://github.com/robertschnitman/schnitr}
+#' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 #####################################################################################
 ### Robert Schnitman
@@ -18,7 +18,7 @@
 ### OUTPUT: matrix.
 ###
 ### RECOMMENDED CITATION:
-###  Schnitman, Robert (2017). fitres.r. https://github.com/robertschnitman/schnitr
+###  Schnitman, Robert (2017). fitres.r. https://github.com/robertschnitman/diagnoser
 #####################################################################################
 
 fitres <- function(model) {

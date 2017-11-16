@@ -5,7 +5,7 @@
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' cdiagnose(model.lm)
-#' @seealso \url{https://github.com/robertschnitman/schnitr}
+#' @seealso \url{https://github.com/robertschnitman/diagnoser}
 #' Raju Rimal (inspiration for Residuals vs. Leverage): \url{https://rpubs.com/therimalaya/43190}
 
 ######################################################################################
@@ -22,7 +22,7 @@
 ### OUTPUT: 2x2 plot with base graphics.
 ###
 ### RECOMMENDED CITATION:
-###  Schnitman, Robert (2017). diagnose.r. https://github.com/robertschnitman/schnitr
+###  Schnitman, Robert (2017). diagnose.r. https://github.com/robertschnitman/diagnoser
 ###
 ### Idea for Residuals vs. Leverage inspired by
 ###  https://rpubs.com/therimalaya/43190.
