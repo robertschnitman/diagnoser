@@ -1,11 +1,12 @@
 #' Graphically diagnose model residuals ("classic" version with ggplot2 graphics).
 #'
 #' @param model An lm or glm object.
+#' @param se Boolean. For overlaying standard errors.
 #' @return 2x2 charts similar to plot(model.lm).
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' cdiagnose(model.lm)
-#' @seealso \url{https://github.com/robertschnitman/diagnoser}
+#' @seealso \url{https://github.com/robertschnitman/diagnoser} and
 #' Raju Rimal (inspiration for Residuals vs. Leverage): \url{https://rpubs.com/therimalaya/43190}
 
 ######################################################################################
@@ -31,7 +32,7 @@
 
 ##### === BEGIN === #####
 
-cdiagnose <- function(model) {
+cdiagnose <- function(model, se = FALSE) {
 
   ### Set up data frame of fit and residuals ###
   fit <- predict(model)
@@ -51,7 +52,7 @@ cdiagnose <- function(model) {
                col        = 'red',
                linetype   = 'dashed') +
     geom_smooth(method = 'loess',
-                se     = FALSE,
+                se     = se,
                 color  = 'steelblue') +
     labs(x     = 'Fitted Values',
          y     = 'Residuals',
@@ -62,7 +63,7 @@ cdiagnose <- function(model) {
   f2 <- ggplot(df, aes(y = sr, x = qsr)) +
     geom_point(color = 'salmon') +
     geom_smooth(method   = 'lm',
-                se       = FALSE,
+                se       = se,
                 linetype = 'dashed',
                 color    = 'steelblue') +
     labs(x     = 'Theoretical Quantiles',
@@ -74,7 +75,7 @@ cdiagnose <- function(model) {
   f3 <- ggplot(df, aes(y = sqrt(sr), x = fit)) +
     geom_point(color = 'salmon') +
     geom_smooth(method = 'loess',
-                se     = FALSE,
+                se     = se,
                 color  = 'steelblue') +
     labs(x     = 'Fitted Values',
          y     = expression(sqrt('|Standardized residuals|')),
@@ -85,7 +86,7 @@ cdiagnose <- function(model) {
   f4 <- ggplot(df, aes(y = sr, x = lev, size = cd)) +
     geom_point(color        = 'salmon') +
     geom_smooth(method      = 'loess',
-                se          = FALSE,
+                se          = se,
                 color       = 'steelblue',
                 show.legend = FALSE
                 ) +
@@ -93,7 +94,8 @@ cdiagnose <- function(model) {
          y     = 'Standardized Residuals',
          size  = 'Cook\'s Distance',
          title = 'Residuals vs. Leverage') +
-    theme_bw()
+    theme_bw() +
+    theme(legend.position = 'bottom')
 
   grid.arrange(f1, f2, f3, f4, ncol = 2)
 
