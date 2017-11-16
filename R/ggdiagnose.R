@@ -2,10 +2,11 @@
 #'
 #' @param model An lm or glm object.
 #' @param bins Number of bins to specify for histograms.
-#' @return 2x2 charts similar to plot(model.lm).
+#' @param se Boolean. For overlaying shaded standard errors.
+#' @return 2x2 charts similar to plot(model).
 #' @examples
-#' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-#' ggdiagnose(model.lm, bins = NROW(mtcars))
+#' model <- lm(data = mtcars, formula = mpg ~ wt + gear)
+#' ggdiagnose(model, bins = NROW(mtcars))
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ########################################################################################
@@ -18,7 +19,7 @@
 ###
 ### LIBRARY DEPENDENCY: ggplot2 (>= 2.2.1), gridExtra (>= 2.3)
 ###
-### INPUT: lm/glm object. E.g. model.lm <- lm(y ~ x).
+### INPUT: lm/glm object. E.g. model <- lm(y ~ x).
 ### OUTPUT: 2x2 plot with ggplot2 graphics.
 ###
 ### RECOMMENDED CITATION:
@@ -28,10 +29,10 @@
 
 ##### === BEGIN === #####
 
-ggdiagnose <- function(model, bins = 30) {
+ggdiagnose <- function(model, bins = 30, se = TRUE) {
   ### Set up data frame of fit and residuals ###
-  fit <- predict(model.lm)
-  res <- resid(model.lm)
+  fit <- predict(model)
+  res <- resid(model)
   pct <- (res/fit)*100
   df  <- as.data.frame(cbind(fit, res, pct))
 
@@ -42,7 +43,7 @@ ggdiagnose <- function(model, bins = 30) {
                col        = 'red',
                linetype   = 'dashed') +
     geom_smooth(method = 'loess',
-                se     = TRUE,
+                se     = se,
                 color  = 'steelblue') +
     labs(x     = 'Fitted Values',
          y     = 'Residuals',
@@ -56,7 +57,7 @@ ggdiagnose <- function(model, bins = 30) {
                col        = 'red',
                linetype   = 'dashed') +
     geom_smooth(method = 'loess',
-                se     = TRUE,
+                se     = se,
                 color  = 'steelblue') +
     labs(x     = 'Fitted Values',
          y     = 'Residuals',
