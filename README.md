@@ -17,7 +17,7 @@ devtools::install_github("robertschnitman/diagnoser")
 
 ## 1. Introduction
 
-This repository hosts my family of R functions for diagnostics, statistical modeling, and data management. Many of them are inspired by tidyverse's broom library; but I was not quite satisfied with the mentioned library's outputs (such as the lack of confidence intervals for OLS estimates). Others are simply "shortcuts" for standard procedures, such as residual analysis and word frequencies. More functions will be added as they come.
+This repository hosts my family of R functions for diagnostics, modeling, and data management--the latter two support the first. Many of them are inspired by tidyverse's broom library; but I was not quite satisfied with the mentioned library's outputs (such as the lack of confidence intervals for OLS estimates). Others are simply "shortcuts" for standard procedures, such as residual analysis and word frequencies. More functions will be added as they come.
 
 The following sections provide examples.
 
