@@ -38,24 +38,50 @@ ggdiagnose <- function(model, bins = 30) {
   ### Figure 1 - Residuals vs. Fitted ###
   f1 <- ggplot(df, aes(y = res, x = fit)) +
     geom_point(color = 'salmon') +
-    geom_smooth(method = 'loess', se = FALSE, color = 'steelblue') +
-    labs(x = 'Fitted Values', y = 'Residuals', title = 'Residuals vs. Fit')
+    geom_hline(yintercept = 0,
+               col        = 'red',
+               linetype   = 'dashed') +
+    geom_smooth(method = 'loess',
+                se     = TRUE,
+                color  = 'steelblue') +
+    labs(x     = 'Fitted Values',
+         y     = 'Residuals',
+         title = 'Residuals vs. Fit') +
+    theme_bw()
 
   ### Figure 2 - Residuals, % vs. Fitted ###
   f2 <- ggplot(df, aes(y = pct, x = fit)) +
     geom_point(color = 'salmon') +
-    geom_smooth(method = 'loess', se = FALSE, color = 'steelblue') +
-    labs(x = 'Fitted Values', y = 'Residuals', title = 'Residuals (%) vs. Fit')
+    geom_hline(yintercept = 0,
+               col        = 'red',
+               linetype   = 'dashed') +
+    geom_smooth(method = 'loess',
+                se     = TRUE,
+                color  = 'steelblue') +
+    labs(x     = 'Fitted Values',
+         y     = 'Residuals',
+         title = 'Residuals (%) vs. Fit') +
+    theme_bw()
 
   ### Figure 3 - Distribution of Residuals ###
   f3 <- ggplot(df, aes(x = res)) +
-    geom_histogram(bins = bins, fill = 'salmon', colour = 'black') +
-    labs(x = 'Residuals', y = 'Frequency', title = 'Distribution of Residuals')
+    geom_histogram(bins   = bins,
+                   fill   = 'salmon',
+                   colour = 'black') +
+    labs(x     = 'Residuals',
+         y     = 'Frequency',
+         title = 'Distribution of Residuals') +
+    theme_bw()
 
   ### Figure 4 - Distribution of Residuals, Proportion ###
   f4 <- ggplot(df, aes(x = pct)) +
-    geom_histogram(bins = bins, fill = 'salmon', colour = 'black') +
-    labs(x = 'Residuals (%)', y = 'Frequency', title = 'Distribution of Residuals (%)')
+    geom_histogram(bins   = bins,
+                   fill   = 'salmon',
+                   colour = 'black') +
+    labs(x     = 'Residuals (%)',
+         y     = 'Frequency',
+         title = 'Distribution of Residuals (%)') +
+    theme_bw()
 
   ### Arrange in 2x2 grid ###
   grid.arrange(f1, f2, f3, f4, ncol = 2)
