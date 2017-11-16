@@ -30,6 +30,7 @@ Overall, with these functions, students will learn how to visualize homoskedasti
 
 However, for those with advanced training or simply disagree with me, I also present a "classic" version of the original base R residual diagnostics plot: cdiagnose(), a recreation of plot(lm()) with ggplot2 graphics. The Residuals vs. Leverage graph is the most differentiated one from the original, using the size of the points to indicate the degree of Cook's Distance (as inspired by Raju Rimal's diagPlot(): <https://rpubs.com/therimalaya/43190>).
 
+### diagnose()
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
@@ -38,6 +39,7 @@ diagnose(model.lm)
 
 ![](s2-1-1.png)
 
+### ggdiagnose()
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
