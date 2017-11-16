@@ -22,7 +22,11 @@ The following sections provide examples.
 
 ## 2. diagnose() & ggdiagnose()
 
-The functions diagnose() and ggdiagnose() provide alternatives for the plot(model.lm) approach. The Q-Q, Scale-Location, and Residuals-vs.-Leverage plots in the latter option can present difficulties in interpretations. For example, Cook's Distance ("Leverage") typically is not taught at the secondary and undergraduate level--when it is, teachers will forego explanation of the math and focus on the interpretation, leaving students in the dark. If the goal is to maximize student's understanding of diagnosing their results, one option is to replace the three previously mentioned graphs with histograms and an addition of another variable: residuals as a percentage of the fitted values (i.e. (residuals ÷ fitted values)\*100).
+The functions diagnose() and ggdiagnose() provide alternatives for the plot(lm()) approach. The Q-Q, Scale-Location, and Residuals-vs.-Leverage plots in the latter method can present difficulties in interpretations. For example, Cook's Distance ("Leverage") typically is not taught at the secondary and undergraduate levels--when it is, teachers will forego explanation of the math due to its complexity and instead focus solely on the interpretation, leaving students in the dark on how the statistic works. If the goal is to maximize students' comprehension of detecting heteroskedasticity, one option is to replace the three previously mentioned graphs with histograms and an addition of another variable: residuals as a percentage of the fitted values (i.e. (residuals ÷ fitted values)\*100).
+
+Thinking of residuals in terms of percent differences can help determine their *magnitude*. For example, if you notice an outlier in the residuals having the value of "5", does this issue necessitate a re-estimation of the model that excludes this observation? A common method is to examine the (adjusted) R-squared before-and-after the outlier exclusion. The problem of "mining" the model occurs, however, and heightens the risk of a Type 1 Error (i.e. false positive). One solution, then, is to confirm whether this extremity is substantively different from the rest of the values--you may, based on prior knowledge, decide whether thresholds of 10% or 15% should be marked as such.
+
+Overall, with these functions, students will learn how to visualize homoskedasticity/heteroskedasticity and the magnitude of outliers based on familiar concepts as opposed to being inundated with hastily-taught new ones that assume a sufficient understanding of linear algebra.
 
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
@@ -210,5 +214,6 @@ I hope to improve upon these existing functions and create new ones that (1) min
 2. ~~ggplot2 version of diagnose().~~  
 3. Add VIF in lmdf() & glmdf(). Feasible solution with tidyr, but I would rather stay close to base R as much as possible.
 4. For wfreqdf, test for Japanese stop words (my kanji is extremely weak).
+5. cdiagnose(): A ggplot2 version of the "classic" plot(lm()). Preferable for those with an understanding of Scale Location and Cook's Distance.
 
 *End of Document*
