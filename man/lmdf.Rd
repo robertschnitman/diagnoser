@@ -22,5 +22,5 @@ model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 lmdf(model = model.lm, conf = 90)
 }
 \seealso{
-\url{https://github.com/robertschnitman/schnitr}
+\url{https://github.com/robertschnitman/diagnoser}
 }

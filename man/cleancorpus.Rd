@@ -22,5 +22,5 @@ library(tm)
 cleancorpus(my_corpus, 'english')
 }
 \seealso{
-\url{https://github.com/robertschnitman/schnitr}
+\url{https://github.com/robertschnitman/diagnoser}
 }

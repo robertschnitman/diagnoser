@@ -22,5 +22,5 @@ model.glm <- glm(data = mtcars, formula = am ~ mpg + gear, family = binomial(lin
 glmdf(model = model.glm, conf = 90)
 }
 \seealso{
-\url{https://github.com/robertschnitman/schnitr}
+\url{https://github.com/robertschnitman/diagnoser}
 }
