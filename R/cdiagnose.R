@@ -37,7 +37,7 @@ cdiagnose <- function(model) {
   fit <- predict(model)
   res <- resid(model)
   sr  <- (res - mean(res))/sd(res)            # Standardized Residuals.
-  qsr <- qqnorm(sr)[[1]]                      # Theoretical Quantiles.
+  qsr <- qqnorm(sr, plot.it = FALSE)[[1]]     # Theoretical Quantiles; suppress plot.
 
   lev <- hat(model.matrix(model))             # Leverage.
   cd  <- cooks.distance(model)                # Cook's Distance.
@@ -65,8 +65,6 @@ cdiagnose <- function(model) {
                 se       = FALSE,
                 linetype = 'dashed',
                 color    = 'steelblue') +
-    #geom_abline(aes(qqline(sr))) +
-    #geom_abline(aes(qqline(sr))) +
     labs(x     = 'Theoretical Quantiles',
          y     = 'Standardized Residuals',
          title = 'Normal Q-Q') +
