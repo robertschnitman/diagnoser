@@ -231,6 +231,6 @@ I hope to improve upon these existing functions and create new ones that (1) min
 4. For wfreqdf, test for Japanese stop words (my kanji is extremely weak).
 5. ~~cdiagnose(): A ggplot2 version of the "classic" plot(lm()). Preferable for those with an understanding of Scale Location and Cook's Distance.~~ Completed 2017-11-15.
 6. mdiagnose(): probability diagnostics with the margins library.
-7. marginsdf(): margins results in a tidy data frame (with extra columns as in lmdf() and glmdf()).
+7. marginsdf(): margins results in a tidy data frame (with margin of errors and confidence intervals as in lmdf() and glmdf()).
 
 *End of Document*
