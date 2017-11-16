@@ -5,7 +5,7 @@
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' fitres(model.lm)
-
+#' @seealso \url{https://github.com/robertschnitman/schnitr}
 
 #####################################################################################
 ### Robert Schnitman

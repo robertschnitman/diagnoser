@@ -6,6 +6,7 @@
 #' @examples
 #' library(tm)
 #' cleancorpus(my_corpus, 'english')
+#' @seealso \url{https://github.com/robertschnitman/schnitr}
 
 
 #####################################################################################
@@ -25,7 +26,7 @@
 
 ##### === BEGIN === #####
 
-#### clean_corpus() - to be used in wfreqdf ####
+#### cleancorpus() - to be used in wfreqdf ####
 
 cleancorpus <- function(corpus, stopwords) {
   badleftovers <- c('the', 'this', 'but', 'about',
@@ -37,7 +38,7 @@ cleancorpus <- function(corpus, stopwords) {
   corpus <- tm_map(corpus, removeNumbers)
   corpus <- tm_map(corpus, content_transformer(tolower))
   corpus <- tm_map(corpus, removeWords, stopwords(stopwords))
-  corpus <- tm_map(corpus, removeWords, bad_leftovers)
+  corpus <- tm_map(corpus, removeWords, badleftovers)
 
   corpus
 }

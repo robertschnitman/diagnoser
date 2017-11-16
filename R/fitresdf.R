@@ -6,6 +6,7 @@
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' head(fitresdf(data = mtcars, model = model.lm))
+#' @seealso \url{https://github.com/robertschnitman/schnitr}
 
 ######################################################################################
 ### Robert Schnitman

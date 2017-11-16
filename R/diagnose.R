@@ -5,6 +5,7 @@
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' diagnose(model.lm)
+#' @seealso \url{https://github.com/robertschnitman/schnitr}
 
 ######################################################################################
 ### Robert Schnitman
@@ -28,7 +29,7 @@
 diagnose <- function(model) {
   fit <- predict(model)
   res <- resid(model)
-  pct <- res/fit
+  pct <- (res/fit)*100
 
   par(mfrow = c(2,2))
 
@@ -43,14 +44,14 @@ diagnose <- function(model) {
   scatter.smooth(x    = fit,
                  y    = pct,
                  xlab = 'Fitted Values',
-                 ylab = 'Residuals (proportion)',
-                 main = 'Residuals (proportion) vs. Fitted Values')
+                 ylab = 'Residuals (%)',
+                 main = 'Residuals (%) vs. Fitted Values')
 
   ### Figure 3 - Distribution of Residuals ###
   hist(x = res, xlab = 'Residuals', main = 'Distribution of Residuals')
 
-  ### Figure 4 - Distribution of Residuals, Proportion ###
-  hist(x = pct, xlab = 'Residuals (proportion)', main = 'Distribution of Residuals (proportion)')
+  ### Figure 4 - Distribution of Residuals, % ###
+  hist(x = pct, xlab = 'Residuals (%)', main = 'Distribution of Residuals (%)')
 
 }
 

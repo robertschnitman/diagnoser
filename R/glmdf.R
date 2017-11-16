@@ -6,6 +6,7 @@
 #' @examples
 #' model.glm <- glm(data = mtcars, formula = am ~ mpg + gear, family = binomial(link = 'logit'))
 #' glmdf(model = model.glm, conf = 90)
+#' @seealso \url{https://github.com/robertschnitman/schnitr}
 
 ######################################################################################
 ### Robert Schnitman

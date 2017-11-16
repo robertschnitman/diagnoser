@@ -6,6 +6,7 @@
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' lmdf(model = model.lm, conf = 90)
+#' @seealso \url{https://github.com/robertschnitman/schnitr}
 
 #####################################################################################
 ### Robert Schnitman
@@ -23,6 +24,7 @@
 ###
 ### OUTPUT: data frame.
 ###
+### LIBRARY DEPENDENCY: car.
 ### RECOMMENDED CITATION:
 ###  Schnitman, Robert (2017). lmdf.r. https://github.com/robertschnitman/schnitr
 #####################################################################################
@@ -65,11 +67,14 @@ lmdf <- function(model, conf = 95) { # "conf" = Confidence level.
                  'ci_lower',     # Lower bound of confidence interval.
                  'ci_upper',     # Upper bound of confidence interval.
                  't',            # T-statistic.
-                 'p')]           # p-value.
+                 'p')]          # p-value.
 
 }
 
 ##### === END === #####
+library(car)
+model.lm <- lm(mpg ~ gear + wt, mtcars)
+lmdf(model.lm)
 
 ## T-statistics & critical value source: Texas A&M University. 2017-11-14.
 ##   https://www.stat.tamu.edu/~lzhou/stat302/T-Table.pdf

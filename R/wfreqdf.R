@@ -6,6 +6,7 @@
 #' @examples
 #' library(tm)
 #' wfreqdf('nonsense.txt', 'english')
+#' @seealso \url{https://github.com/robertschnitman/schnitr}
 
 
 #####################################################################################
@@ -33,14 +34,14 @@ wfreqdf <- function(filename, stopwords) {                   # filename should b
 
   text    <- readLines(filename)                             # Get text file,
   corpus  <- Corpus(VectorSource(text))                      # Convert vectorized text into a corpus.
-  ccorpus <- clean_corpus(corpus, stopwords)                 # Filter out useless words.
+  ccorpus <- cleancorpus(corpus, stopwords)                 # Filter out useless words.
   tdmtext <- TermDocumentMatrix(corpus)                      # Convert corpus to Term Document Matrix.
   mtext   <- as.matrix(tdmtext)                              # Convert TDM to normal matrix.
   vtext   <- sort(rowSums(mtext), decreasing = TRUE)         # vector of words with frequency count.
   dtext   <- data.frame(word = names(vtext), freq = vtext)   # Dataframe of vtext.
 
-  ### Filter out bad_leftovers ####
-  d2text <- subset(dtext, !word %in% bad_leftovers)
+  ### Filter out badleftovers ####
+  d2text <- subset(dtext, !word %in% badleftovers)
 
   ### Print dataframe - descending order ###
   row.names(d2text) <- NULL
