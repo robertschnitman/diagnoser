@@ -1,6 +1,6 @@
-#' Append fitted values and residuals to a data frame.
+#' Merge fitted values and residuals to the original data frame.
 #'
-#' @param data A data frame.
+#' @param data A data frame. Usually the one used in the model object.
 #' @param model An lm or glm object.
 #' @return A data frame.
 #' @examples
@@ -8,7 +8,7 @@
 #' head(fitresdf(data = mtcars, model = model.lm))
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
-######################################################################################
+#######################################################################################
 ### Robert Schnitman
 ### 2017-11-14
 ###
@@ -22,7 +22,7 @@
 ###
 ### RECOMMENDED CITATION:
 ###  Schnitman, Robert (2017). fitresdf.r. https://github.com/robertschnitman/diagnoser
-######################################################################################
+#######################################################################################
 
 fitresdf <- function(data, model) {
   data$fit          <- predict(model)
