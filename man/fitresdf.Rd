@@ -2,7 +2,7 @@
 % Please edit documentation in R/fitresdf.R
 \name{fitresdf}
 \alias{fitresdf}
-\title{Append fitted values and residuals to a data frame.}
+\title{Merge fitted values and residuals to the original data frame.}
 \usage{
 fitresdf(data, model)
 }
@@ -12,10 +12,10 @@ fitresdf(data, model)
 \item{model}{An lm or glm object.}
 }
 \value{
-A data frame.
+A data frame. Usually the one used in the model object.
 }
 \description{
-Append fitted values and residuals to a data frame.
+Merge fitted values and residuals to the original data frame.
 }
 \examples{
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
