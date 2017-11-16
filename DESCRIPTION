@@ -1,7 +1,7 @@
 Package: schnitr
 Type: Package
 Title: Modeling, Diagnostics, and Data Management
-Version: 0.0.1
+Version: 0.0.2.0
 Author: Robert Schnitman <robertschnitman@gmail.com>
 Maintainer: Robert Schnitman <robertschnitman@gmail.com>
 Description: Family of R functions for statistical modeling, diagnostics, and data management. 
