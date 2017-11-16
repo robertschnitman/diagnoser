@@ -16,9 +16,9 @@ This repository hosts my family of R functions for statistical modeling, diagnos
 
 The following sections provide examples.
 
-## 2. diagnose()
+## 2. diagnose() & ggdiagnose()
 
-The function diagnose() provides an alternative to the plot(model.lm) approach. The Q-Q, Scale-Location, and Residuals-vs.-Leverage plots in the latter option can present difficulties in interpretations. For example, Cook's Distance ("Leverage") typically is not taught at the secondary and undergraduate level--when it is, teachers will forego explanation of the math and focus on the interpretation, leaving students in the dark. If the goal is to maximize student's understanding of diagnosing their results, one option is to replace the three previously mentioned graphs with histograms and an addition of another variable: residuals as a proportion of the fitted values (i.e. residuals ÷ fitted values).
+The functions diagnose() and ggdiagnose() provide alternatives for the plot(model.lm) approach. The Q-Q, Scale-Location, and Residuals-vs.-Leverage plots in the latter option can present difficulties in interpretations. For example, Cook's Distance ("Leverage") typically is not taught at the secondary and undergraduate level--when it is, teachers will forego explanation of the math and focus on the interpretation, leaving students in the dark. If the goal is to maximize student's understanding of diagnosing their results, one option is to replace the three previously mentioned graphs with histograms and an addition of another variable: residuals as a percentage of the fitted values (i.e. (residuals ÷ fitted values)\*100).
 
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
@@ -26,7 +26,15 @@ model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 diagnose(model.lm)
 ```
 
-![](s2-1.png)
+![](s2-1-1.png)
+
+``` r
+model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
+
+ggdiagnose(model.lm, bins = NROW(mtcars)) # default bins value is 30.
+```
+
+![](s2-2-1.png)
 
 ## 3. fitres() & fitresdf()
 
@@ -194,9 +202,9 @@ I hope to improve upon these existing functions and create new ones that (1) min
 
 ### In the future...
 
-1.  Functions similar to broom's glance() (perhaps with other model diagnostics and making "statistic" be clear that it is referring to the F-statistic).
-2.  ggplot2 version of diagnose().
-3.  Add VIF in lmdf() & glmdf().
-4.  For wfreqdf, test for Japanese stop words (my kanji is extremely weak).
+1. Functions similar to broom's glance() (perhaps with other model diagnostics and making "statistic" be clear that it is referring to the F-statistic).  
+2. ~~ggplot2 version of diagnose().~~  
+3. Add VIF in lmdf() & glmdf().  
+4. For wfreqdf, test for Japanese stop words (my kanji is extremely weak).
 
 *End of Document*
