@@ -44,7 +44,7 @@ diagnose(model.lm)
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
-ggdiagnose(model.lm, bins = NROW(mtcars)) # default bins value is 30.
+ggdiagnose(model.lm, bins = NROW(mtcars), se = TRUE) # default bins value is 30.
 ```
 
 ![](s2-2-1.png)
@@ -54,7 +54,7 @@ ggdiagnose(model.lm, bins = NROW(mtcars)) # default bins value is 30.
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
-cdiagnose(model.lm)
+cdiagnose(model.lm, se = FALSE)
 ```
 
 ![](s2-3-1.png)
