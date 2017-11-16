@@ -9,8 +9,9 @@
 # Ensure that you are running R 3.4.2 or higher.
 #
 # install.packages("devtools")
-#   Some functions depend on the following libraries:
-#     tm (>= 0.7.0), ggplot2 (>= 2.2.1), gridExtra (>= 2.3)
+#   Dependencies:
+#     R (>= 3.4.2), tm (>= 0.7.0), ggplot2 (>= 2.2.1), 
+#     gridExtra (>= 2.3), lazyeval (>= 0.2.1), rlang (>= 0.1.4)
 devtools::install_github("robertschnitman/diagnoser")
 ```
 
@@ -225,9 +226,11 @@ I hope to improve upon these existing functions and create new ones that (1) min
 ### In the future...
 
 1. Functions similar to broom's glance() (perhaps with other model diagnostics and making "statistic" be clear that it is referring to the F-statistic).  
-2. ~~ggplot2 version of diagnose().~~  
+2. ~~ggplot2 version of diagnose().~~ Completed 2017-11-15.
 3. Add VIF in lmdf() & glmdf(). Feasible solution with tidyr, but I would rather stay close to base R as much as possible.
 4. For wfreqdf, test for Japanese stop words (my kanji is extremely weak).
-5. ~~cdiagnose(): A ggplot2 version of the "classic" plot(lm()). Preferable for those with an understanding of Scale Location and Cook's Distance.~~
+5. ~~cdiagnose(): A ggplot2 version of the "classic" plot(lm()). Preferable for those with an understanding of Scale Location and Cook's Distance.~~ Completed 2017-11-15.
+6. mdiagnose(): probability diagnostics with the margins library.
+7. marginsdf(): margins results in a tidy data frame (with extra columns as in lmdf() and glmdf()).
 
 *End of Document*
