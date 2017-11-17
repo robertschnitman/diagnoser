@@ -18,7 +18,6 @@ A data frame.
 Convert raw text into a word-frequency data frame.
 }
 \examples{
-library(tm)
 wfreqdf('nonsense.txt', 'english')
 }
 \seealso{
