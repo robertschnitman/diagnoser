@@ -229,9 +229,9 @@ glmdf(model = model.glm, conf = 99)
 
 When I first learned about using the tm library, the process for converting raw text into a data frame of word frequencies was tedious: several tm\_map()'s had to be applied to the corpus and transformations for the TDM-to-dataframe ordeal. As a result, I created two functions specifically for the overall procedure from raw text to data frame. It is especially useful for bar charts.
 
-While **wfreqdf()** nests **cleancorpus()**, the latter can be used independently to clean a corpus: it removes punctuation, strips white, deletes numbers, and erases stopwords.
+While **wfreqdf()** nests **cleancorpus()**, the latter can be used independently to perform basic corpus corrections: it removes punctuation, strips white space, deletes numbers, and erases stopwords.
 
-At this time, these functions "work" for English stop words. Other languages can be used for the stopwords argument, but perhaps they won't work as well as for English (for now!).
+At this time, these functions "work" for English stop words only. Other languages can be used for the stopwords argument, but perhaps they won't work as well as for English (for now!).
 
 ``` r
 # library(tm) assumed.
