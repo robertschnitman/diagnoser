@@ -52,7 +52,7 @@ fitresdf <- function(data, model) {
     data2   <- na.omit(data)           # Need to be mergable with fitr matrix.
 
     warning(paste(NROW(data) - NROW(data2),
-                  'row(s) with missing values were moved to the bottom of the data frame',
+                  'row(s) with missing values were moved to the bottom of the data frame.',
                   sep = ' ')) # warning() placed below rbind() prevented the latter from executing...
 
     rbind(cbind(data2, fitr), data_na)
