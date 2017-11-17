@@ -4,7 +4,6 @@
 #' @param stopwords Specification for stopwords.
 #' @return A data frame.
 #' @examples
-#' library(tm)
 #' wfreqdf('nonsense.txt', 'english')
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
