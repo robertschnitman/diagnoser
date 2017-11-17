@@ -7,19 +7,25 @@
 fitresdf(data, model)
 }
 \arguments{
-\item{data}{A data frame.}
+\item{data}{A data frame. Usually the one used in the model object.}
 
 \item{model}{An lm or glm object.}
 }
 \value{
-A data frame. Usually the one used in the model object.
+A data frame.
 }
 \description{
 Merge fitted values and residuals to the original data frame.
 }
 \examples{
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-head(fitresdf(data = mtcars, model = model.lm))
+fitresdf(data = mtcars, model = model.lm)
+
+# A warning message displays when there are missing values in the dataset.
+df       <- mtcars
+df[1,1]  <- NA
+model.lm <- lm(data = df, formula = mpg ~ wt + gear)
+fitresdf(df, model.lm)
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}
