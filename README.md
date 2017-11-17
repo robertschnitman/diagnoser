@@ -2,7 +2,7 @@
 ***Robert Schnitman***  
 ***2017-11-14***  
 ***Recommended Citation:  
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Schnitman, Robert (2017). GitHub Repository: diagnoser. https://github.com/robertschnitman/diagnoser***
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Schnitman, Robert (2017). GitHub Repository: diagnoser v0.0.2.1. https://github.com/robertschnitman/diagnoser***
 
 ## 0. Installation
 ```r
@@ -17,9 +17,11 @@ devtools::install_github("robertschnitman/diagnoser")
 
 ## 1. Introduction
 
-This repository hosts my family of R functions for diagnostics, modeling, and data management--the latter two support the first. Many of them are inspired by tidyverse's broom library; but I was not quite satisfied with the mentioned library's outputs (such as the lack of confidence intervals for OLS estimates). Others are simply "shortcuts" for standard procedures, such as residual analysis and word frequencies. More functions will be added as they come.
+This package contains R functions for diagnostics, modeling, and data management. Base R's plot(lm()) was the primary influence, as it was a useful tool for quickly assessing estimation bias and existence of heteroskedasticity; but interpreting more specialized concepts such as Cook's Distance can prove to be difficult to understand for those without linear algebra knowledge. To improve upon comprehension for introductory students, I created the **diagnose() and ggdiagnose()**. Individuals with a fondness for the classics would appreciate **cdiagnose()**, which recreates the original plot(lm()) with ggplot2 graphics. 
 
-The following sections provide examples.
+Other functions such as **lmdf()** and **fitresdf()** were inspired by tidyverse's broom library. Broom is fantastic for transforming model objects into data frames; but I was not quite satisfied with the mentioned its tidy() outputs (such as the lack of confidence intervals for OLS estimates). 
+
+The following sections provide examples for each of the functions.
 
 ## 2. diagnose(), ggdiagnose(), and cdiagnose()
 
@@ -199,6 +201,8 @@ glmdf(model = model.glm, conf = 99)
 ## 5. cleancorpus() and wfreqdf()
 
 When I first learned about using the tm library, the process for converting raw text into a data frame of word frequencies was tedious: several tm\_map()'s had to be applied to the corpus and transformations for the TDM-to-dataframe ordeal. As a result, I created two functions specifically for the overall procedure from raw text to data frame. It is especially useful for bar charts.
+
+While **wfreqdf()** nests **cleancorpus()**, the latter can be used independently to clean a corpus: it removes punctuation, strips white, deletes numbers, and erases stopwords.
 
 At this time, these functions "work" for English stop words. Other languages can be used for the stopwords argument, but perhaps they won't work as well as for English (for now!).
 
