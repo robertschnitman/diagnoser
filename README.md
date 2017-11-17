@@ -65,7 +65,7 @@ cdiagnose(model.lm, se = FALSE)
 
 The functions **fitres()** and **fitresdf()** will look similar to those who have used augment() from tidyverse's broom.
 
-The former creates a matrix of the fitted values, residuals, and residuals as a proportion (percent) based on an OLS model or GLM. The latter *merges* these items as columns to a specified dataset (usually, the original dataset; but it may also be used for training & test datasets of the same size).
+The former creates a matrix of the fitted values, residuals, and residuals as a proportion (percent) based on an OLS model or GLM. The latter *merges* these items as columns to a specified dataset. If there are any rows with missing values in the original data frame, then they will be moved to the bottom of the new one.
 
 ### fitres()
 
