@@ -5,7 +5,13 @@
 #' @return A data frame.
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-#' head(fitresdf(data = mtcars, model = model.lm))
+#' fitresdf(data = mtcars, model = model.lm)
+#'
+#' # A warning message displays when there are missing values in the dataset.
+#' df       <- mtcars
+#' df[1,1]  <- NA
+#' model.lm <- lm(data = df, formula = mpg ~ wt + gear)
+#' fitresdf(df, model.lm)
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 #######################################################################################
@@ -24,10 +30,34 @@
 ###  Schnitman, Robert (2017). fitresdf.r. https://github.com/robertschnitman/diagnoser
 #######################################################################################
 
-fitresdf <- function(data, model) {
-  data$fit          <- predict(model)
-  data$residual     <- resid(model)
-  data$residual_pct <- with(data, residual/fit)
+##### === BEGIN === #####
 
-  data
+fitresdf <- function(data, model) {
+  ### Collect the fit and residuals into a matrix to compare NROWs ###
+  fit          <- predict(model)
+  residual     <- resid(model)
+  residual_pct <- residual/fit
+
+  fitr <- cbind(fit, residual, residual_pct)
+
+  ### Need to combine the datasets and reinsert rows with missing values from the original dataset. ###
+  ## Remember that column names must be the same between datasets for rbind() to work. ##
+  if (NROW(data) != NROW(fitr)) {
+
+    data_na              <- data[is.na(data), ]
+    data_na$fit          <- NA
+    data_na$residual     <- NA
+    data_na$residual_pct <- NA
+
+    data2   <- na.omit(data)           # Need to be mergable with fitr matrix.
+
+    warning(paste(NROW(data) - NROW(data2),
+                  'row(s) with missing values were moved to the bottom of the data frame',
+                  sep = ' ')) # warning() placed below rbind() prevented the latter from executing...
+
+    rbind(cbind(data2, fitr), data_na)
+
+  } else {cbind(data, fitr)}
 }
+
+##### === END === #####
