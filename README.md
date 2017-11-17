@@ -6,12 +6,12 @@
 
 ## 0. Installation
 ```r
-# Ensure that you are running R 3.4.2 or higher.
-#
+## Ensure that you are running R 3.4.2 or higher.
+## Package Dependencies:
+#     tm (>= 0.7.0), ggplot2 (>= 2.2.1), gridExtra (>= 2.3), 
+#     lazyeval (>= 0.2.1), rlang (>= 0.1.4)
+
 # install.packages("devtools")
-#   Dependencies:
-#     R (>= 3.4.2), tm (>= 0.7.0), ggplot2 (>= 2.2.1), 
-#     gridExtra (>= 2.3), lazyeval (>= 0.2.1), rlang (>= 0.1.4)
 devtools::install_github("robertschnitman/diagnoser")
 ```
 
