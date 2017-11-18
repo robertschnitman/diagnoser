@@ -49,7 +49,7 @@ fitresdf <- function(data, model) {
     data_na$residual     <- NA
     data_na$residual_pct <- NA
 
-    data2   <- na.omit(data)           # Need to be mergable with fitr matrix.
+    data2   <- na.omit(data)           # Need to be mergeable with fitr matrix.
 
     warning(paste(NROW(data) - NROW(data2),
                   'row(s) with missing values were moved to the bottom of the data frame.',
