@@ -108,29 +108,29 @@ head(fitresdf(data = mtcars, model = model.lm))
 
 ``` r
 # Warning message displays when the specified data frame has missing values.
-df       <- mtcars
-df[1,1]  <- NA
-model.lm <- lm(data = df, formula = mpg ~ wt + gear)
+df        <- mtcars
+df[1:3, ] <- NA
+model.lm  <- lm(data = df, formula = mpg ~ wt + gear)
 tail(fitresdf(df, model.lm))
 ```
 
-    ## Warning in fitresdf(df, model.lm): 1 row(s) with missing values were moved
-    ## to the bottom of the data frame.
+    ## Warning in fitresdf(df, model.lm): 3 rows with missing values were moved to
+    ## the bottom of the data frame.
 
-    ##                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-    ## Lotus Europa   30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-    ## Ford Pantera L 15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-    ## Ferrari Dino   19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-    ## Maserati Bora  15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-    ## Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
-    ## Mazda RX4        NA   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-    ##                     fit  residual residual_pct
-    ## Lotus Europa   29.18035  1.219647   0.04179685
-    ## Ford Pantera L 20.02038 -4.220383  -0.21080432
-    ## Ferrari Dino   22.23160 -2.531601  -0.11387399
-    ## Maserati Bora  17.80917 -2.809165  -0.15773706
-    ## Volvo 142E     22.48527 -1.085271  -0.04826584
-    ## Mazda RX4            NA        NA           NA
+    ##                mpg cyl disp  hp drat   wt qsec vs am gear carb      fit
+    ## Ferrari Dino  19.7   6  145 175 3.62 2.77 15.5  0  1    5    6 22.38605
+    ## Maserati Bora 15.0   8  301 335 3.54 3.57 14.6  0  1    5    8 17.89170
+    ## Volvo 142E    21.4   4  121 109 4.11 2.78 18.6  1  1    4    2 22.63986
+    ## Mazda RX4       NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA
+    ## Mazda RX4 Wag   NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA
+    ## Datsun 710      NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA
+    ##                residual residual_pct
+    ## Ferrari Dino  -2.686050  -0.11998768
+    ## Maserati Bora -2.891697  -0.16162227
+    ## Volvo 142E    -1.239856  -0.05476429
+    ## Mazda RX4            NA           NA
+    ## Mazda RX4 Wag        NA           NA
+    ## Datsun 710           NA           NA
 
 
 ## 4. lmdf() & glmdf()
