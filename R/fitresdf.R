@@ -44,16 +44,23 @@ fitresdf <- function(data, model) {
   ## Remember that column names must be the same between datasets for rbind() to work. ##
   if (NROW(data) != NROW(fitr)) {
 
-    data_na              <- data[is.na(data), ]
+    data_na              <- data[rowSums(is.na(data)) > 0, ]
     data_na$fit          <- NA
     data_na$residual     <- NA
     data_na$residual_pct <- NA
 
     data2   <- na.omit(data)           # Need to be mergeable with fitr matrix.
 
-    warning(paste(NROW(data) - NROW(data2),
-                  'row(s) with missing values were moved to the bottom of the data frame.',
-                  sep = ' ')) # warning() placed below rbind() prevented the latter from executing...
+    # Warning message depends on number of rows omitted in data2 #
+    diff  <- NROW(data) - NROW(data2)
+    warn1 <- 'row with missing values was moved to the bottom of the data frame.'
+    warn2 <- 'rows with missing values were moved to the bottom of the data frame.'
+
+    if (diff == 1) {
+      warning(paste(diff, warn1, sep = ' '))
+    } else {
+        warning(paste(diff, warn2, sep = ' '))
+      }
 
     rbind(cbind(data2, fitr), data_na)
 
