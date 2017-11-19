@@ -4,7 +4,8 @@
 #' @param bins Number of bins to specify for histograms.
 #' @param se Boolean. For overlaying shaded standard errors.
 #' @param freqpct Boolean.
-#' @return 2x2 charts similar to plot(model).
+#' @param alpha Integer, [0, 1]. Points are more transparent the closer they are to 0. Only applies to scatter plots.
+#' @return 2x2 charts similar to plot(model): 2 scatter plots and 2 histograms.
 #' @examples
 #' model <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' ggdiagnose(model, bins = NROW(mtcars), se = FALSE, freqpct = TRUE)
@@ -30,7 +31,10 @@
 
 ##### === BEGIN === #####
 
-ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE) {
+ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE, alpha = 1) {
+  ### Set alpha value so that ggplot2 functions can process it ###
+  a <- alpha
+
   ### Set up data frame of fit and residuals ###
   fit <- predict(model)
   res <- resid(model)
@@ -42,7 +46,7 @@ ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE) {
   ## Residuals vs. fitted values ##
   rvf <- function(y, x, ylabel = 'yvar') {
     ggplot(df, aes(y = y, x = x)) +
-      geom_point(color = 'salmon') +
+      geom_point(color = 'salmon', alpha = a) +
       geom_hline(yintercept = 0,
                  col        = 'red',
                  linetype   = 'dashed') +
@@ -89,6 +93,7 @@ ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE) {
 
   ### Arrange in 2x2 grid ###
   grid.arrange(f1, f2, f3, f4, ncol = 2)
+
 }
 
 ##### === END === #####
