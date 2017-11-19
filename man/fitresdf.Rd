@@ -26,8 +26,8 @@ fitresdf(data = mtcars, model = model.lm)
 # A warning message displays when there are missing values in the dataset.
 df       <- mtcars
 df[1,1]  <- NA
-model.lm <- lm(data = df, formula = mpg ~ wt + gear)
-fitresdf(model.lm, mtcars)
+model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
+fitresdf(model.lm, data = df)
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}
