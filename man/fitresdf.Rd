@@ -4,7 +4,7 @@
 \alias{fitresdf}
 \title{Merge fitted values and residuals to the original data frame.}
 \usage{
-fitresdf(model, data = model.frame(model), type = "response")
+fitresdf(model, data, type = "response")
 }
 \arguments{
 \item{model}{An lm or glm object.}
@@ -27,7 +27,7 @@ fitresdf(data = mtcars, model = model.lm)
 df       <- mtcars
 df[1,1]  <- NA
 model.lm <- lm(data = df, formula = mpg ~ wt + gear)
-fitresdf(df, model.lm)
+fitresdf(model.lm, mtcars)
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}
