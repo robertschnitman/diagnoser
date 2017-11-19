@@ -1,7 +1,7 @@
 Package: diagnoser
 Type: Package
 Title: Diagnostics, Modeling, and Data Management
-Version: 0.0.2.1
+Version: 0.0.2.2
 Author: Robert Schnitman <robertschnitman@gmail.com>
 Maintainer: Robert Schnitman <robertschnitman@gmail.com>
 Description: Plot residuals, store model results in a data frame, and convert raw text files into word-frequencies data frames.  The diagnose() family provide alternative graphs to Base R's plot(lm()). Additional functions--inspired by the broom library--calculate margin of errors and confidence intervals alongside regression results.
