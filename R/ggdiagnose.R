@@ -38,6 +38,8 @@ ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE) {
   df  <- as.data.frame(cbind(fit, res, pct))
 
   ### ggplot2 graphs use the same functions/colors; need to minimize repeating code ###
+
+  ## Residuals vs. fitted values ##
   rvf <- function(y, x, ylabel = 'yvar') {
     ggplot(df, aes(y = y, x = x)) +
       geom_point(color = 'salmon') +
@@ -53,6 +55,7 @@ ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE) {
       theme_bw()
   }
 
+  ## Histogram of residuals ##
   histres <- function(x, xlabel, fpct = freqpct) {
     if (fpct == FALSE) {
       ggplot(df, aes(x = x)) +
@@ -78,17 +81,11 @@ ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE) {
 
   }
 
-  ### Figure 1 - Residuals vs. Fitted ###
-  f1 <- rvf(y = res, x = fit, ylabel = 'Residuals')
-
-  ### Figure 2 - Residuals, % vs. Fitted ###
-  f2 <- rvf(y = pct, x = fit, ylabel = 'Residuals (%)')
-
-  ### Figure 3 - Distribution of Residuals ###
-  f3 <- histres(x = res, xlabel = 'Residuals')
-
-  ### Figure 4 - Distribution of Residuals, Proportion ###
-  f4 <- histres(x = res, xlabel = 'Residuals (%)')
+  ### grid.arrange() requires each of the graphs to be created beforehand ###
+  f1 <- rvf(y = res, x = fit, ylabel = 'Residuals')     # Figure 1 - Residuals vs. Fitted.
+  f2 <- rvf(y = pct, x = fit, ylabel = 'Residuals (%)') # Figure 2 - Residuals, % vs. Fitted.
+  f3 <- histres(x = res, xlabel = 'Residuals')          # Figure 3 - Distribution of Residuals.
+  f4 <- histres(x = res, xlabel = 'Residuals (%)')      # Figure 4 - Distribution of Residuals (%).
 
   ### Arrange in 2x2 grid ###
   grid.arrange(f1, f2, f3, f4, ncol = 2)
