@@ -15,7 +15,10 @@
 ###
 ### PURPOSE: Generate fitted values and residuals into one matrix.
 ###
-### INPUT: lm/glm object. E.g. model.lm <- lm(y ~ x).
+### INPUT:
+###   1. lm/glm object. E.g. model.lm <- lm(y ~ x).
+###   2. data object.
+###   3. type. String.
 ###
 ### OUTPUT: matrix.
 ###
