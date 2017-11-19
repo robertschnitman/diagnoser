@@ -1,8 +1,9 @@
 #' Graphically diagnose model residuals ("classic" version with ggplot2 graphics).
 #'
 #' @param model An lm or glm object.
-#' @param se Boolean. For overlaying standard errors.
-#' @return 2x2 charts similar to plot(model.lm).
+#' @param se Boolean. To overly standard errors.
+#' @param alpha Integer, [0, 1]. Points are more transparent the closer they are to 0.
+#' @return 2x2 charts that closely resemble the output to plot(model.lm) with ggplot2 graphics.
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' cdiagnose(model.lm)
@@ -32,7 +33,9 @@
 
 ##### === BEGIN === #####
 
-cdiagnose <- function(model, se = FALSE) {
+cdiagnose <- function(model, se = FALSE, alpha = 1) {
+  ### Set up alpha value so that ggplot2 functions can process it ###
+  a <- alpha
 
   ### Set up data frame of fit and residuals ###
   fit <- predict(model)
@@ -47,7 +50,7 @@ cdiagnose <- function(model, se = FALSE) {
 
   ### Figure 1 - Residuals vs. Fitted ###
   f1 <- ggplot(df, aes(y = res, x = fit)) +
-    geom_point(color = 'salmon') +
+    geom_point(color = 'salmon', alpha = a) +
     geom_hline(yintercept = 0,
                col        = 'red',
                linetype   = 'dashed') +
@@ -61,7 +64,7 @@ cdiagnose <- function(model, se = FALSE) {
 
   ### Figure 2 - Normal Q-Q Plot ###
   f2 <- ggplot(df, aes(y = sr, x = qsr)) +
-    geom_point(color = 'salmon') +
+    geom_point(color = 'salmon', alpha = a) +
     geom_smooth(method   = 'lm',
                 se       = se,
                 linetype = 'dashed',
@@ -73,7 +76,7 @@ cdiagnose <- function(model, se = FALSE) {
 
   ### Figure 3 - Scale-Location ###
   f3 <- ggplot(df, aes(y = sqrt(abs(sr)), x = fit)) +
-    geom_point(color = 'salmon') +
+    geom_point(color = 'salmon', alpha = a) +
     geom_smooth(method = 'loess',
                 se     = se,
                 color  = 'steelblue') +
@@ -84,12 +87,12 @@ cdiagnose <- function(model, se = FALSE) {
 
   ### Figure 4 - Residuals vs. Leverage ###
   f4 <- ggplot(df, aes(y = sr, x = lev, size = cd)) +
-    geom_point(color        = 'salmon') +
+    geom_point(color = 'salmon', alpha = a) +
     geom_smooth(method      = 'loess',
                 se          = se,
                 color       = 'steelblue',
                 show.legend = FALSE
-                ) +
+    ) +
     labs(x     = 'Leverage',
          y     = 'Standardized Residuals',
          size  = 'Cook\'s Distance',
