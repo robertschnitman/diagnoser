@@ -11,8 +11,8 @@
 #' # A warning message displays when there are missing values in the dataset.
 #' df       <- mtcars
 #' df[1,1]  <- NA
-#' model.lm <- lm(data = df, formula = mpg ~ wt + gear)
-#' fitresdf(model.lm, mtcars)
+#' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
+#' fitresdf(model.lm, data = df)
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 #######################################################################################
@@ -44,7 +44,7 @@ fitresdf <- function(model, data, type = 'response') {
 
   ### Need to combine the datasets and reinsert rows with missing values from the original dataset. ###
   ## Remember that column names must be the same between datasets for rbind() to work. ##
-  if (NROW(data) > NROW(fitr)) {
+  if (NROW(data) != NROW(fitr)) {
 
     data_na              <- data[rowSums(is.na(data)) > 0, ]
     data_na$fit          <- NA
@@ -66,11 +66,7 @@ fitresdf <- function(model, data, type = 'response') {
 
     rbind(cbind(data2, fitr), data_na)
 
-  } else if (NROW(data) < NROW(fitr)) {
-    warning('Um, sorry, but the dimensions of your prediction matrix is greater than your specified data?
-            I\'m working on this issue currently. Please accept my apologies. m(_ _)m')
-  }
-  else {cbind(data, fitr)}
+  } else {cbind(data, fitr)}
 }
 
 ##### === END === #####
