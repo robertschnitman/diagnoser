@@ -3,10 +3,11 @@
 #' @param model An lm or glm object.
 #' @param bins Number of bins to specify for histograms.
 #' @param se Boolean. For overlaying shaded standard errors.
+#' @param freqpct Boolean.
 #' @return 2x2 charts similar to plot(model).
 #' @examples
 #' model <- lm(data = mtcars, formula = mpg ~ wt + gear)
-#' ggdiagnose(model, bins = NROW(mtcars), se = FALSE)
+#' ggdiagnose(model, bins = NROW(mtcars), se = FALSE, freqpct = TRUE)
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ########################################################################################
@@ -29,7 +30,7 @@
 
 ##### === BEGIN === #####
 
-ggdiagnose <- function(model, bins = 30, se = TRUE) {
+ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE) {
   ### Set up data frame of fit and residuals ###
   fit <- predict(model)
   res <- resid(model)
@@ -52,15 +53,29 @@ ggdiagnose <- function(model, bins = 30, se = TRUE) {
       theme_bw()
   }
 
-  histres <- function(x, xlabel) {
-    ggplot(df, aes(x = x)) +
-      geom_histogram(bins   = bins,
-                     fill   = 'salmon',
-                     colour = 'black') +
-      labs(x     = xlabel,
-           y     = 'Frequency',
-           title = paste('Distribution of', xlabel, sep = ' ')) +
-      theme_bw()
+  histres <- function(x, xlabel, fpct = freqpct) {
+    if (fpct == FALSE) {
+      ggplot(df, aes(x = x)) +
+        geom_histogram(bins   = bins,
+                       fill   = 'salmon',
+                       colour = 'black') +
+        labs(x     = xlabel,
+             y     = 'Frequency',
+             title = paste('Distribution of', xlabel, sep = ' ')) +
+        theme_bw()
+    } else {
+      ggplot(df, aes(x = x)) +
+        geom_histogram(aes(y = ..count../sum(..count..)),
+                       bins   = bins,
+                       fill   = 'salmon',
+                       colour = 'black') +
+        scale_y_continuous(labels = scales::percent) +
+        labs(x     = xlabel,
+             y     = 'Frequency (%)',
+             title = paste('Distribution of', xlabel, sep = ' ')) +
+        theme_bw()
+    }
+
   }
 
   ### Figure 1 - Residuals vs. Fitted ###
