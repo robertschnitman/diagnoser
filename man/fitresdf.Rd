@@ -4,12 +4,14 @@
 \alias{fitresdf}
 \title{Merge fitted values and residuals to the original data frame.}
 \usage{
-fitresdf(data, model)
+fitresdf(model, data = model.frame(model), type = "response")
 }
 \arguments{
-\item{data}{A data frame. Usually the one used in the model object.}
-
 \item{model}{An lm or glm object.}
+
+\item{data}{A data frame. If unspecified, then the original data is used (i.e. model.frame(model)).}
+
+\item{type}{String. Prediction type depends on whether the object is lm ('response', 'terms') or glm ('link', 'response', 'terms'). (See ?predict.lm and ?predict.glm for details).}
 }
 \value{
 A data frame.
