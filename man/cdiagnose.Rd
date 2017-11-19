@@ -4,15 +4,17 @@
 \alias{cdiagnose}
 \title{Graphically diagnose model residuals ("classic" version with ggplot2 graphics).}
 \usage{
-cdiagnose(model, se = FALSE)
+cdiagnose(model, se = FALSE, alpha = 1)
 }
 \arguments{
 \item{model}{An lm or glm object.}
 
-\item{se}{Boolean. For overlaying standard errors.}
+\item{se}{Boolean. To overly standard errors.}
+
+\item{alpha}{Integer, [0, 1]. Points are more transparent the closer they are to 0.}
 }
 \value{
-2x2 charts similar to plot(model.lm).
+2x2 charts that closely resemble the output to plot(model.lm) with ggplot2 graphics.
 }
 \description{
 Graphically diagnose model residuals ("classic" version with ggplot2 graphics).
