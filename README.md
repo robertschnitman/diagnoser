@@ -50,6 +50,7 @@ ggdiagnose(model.lm, bins = NROW(mtcars), se = TRUE, freqpct = TRUE, alpha = 0.5
     # default bins value is 30.
     # default se value is TRUE.
     # default freqpct value is FALSE.
+    # default alpha value is 1.
 ```
 
 ![](s2-2-1.png)
@@ -59,7 +60,7 @@ ggdiagnose(model.lm, bins = NROW(mtcars), se = TRUE, freqpct = TRUE, alpha = 0.5
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
-cdiagnose(model.lm, se = FALSE, alpha = 1/3)
+cdiagnose(model.lm, se = FALSE, alpha = 1)
     # default se value is FALSE.
     # default alpha value is 1.
 ```
