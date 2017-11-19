@@ -48,8 +48,8 @@ model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
 ggdiagnose(model.lm, bins = NROW(mtcars), se = TRUE, freqpct = TRUE) 
     # default bins value is 30.
-    # default se value is TRUE
-    # default freqpct = FALSE
+    # default se value is TRUE.
+    # default freqpct value is FALSE.
 ```
 
 ![](s2-2-1.png)
