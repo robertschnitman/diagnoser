@@ -4,10 +4,14 @@
 \alias{fitres}
 \title{Create matrix of model fit, residuals, and residuals as a proportion of the fitted values.}
 \usage{
-fitres(model)
+fitres(model, data = model.frame(model), type = "response")
 }
 \arguments{
 \item{model}{An lm or glm object.}
+
+\item{data}{A data frame. If not specified, then the original data is used (i.e. model.frame(model)).}
+
+\item{type}{String. Prediction type depends on whether the object is lm ('response', 'terms') or glm ('link', 'response', 'terms'). (See ?predict.lm and ?predict.glm for details).}
 }
 \value{
 A matrix.
