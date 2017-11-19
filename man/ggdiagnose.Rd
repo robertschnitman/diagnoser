@@ -21,7 +21,7 @@ Graphically diagnose model residuals (ggplot2 version).
 }
 \examples{
 model <- lm(data = mtcars, formula = mpg ~ wt + gear)
-ggdiagnose(model, bins = NROW(mtcars))
+ggdiagnose(model, bins = NROW(mtcars), se = FALSE)
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}
