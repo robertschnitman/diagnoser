@@ -4,7 +4,7 @@
 \alias{ggdiagnose}
 \title{Graphically diagnose model residuals (ggplot2 version).}
 \usage{
-ggdiagnose(model, bins = 30, se = TRUE, freqpct = FALSE)
+ggdiagnose(model, bins = 30, se = TRUE, freqpct = FALSE, alpha = 1)
 }
 \arguments{
 \item{model}{An lm or glm object.}
@@ -14,9 +14,11 @@ ggdiagnose(model, bins = 30, se = TRUE, freqpct = FALSE)
 \item{se}{Boolean. For overlaying shaded standard errors.}
 
 \item{freqpct}{Boolean.}
+
+\item{alpha}{Integer, [0, 1]. Points are more transparent the closer they are to 0. Only applies to scatter plots.}
 }
 \value{
-2x2 charts similar to plot(model).
+2x2 charts similar to plot(model): 2 scatter plots and 2 histograms.
 }
 \description{
 Graphically diagnose model residuals (ggplot2 version).
