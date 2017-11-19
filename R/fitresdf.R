@@ -12,7 +12,7 @@
 #' df       <- mtcars
 #' df[1,1]  <- NA
 #' model.lm <- lm(data = df, formula = mpg ~ wt + gear)
-#' fitresdf(df, model.lm)
+#' fitresdf(model.lm, mtcars)
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 #######################################################################################
@@ -34,9 +34,9 @@
 
 ##### === BEGIN === #####
 
-fitresdf <- function(model, data = model.frame(model), type = 'response') {
+fitresdf <- function(model, data, type = 'response') {
   ### Collect the fit and residuals into a matrix to compare NROWs ###
-  fit          <- predict(model, newdata = data, type = type)
+  fit          <- predict(model, type = type)
   residual     <- resid(model)
   residual_pct <- residual/fit
 
@@ -44,7 +44,7 @@ fitresdf <- function(model, data = model.frame(model), type = 'response') {
 
   ### Need to combine the datasets and reinsert rows with missing values from the original dataset. ###
   ## Remember that column names must be the same between datasets for rbind() to work. ##
-  if (NROW(data) != NROW(fitr)) {
+  if (NROW(data) > NROW(fitr)) {
 
     data_na              <- data[rowSums(is.na(data)) > 0, ]
     data_na$fit          <- NA
@@ -66,7 +66,11 @@ fitresdf <- function(model, data = model.frame(model), type = 'response') {
 
     rbind(cbind(data2, fitr), data_na)
 
-  } else {cbind(data, fitr)}
+  } else if (NROW(data) < NROW(fitr)) {
+    warning('Um, sorry, but the dimensions of your prediction matrix is greater than your specified data?
+            I\'m working on this issue currently. Please accept my apologies. m(_ _)m')
+  }
+  else {cbind(data, fitr)}
 }
 
 ##### === END === #####
