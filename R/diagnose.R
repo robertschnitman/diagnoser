@@ -1,7 +1,7 @@
 #' Graphically diagnose model residuals.
 #'
 #' @param model An lm or glm object.
-#' @return 2x2 charts similar to plot(model.lm).
+#' @return 2x2 charts similar to plot(model.lm): 2 scatter plots and 2 histograms.
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' diagnose(model.lm)
@@ -27,6 +27,7 @@
 ##### === BEGIN === #####
 
 diagnose <- function(model) {
+  ### Set up fitted values, residuals, and 2x2 frame ###
   fit <- predict(model)
   res <- resid(model)
   pct <- (res/fit)*100
@@ -48,11 +49,10 @@ diagnose <- function(model) {
                  main = 'Residuals (%) vs. Fitted Values')
 
   ### Figure 3 - Distribution of Residuals ###
-  hist(x = res, xlab = 'Residuals', main = 'Distribution of Residuals')
+  hist(x = res, xlab = 'Residuals',     main = 'Distribution of Residuals')
 
-  ### Figure 4 - Distribution of Residuals, % ###
+  ### Figure 4 - Distribution of Residuals (%) ###
   hist(x = pct, xlab = 'Residuals (%)', main = 'Distribution of Residuals (%)')
 
 }
-
 ##### === END === #####
