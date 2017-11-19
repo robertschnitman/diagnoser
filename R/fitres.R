@@ -1,6 +1,8 @@
 #' Create matrix of model fit, residuals, and residuals as a proportion of the fitted values.
 #'
 #' @param model An lm or glm object.
+#' @param data A data frame. If not specified, then the original data is used (i.e. model.frame(model)).
+#' @param type String. Prediction type depends on whether the object is lm ('response', 'terms') or glm ('link', 'response', 'terms'). (See ?predict.lm and ?predict.glm for details).
 #' @return A matrix.
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
@@ -21,8 +23,8 @@
 ###  Schnitman, Robert (2017). fitres.r. https://github.com/robertschnitman/diagnoser
 #####################################################################################
 
-fitres <- function(model) {
-  fit          <- predict(model)
+fitres <- function(model, data = model.frame(model), type = 'response') {
+  fit          <- predict(model, newdata = data, type = type)
   residual     <- resid(model)
   residual_pct <- residual/fit
 
