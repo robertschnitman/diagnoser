@@ -6,7 +6,7 @@
 #' @return 2x2 charts similar to plot(model).
 #' @examples
 #' model <- lm(data = mtcars, formula = mpg ~ wt + gear)
-#' ggdiagnose(model, bins = NROW(mtcars))
+#' ggdiagnose(model, bins = NROW(mtcars), se = FALSE)
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ########################################################################################
@@ -36,53 +36,44 @@ ggdiagnose <- function(model, bins = 30, se = TRUE) {
   pct <- (res/fit)*100
   df  <- as.data.frame(cbind(fit, res, pct))
 
+  ### ggplot2 graphs use the same functions/colors; need to minimize repeating code ###
+  rvf <- function(y, x, ylabel = 'yvar') {
+    ggplot(df, aes(y = y, x = x)) +
+      geom_point(color = 'salmon') +
+      geom_hline(yintercept = 0,
+                 col        = 'red',
+                 linetype   = 'dashed') +
+      geom_smooth(method = 'loess',
+                  se     = se,
+                  color  = 'steelblue') +
+      labs(x     = 'Fitted Values',
+           y     = ylabel,
+           title = paste(ylabel, 'vs. Fit', sep = ' ')) +
+      theme_bw()
+  }
+
+  histres <- function(x, xlabel) {
+    ggplot(df, aes(x = x)) +
+      geom_histogram(bins   = bins,
+                     fill   = 'salmon',
+                     colour = 'black') +
+      labs(x     = xlabel,
+           y     = 'Frequency',
+           title = paste('Distribution of', xlabel, sep = ' ')) +
+      theme_bw()
+  }
+
   ### Figure 1 - Residuals vs. Fitted ###
-  f1 <- ggplot(df, aes(y = res, x = fit)) +
-    geom_point(color = 'salmon') +
-    geom_hline(yintercept = 0,
-               col        = 'red',
-               linetype   = 'dashed') +
-    geom_smooth(method = 'loess',
-                se     = se,
-                color  = 'steelblue') +
-    labs(x     = 'Fitted Values',
-         y     = 'Residuals',
-         title = 'Residuals vs. Fit') +
-    theme_bw()
+  f1 <- rvf(y = res, x = fit, ylabel = 'Residuals')
 
   ### Figure 2 - Residuals, % vs. Fitted ###
-  f2 <- ggplot(df, aes(y = pct, x = fit)) +
-    geom_point(color = 'salmon') +
-    geom_hline(yintercept = 0,
-               col        = 'red',
-               linetype   = 'dashed') +
-    geom_smooth(method = 'loess',
-                se     = se,
-                color  = 'steelblue') +
-    labs(x     = 'Fitted Values',
-         y     = 'Residuals',
-         title = 'Residuals (%) vs. Fit') +
-    theme_bw()
+  f2 <- rvf(y = pct, x = fit, ylabel = 'Residuals (%)')
 
   ### Figure 3 - Distribution of Residuals ###
-  f3 <- ggplot(df, aes(x = res)) +
-    geom_histogram(bins   = bins,
-                   fill   = 'salmon',
-                   colour = 'black') +
-    labs(x     = 'Residuals',
-         y     = 'Frequency',
-         title = 'Distribution of Residuals') +
-    theme_bw()
+  f3 <- histres(x = res, xlabel = 'Residuals')
 
   ### Figure 4 - Distribution of Residuals, Proportion ###
-  f4 <- ggplot(df, aes(x = pct)) +
-    geom_histogram(bins   = bins,
-                   fill   = 'salmon',
-                   colour = 'black') +
-    labs(x     = 'Residuals (%)',
-         y     = 'Frequency',
-         title = 'Distribution of Residuals (%)') +
-    theme_bw()
+  f4 <- histres(x = res, xlabel = 'Residuals (%)')
 
   ### Arrange in 2x2 grid ###
   grid.arrange(f1, f2, f3, f4, ncol = 2)
