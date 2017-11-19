@@ -6,7 +6,7 @@
 #' @return A matrix.
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-#' fitres(model.lm)
+#' fitres(model.lm, type = 'response')
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 #####################################################################################
@@ -26,8 +26,8 @@
 ###  Schnitman, Robert (2017). fitres.r. https://github.com/robertschnitman/diagnoser
 #####################################################################################
 
-fitres <- function(model, data = model.frame(model), type = 'response') {
-  fit          <- predict(model, newdata = data, type = type)
+fitres <- function(model, type = 'response') {
+  fit          <- predict(model, type = type)
   residual     <- resid(model)
   residual_pct <- residual/fit
 
