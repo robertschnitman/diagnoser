@@ -4,14 +4,14 @@
 \alias{fitres}
 \title{Create matrix of model fit, residuals, and residuals as a proportion of the fitted values.}
 \usage{
-fitres(model, data = model.frame(model), type = "response")
+fitres(model, type = "response")
 }
 \arguments{
 \item{model}{An lm or glm object.}
 
-\item{data}{A data frame. If not specified, then the original data is used (i.e. model.frame(model)).}
-
 \item{type}{String. Prediction type depends on whether the object is lm ('response', 'terms') or glm ('link', 'response', 'terms'). (See ?predict.lm and ?predict.glm for details).}
+
+\item{data}{A data frame. If not specified, then the original data is used (i.e. model.frame(model)).}
 }
 \value{
 A matrix.
@@ -21,7 +21,7 @@ Create matrix of model fit, residuals, and residuals as a proportion of the fitt
 }
 \examples{
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-fitres(model.lm)
+fitres(model.lm, type = 'response')
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}
