@@ -4,7 +4,7 @@
 \alias{ggdiagnose}
 \title{Graphically diagnose model residuals (ggplot2 version).}
 \usage{
-ggdiagnose(model, bins = 30, se = TRUE)
+ggdiagnose(model, bins = 30, se = TRUE, freqpct = FALSE)
 }
 \arguments{
 \item{model}{An lm or glm object.}
@@ -12,6 +12,8 @@ ggdiagnose(model, bins = 30, se = TRUE)
 \item{bins}{Number of bins to specify for histograms.}
 
 \item{se}{Boolean. For overlaying shaded standard errors.}
+
+\item{freqpct}{Boolean.}
 }
 \value{
 2x2 charts similar to plot(model).
@@ -21,7 +23,7 @@ Graphically diagnose model residuals (ggplot2 version).
 }
 \examples{
 model <- lm(data = mtcars, formula = mpg ~ wt + gear)
-ggdiagnose(model, bins = NROW(mtcars), se = FALSE)
+ggdiagnose(model, bins = NROW(mtcars), se = FALSE, freqpct = TRUE)
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}
