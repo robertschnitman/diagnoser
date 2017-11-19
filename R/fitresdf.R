@@ -1,7 +1,8 @@
 #' Merge fitted values and residuals to the original data frame.
 #'
-#' @param data A data frame. Usually the one used in the model object.
 #' @param model An lm or glm object.
+#' @param data A data frame. If unspecified, then the original data is used (i.e. model.frame(model)).
+#' @param type String. Prediction type depends on whether the object is lm ('response', 'terms') or glm ('link', 'response', 'terms'). (See ?predict.lm and ?predict.glm for details).
 #' @return A data frame.
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
@@ -21,8 +22,9 @@
 ### PURPOSE: Attach fitted values and residuals onto main dataset.
 ###
 ### INPUTS:
-###    1. data = data frame.
-###    2. lm/glm object. E.g. model.lm <- lm(y ~ x).
+###   1. lm/glm object. E.g. model.lm <- lm(y ~ x).
+###   2. data object.
+###   3. type. String.
 ###
 ### OUTPUT: data frame.
 ###
@@ -32,9 +34,9 @@
 
 ##### === BEGIN === #####
 
-fitresdf <- function(data, model) {
+fitresdf <- function(model, data = model.frame(model), type = 'response') {
   ### Collect the fit and residuals into a matrix to compare NROWs ###
-  fit          <- predict(model)
+  fit          <- predict(model, newdata = data, type = type)
   residual     <- resid(model)
   residual_pct <- residual/fit
 
