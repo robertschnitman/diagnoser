@@ -118,7 +118,7 @@ head(fitresdf(model = model.lm, data = mtcars, type = 'response'))
 df        <- mtcars
 df[1:3, ] <- NA
 model.lm  <- lm(data = df, formula = mpg ~ wt + gear)
-tail(fitresdf(df, model.lm))
+tail(fitresdf(model.lm, df))
 ```
 
     ## Warning in fitresdf(model.lm, data = df, type = "response"): 3 rows with
