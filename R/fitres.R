@@ -1,4 +1,4 @@
-#' Create matrix of model fit, residuals, and residuals as a proportion of the fitted values.
+#' Create matrix of model fit, residuals, and residuals margin (residuals as a proportion of the actual values).
 #'
 #' @param model An lm or glm object.
 #' @param data A data frame. If not specified, then the original data is used (i.e. model.frame(model)).
