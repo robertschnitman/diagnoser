@@ -5,7 +5,8 @@
 #' @param se Boolean. For overlaying shaded standard errors.
 #' @param freqpct Boolean.
 #' @param alpha Integer, [0, 1]. Points are more transparent the closer they are to 0. Only applies to scatter plots.
-#' @return 2x2 charts similar to plot(model): 2 scatter plots and 2 histograms.
+#' @return 2 scatter plots and 2 histograms of residuals and "residuals margin,"
+#' which is the residuals as a percentage of the actual dependent variable values.
 #' @examples
 #' model <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' ggdiagnose(model, bins = NROW(mtcars), se = FALSE, freqpct = TRUE)
