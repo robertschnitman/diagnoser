@@ -90,7 +90,7 @@ ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE, alpha = 1) 
   f1 <- rvf(y = res, x = fit, ylabel = 'Residuals')            # Figure 1 - Residuals vs. Fitted.
   f2 <- rvf(y = pct, x = fit, ylabel = 'Residuals Margin (%)') # Figure 2 - Residuals Margin (%) vs. Fitted.
   f3 <- histres(x = res, xlabel = 'Residuals')                 # Figure 3 - Distribution of Residuals.
-  f4 <- histres(x = res, xlabel = 'Residuals Margin (%)')      # Figure 4 - Distribution of Residuals Margin (%).
+  f4 <- histres(x = pct, xlabel = 'Residuals Margin (%)')      # Figure 4 - Distribution of Residuals Margin (%).
 
   ### Arrange in 2x2 grid ###
   grid.arrange(f1, f2, f3, f4, ncol = 2)
