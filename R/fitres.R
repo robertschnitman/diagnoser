@@ -27,9 +27,10 @@
 #####################################################################################
 
 fitres <- function(model, type = 'response') {
-  fit          <- predict(model, type = type)
-  residual     <- resid(model)
-  residual_pct <- residual/fit
+  fit             <- predict(model, type = type)
+  actual          <- model.frame(model)[, 1]
+  residual        <- resid(model)
+  residual_margin <- residual/actual
 
-  cbind(fit, residual, residual_pct)
+  cbind(fit, residual, residual_margin)
 }
