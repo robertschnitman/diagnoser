@@ -38,6 +38,7 @@ ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE, alpha = 1) 
   ### Set up data frame of fit and residuals ###
   fit <- predict(model)
   res <- resid(model)
+  act <- model.frame(model)[, 1]
   pct <- (res/fit)*100
   df  <- as.data.frame(cbind(fit, res, pct))
 
@@ -86,10 +87,10 @@ ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE, alpha = 1) 
   }
 
   ### grid.arrange() requires each of the graphs to be created beforehand ###
-  f1 <- rvf(y = res, x = fit, ylabel = 'Residuals')     # Figure 1 - Residuals vs. Fitted.
-  f2 <- rvf(y = pct, x = fit, ylabel = 'Residuals (%)') # Figure 2 - Residuals, % vs. Fitted.
-  f3 <- histres(x = res, xlabel = 'Residuals')          # Figure 3 - Distribution of Residuals.
-  f4 <- histres(x = res, xlabel = 'Residuals (%)')      # Figure 4 - Distribution of Residuals (%).
+  f1 <- rvf(y = res, x = fit, ylabel = 'Residuals')            # Figure 1 - Residuals vs. Fitted.
+  f2 <- rvf(y = pct, x = fit, ylabel = 'Residuals Margin (%)') # Figure 2 - Residuals Margin (%) vs. Fitted.
+  f3 <- histres(x = res, xlabel = 'Residuals')                 # Figure 3 - Distribution of Residuals.
+  f4 <- histres(x = res, xlabel = 'Residuals Margin (%)')      # Figure 4 - Distribution of Residuals Margin (%).
 
   ### Arrange in 2x2 grid ###
   grid.arrange(f1, f2, f3, f4, ncol = 2)
