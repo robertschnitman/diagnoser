@@ -10,7 +10,8 @@ diagnose(model)
 \item{model}{An lm or glm object.}
 }
 \value{
-2x2 charts similar to plot(model.lm): 2 scatter plots and 2 histograms.
+2x2 charts similar to plot(model.lm): 2 scatter plots and 2 histograms of residuals and "residuals margin,"
+which is the residuals as a percentage of the actual dependent variable values.
 }
 \description{
 Graphically diagnose model residuals.
