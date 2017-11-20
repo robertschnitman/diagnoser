@@ -14,7 +14,7 @@ fitresdf(model, data, type = "response")
 \item{type}{String. Prediction type depends on whether the object is lm ('response', 'terms') or glm ('link', 'response', 'terms'). (See ?predict.lm and ?predict.glm for details).}
 }
 \value{
-A data frame.
+A data frame. "residual_margin" is the residuals as a proportion of the actual dependent variable values.
 }
 \description{
 Merge fitted values and residuals to the original data frame.
