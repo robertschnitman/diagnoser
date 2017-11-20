@@ -82,13 +82,13 @@ head(fitres(model.lm, type = 'response'))
     # default type value is 'response'.
 ```
 
-    ##                        fit   residual residual_pct
-    ## Mazda RX4         23.26669 -2.2666926  -0.09742221
-    ## Mazda RX4 Wag     21.86801 -0.8680127  -0.03969326
-    ## Datsun 710        24.91220 -2.1121984  -0.08478571
-    ## Hornet 4 Drive    20.32266  1.0773414   0.05301183
-    ## Hornet Sportabout 19.08853 -0.3885293  -0.02035407
-    ## Valiant           18.97883 -0.8788289  -0.04630575
+    ##                        fit   residual residual_margin
+    ## Mazda RX4         23.26669 -2.2666926     -0.10793774
+    ## Mazda RX4 Wag     21.86801 -0.8680127     -0.04133394
+    ## Datsun 710        24.91220 -2.1121984     -0.09264028
+    ## Hornet 4 Drive    20.32266  1.0773414      0.05034305
+    ## Hornet Sportabout 19.08853 -0.3885293     -0.02077697
+    ## Valiant           18.97883 -0.8788289     -0.04855408
 
 ### fitresdf()
 
@@ -105,13 +105,13 @@ head(fitresdf(model = model.lm, data = mtcars, type = 'response'))
     ## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
     ## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
     ## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
-    ##                        fit   residual residual_pct
-    ## Mazda RX4         23.26669 -2.2666926  -0.09742221
-    ## Mazda RX4 Wag     21.86801 -0.8680127  -0.03969326
-    ## Datsun 710        24.91220 -2.1121984  -0.08478571
-    ## Hornet 4 Drive    20.32266  1.0773414   0.05301183
-    ## Hornet Sportabout 19.08853 -0.3885293  -0.02035407
-    ## Valiant           18.97883 -0.8788289  -0.04630575
+    ##                        fit   residual residual_margin
+    ## Mazda RX4         23.26669 -2.2666926     -0.10793774
+    ## Mazda RX4 Wag     21.86801 -0.8680127     -0.04133394
+    ## Datsun 710        24.91220 -2.1121984     -0.09264028
+    ## Hornet 4 Drive    20.32266  1.0773414      0.05034305
+    ## Hornet Sportabout 19.08853 -0.3885293     -0.02077697
+    ## Valiant           18.97883 -0.8788289     -0.04855408
 
 ``` r
 # Warning message displays when the specified data frame has missing values.
@@ -121,8 +121,8 @@ model.lm  <- lm(data = df, formula = mpg ~ wt + gear)
 tail(fitresdf(df, model.lm))
 ```
 
-    ## Warning in fitresdf(df, model.lm): 3 rows with missing values were moved to
-    ## the bottom of the data frame.
+    ## Warning in fitresdf(model.lm, data = df, type = "response"): 3 rows with
+    ## missing values were moved to the bottom of the data frame.
 
     ##                mpg cyl disp  hp drat   wt qsec vs am gear carb      fit
     ## Ferrari Dino  19.7   6  145 175 3.62 2.77 15.5  0  1    5    6 22.38605
@@ -131,13 +131,13 @@ tail(fitresdf(df, model.lm))
     ## Mazda RX4       NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA
     ## Mazda RX4 Wag   NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA
     ## Datsun 710      NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA
-    ##                residual residual_pct
-    ## Ferrari Dino  -2.686050  -0.11998768
-    ## Maserati Bora -2.891697  -0.16162227
-    ## Volvo 142E    -1.239856  -0.05476429
-    ## Mazda RX4            NA           NA
-    ## Mazda RX4 Wag        NA           NA
-    ## Datsun 710           NA           NA
+    ##                residual residual_margin
+    ## Ferrari Dino  -2.686050     -0.13634772
+    ## Maserati Bora -2.891697     -0.19277978
+    ## Volvo 142E    -1.239856     -0.05793718
+    ## Mazda RX4            NA              NA
+    ## Mazda RX4 Wag        NA              NA
+    ## Datsun 710           NA              NA
 
 
 ## 4. lmdf() & glmdf()
