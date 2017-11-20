@@ -36,20 +36,21 @@
 
 fitresdf <- function(model, data, type = 'response') {
   ### Collect the fit and residuals into a matrix to compare NROWs ###
-  fit          <- predict(model, type = type)
-  residual     <- resid(model)
-  residual_pct <- residual/fit
+  fit             <- predict(model, type = type)
+  actual          <- model.frame(model)[, 1]
+  residual        <- resid(model)
+  residual_margin <- residual/actual
 
-  fitr <- cbind(fit, residual, residual_pct)
+  fitr <- cbind(fit, residual, residual_margin)
 
   ### Need to combine the datasets and reinsert rows with missing values from the original dataset. ###
   ## Remember that column names must be the same between datasets for rbind() to work. ##
   if (NROW(data) != NROW(fitr)) {
 
-    data_na              <- data[rowSums(is.na(data)) > 0, ]
-    data_na$fit          <- NA
-    data_na$residual     <- NA
-    data_na$residual_pct <- NA
+    data_na                <- data[rowSums(is.na(data)) > 0, ]
+    data_na$fit            <- NA
+    data_na$residual       <- NA
+    data_na$residual_margin <- NA
 
     data2   <- na.omit(data)           # Need to be mergeable with fitr matrix.
 
