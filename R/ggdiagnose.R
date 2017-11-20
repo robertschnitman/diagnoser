@@ -39,7 +39,7 @@ ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE, alpha = 1) 
   fit <- predict(model)
   res <- resid(model)
   act <- model.frame(model)[, 1]
-  pct <- (res/fit)*100
+  pct <- (res/act)*100
   df  <- as.data.frame(cbind(fit, res, pct))
 
   ### ggplot2 graphs use the same functions/colors; need to minimize repeating code ###
