@@ -30,7 +30,8 @@ diagnose <- function(model) {
   ### Set up fitted values, residuals, and 2x2 frame ###
   fit <- predict(model)
   res <- resid(model)
-  pct <- (res/fit)*100
+  act <- model.frame(model)[, 1]  # Actual values from the depdendent variable.
+  pct <- (res/act)*100            # "Margin": residuals as a % of actual values.
 
   par(mfrow = c(2,2))
 
@@ -45,14 +46,14 @@ diagnose <- function(model) {
   scatter.smooth(x    = fit,
                  y    = pct,
                  xlab = 'Fitted Values',
-                 ylab = 'Residuals (%)',
-                 main = 'Residuals (%) vs. Fitted Values')
+                 ylab = 'Residuals Margin (%)',
+                 main = 'Residuals Margin (%) vs. Fitted Values')
 
   ### Figure 3 - Distribution of Residuals ###
-  hist(x = res, xlab = 'Residuals',     main = 'Distribution of Residuals')
+  hist(x = res, xlab = 'Residuals',            main = 'Distribution of Residuals')
 
   ### Figure 4 - Distribution of Residuals (%) ###
-  hist(x = pct, xlab = 'Residuals (%)', main = 'Distribution of Residuals (%)')
+  hist(x = pct, xlab = 'Residuals Margin (%)', main = 'Distribution of Residuals Margin (%)')
 
 }
 ##### === END === #####
