@@ -18,7 +18,8 @@ ggdiagnose(model, bins = 30, se = TRUE, freqpct = FALSE, alpha = 1)
 \item{alpha}{Integer, [0, 1]. Points are more transparent the closer they are to 0. Only applies to scatter plots.}
 }
 \value{
-2x2 charts similar to plot(model): 2 scatter plots and 2 histograms.
+2 scatter plots and 2 histograms of residuals and "residuals margin,"
+which is the residuals as a percentage of the actual dependent variable values.
 }
 \description{
 Graphically diagnose model residuals (ggplot2 version).
