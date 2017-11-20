@@ -3,7 +3,7 @@
 #' @param model An lm or glm object.
 #' @param data A data frame. If unspecified, then the original data is used (i.e. model.frame(model)).
 #' @param type String. Prediction type depends on whether the object is lm ('response', 'terms') or glm ('link', 'response', 'terms'). (See ?predict.lm and ?predict.glm for details).
-#' @return A data frame.
+#' @return A data frame. "residual_margin" are the residuals as a proportion of the actual dependent variable values.
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' fitresdf(data = mtcars, model = model.lm)
