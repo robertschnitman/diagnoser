@@ -47,10 +47,8 @@ fitresdf <- function(model, data, type = 'response') {
   ## Remember that column names must be the same between datasets for rbind() to work. ##
   if (NROW(data) != NROW(fitr)) {
 
-    data_na                <- data[rowSums(is.na(data)) > 0, ]
-    data_na$fit            <- NA
-    data_na$residual       <- NA
-    data_na$residual_margin <- NA
+    data_na %<>% data[rowSums(is.na(data)) > 0, ] %>%
+      transform(., fit = NA, residual = NA, residual_margin = NA)
 
     data2   <- na.omit(data)           # Need to be mergeable with fitr matrix.
 
@@ -62,8 +60,8 @@ fitresdf <- function(model, data, type = 'response') {
     if (diff == 1) {
       warning(paste(diff, warn1, sep = ' '))
     } else {
-        warning(paste(diff, warn2, sep = ' '))
-      }
+      warning(paste(diff, warn2, sep = ' '))
+    }
 
     rbind(cbind(data2, fitr), data_na)
 
