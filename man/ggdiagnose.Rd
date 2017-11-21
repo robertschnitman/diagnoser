@@ -4,10 +4,15 @@
 \alias{ggdiagnose}
 \title{Graphically diagnose model residuals (ggplot2 version).}
 \usage{
-ggdiagnose(model, bins = 30, se = TRUE, freqpct = FALSE, alpha = 1)
+ggdiagnose(model, fit_type = "response", residual_type = "response",
+  bins = 30, se = TRUE, freqpct = FALSE, alpha = 1)
 }
 \arguments{
 \item{model}{An lm or glm object.}
+
+\item{fit_type}{String. Default is "response". Type of fitted values to use based on options in predict().}
+
+\item{residual_type}{String. Default is "response". Type of residuals values to use based on options in resid().}
 
 \item{bins}{Number of bins to specify for histograms.}
 

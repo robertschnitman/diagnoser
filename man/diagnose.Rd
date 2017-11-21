@@ -4,10 +4,14 @@
 \alias{diagnose}
 \title{Graphically diagnose model residuals.}
 \usage{
-diagnose(model)
+diagnose(model, fit_type = "response", residual_type = "response")
 }
 \arguments{
 \item{model}{An lm or glm object.}
+
+\item{fit_type}{String. Default is "response". Type of fitted values to use based on options in predict().}
+
+\item{residual_type}{String. Default is "response". Type of residuals values to use based on options in resid().}
 }
 \value{
 2x2 charts similar to plot(model.lm): 2 scatter plots and 2 histograms of residuals and "residuals margin,"
