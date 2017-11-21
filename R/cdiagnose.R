@@ -1,6 +1,8 @@
 #' Graphically diagnose model residuals ("classic" version with ggplot2 graphics).
 #'
 #' @param model An lm or glm object.
+#' @param fit_type String. Default is "response". Type of fitted values to use based on options in predict().
+#' @param residual_type String. Default is "response". Type of residuals values to use based on options in resid().
 #' @param se Boolean. To overly standard errors.
 #' @param alpha Integer, [0, 1]. Points are more transparent the closer they are to 0.
 #' @return 2x2 charts that closely resemble the output to plot(model.lm) with ggplot2 graphics.
@@ -33,13 +35,20 @@
 
 ##### === BEGIN === #####
 
-cdiagnose <- function(model, se = FALSE, alpha = 1) {
-  ### Set up alpha value so that ggplot2 functions can process it ###
+cdiagnose <- function(model, fit_type = 'response', residual_type = 'response', se = FALSE, alpha = 1) {
+  ### Set alpha value so that ggplot2 functions can process it ###
   a <- alpha
 
+  ### Graph is modified based on fit_type and residual_type specifications. ###
+  family <- model$family[1]               # To determine whether graph shows fitted values OR predicted probabilities.
+  pp     <- 'Predicted Probabilities'
+  fv     <- 'Fitted Values'
+  vspp   <- 'vs. Predicted Probabilities'
+  vsfv   <- 'vs. Fitted Values'
+
   ### Set up data frame of fit and residuals ###
-  fit <- predict(model)
-  res <- resid(model)
+  fit <- predict(model, type = fit_type)
+  res <- resid(model, type = residual_type)
   sr  <- (res - mean(res))/sd(res)            # Standardized Residuals.
   qsr <- qqnorm(sr, plot.it = FALSE)[[1]]     # Theoretical Quantiles; suppress plot.
 
@@ -57,9 +66,11 @@ cdiagnose <- function(model, se = FALSE, alpha = 1) {
     geom_smooth(method = 'loess',
                 se     = se,
                 color  = 'steelblue') +
-    labs(x     = 'Fitted Values',
+    labs(x     = ifelse(fit_type == 'response' & family == 'binomial', pp, fv),
          y     = 'Residuals',
-         title = 'Residuals vs. Fit') +
+         title = paste('Residuals',
+                       ifelse(fit_type == 'response' & family == 'binomial', vspp, vsfv),
+                       sep = ' ')) +
     theme_bw()
 
   ### Figure 2 - Normal Q-Q Plot ###
@@ -80,7 +91,7 @@ cdiagnose <- function(model, se = FALSE, alpha = 1) {
     geom_smooth(method = 'loess',
                 se     = se,
                 color  = 'steelblue') +
-    labs(x     = 'Fitted Values',
+    labs(x     = ifelse(fit_type == 'response' & family == 'binomial', pp, fv),
          y     = expression(sqrt('|Standardized residuals|')),
          title = 'Scale-Location') +
     theme_bw()
