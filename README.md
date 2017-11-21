@@ -38,7 +38,10 @@ However, for those with advanced training or simply disagree with me, I also pre
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
-diagnose(model.lm)
+diagnose(model.lm, fit_type = 'response', residual_type = 'response')
+  # The fit_type option specifies prediction type in predict(). 
+  # Similarly, residual_type specifies for resid().
+  # These inputs are beneficial for glm objects using the binomial family.
 ```
 
 ![](s2-1-1.png)
@@ -47,11 +50,15 @@ diagnose(model.lm)
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
-ggdiagnose(model.lm, bins = NROW(mtcars), se = TRUE, freqpct = TRUE, alpha = 0.5)
-    # default bins value is 30.
-    # default se value is TRUE.
-    # default freqpct value is FALSE.
-    # default alpha value is 1.
+ggdiagnose(model.lm, fit_type = 'response', residual_type = 'response',
+           bins = NROW(mtcars), se = TRUE, freqpct = TRUE, alpha = 0.5)
+  # The fit_type option specifies prediction type in predict(). 
+  #   Similarly, residual_type specifies for resid().
+  #   These inputs are beneficial for glm objects using the binomial family.
+  # default bins value is 30.
+  # default se value is TRUE.
+  # default freqpct value is FALSE.
+  # default alpha value is 1.
 ```
 
 ![](s2-2-1.png)
@@ -61,9 +68,13 @@ ggdiagnose(model.lm, bins = NROW(mtcars), se = TRUE, freqpct = TRUE, alpha = 0.5
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
-cdiagnose(model.lm, se = FALSE, alpha = 1)
-    # default se value is FALSE.
-    # default alpha value is 1.
+cdiagnose(model.lm, fit_type = 'response', residual_type = 'response', se = FALSE, alpha = 1)
+  # The fit_type option specifies prediction type in predict(). 
+  #   Similarly, residual_type specifies for resid().
+  #   These inputs are beneficial for glm objects using the binomial family.
+  # Default bins value is 30.
+  # Default se value is FALSE.
+  # Default alpha value is 1.
 ```
 
 ![](s2-3-1.png)
