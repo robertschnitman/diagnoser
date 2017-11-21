@@ -1,6 +1,8 @@
 #' Graphically diagnose model residuals (ggplot2 version).
 #'
 #' @param model An lm or glm object.
+#' @param fit_type String. Default is "response". Type of fitted values to use based on options in predict().
+#' @param residual_type String. Default is "response". Type of residuals values to use based on options in resid().
 #' @param bins Number of bins to specify for histograms.
 #' @param se Boolean. For overlaying shaded standard errors.
 #' @param freqpct Boolean.
@@ -22,9 +24,6 @@
 ###
 ### LIBRARY DEPENDENCY: ggplot2 (>= 2.2.1), gridExtra (>= 2.3)
 ###
-### INPUT: lm/glm object. E.g. model <- lm(y ~ x).
-### OUTPUT: 2x2 plot with ggplot2 graphics.
-###
 ### RECOMMENDED CITATION:
 ###  Schnitman, Robert (2017). ggdiagnose.r. https://github.com/robertschnitman/diagnoser
 ########################################################################################
@@ -32,13 +31,22 @@
 
 ##### === BEGIN === #####
 
-ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE, alpha = 1) {
+ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
+                       bins = 30, se = TRUE, freqpct = FALSE,
+                       alpha = 1) {
   ### Set alpha value so that ggplot2 functions can process it ###
   a <- alpha
 
+  ### Graph is modified based on fit_type and residual_type specifications. ###
+  family <- model$family[1]               # To determine whether graph shows fitted values OR predicted probabilities.
+  pp   <- 'Predicted Probabilities'
+  fv   <- 'Fitted Values'
+  vspp <- 'vs. Predicted Probabilities'
+  vsfv <- 'vs. Fitted Values'
+
   ### Set up data frame of fit and residuals ###
-  fit <- predict(model)
-  res <- resid(model)
+  fit <- predict(model, type = fit_type)
+  res <- resid(model, type = residual_type)
   act <- model.frame(model)[, 1]
   pct <- (res/act)*100
   df  <- as.data.frame(cbind(fit, res, pct))
@@ -55,9 +63,10 @@ ggdiagnose <- function(model, bins = 30, se = TRUE, freqpct = FALSE, alpha = 1) 
       geom_smooth(method = 'loess',
                   se     = se,
                   color  = 'steelblue') +
-      labs(x     = 'Fitted Values',
+      labs(x     = ifelse(fit_type == 'response' & family == 'binomial', pp, fv),
            y     = ylabel,
-           title = paste(ylabel, 'vs. Fit', sep = ' ')) +
+           title = paste(ylabel,
+                         ifelse(fit_type == 'response' & family == 'binomial', vspp, vsfv), sep = ' ')) +
       theme_bw()
   }
 
