@@ -55,10 +55,10 @@ ggdiagnose(model.lm, fit_type = 'response', residual_type = 'response',
   # The fit_type option specifies prediction type in predict(). 
   #   Similarly, residual_type specifies for resid().
   #   These inputs are beneficial for glm objects using the binomial family.
-  # default bins value is 30.
-  # default se value is TRUE.
-  # default freqpct value is FALSE.
-  # default alpha value is 1.
+  # Default bins value is 30.
+  # Default se value is TRUE.
+  # Default freqpct value is FALSE.
+  # Default alpha value is 1.
 ```
 
 ![](s2-2-1.png)
