@@ -22,11 +22,8 @@
 ###
 ### LIBRARY DEPENDENCY: ggplot2 (>= 2.2.1), gridExtra (>= 2.3)
 ###
-### INPUT: lm/glm object. E.g. model.lm <- lm(y ~ x).
-### OUTPUT: 2x2 plot with base graphics.
-###
 ### RECOMMENDED CITATION:
-###  Schnitman, Robert (2017). diagnose.r. https://github.com/robertschnitman/diagnoser
+###  Schnitman, Robert (2017). cdiagnose.r. https://github.com/robertschnitman/diagnoser
 ###
 ### Idea for Residuals vs. Leverage inspired by
 ###  https://rpubs.com/therimalaya/43190.
@@ -40,11 +37,12 @@ cdiagnose <- function(model, fit_type = 'response', residual_type = 'response', 
   a <- alpha
 
   ### Graph is modified based on fit_type and residual_type specifications. ###
-  family <- model$family[1]               # To determine whether graph shows fitted values OR predicted probabilities.
-  pp     <- 'Predicted Probabilities'
-  fv     <- 'Fitted Values'
-  vspp   <- 'vs. Predicted Probabilities'
-  vsfv   <- 'vs. Fitted Values'
+  fit_type <- fit_type
+  family   <- ifelse(attr(model, 'class') == 'lm', 'lm', model$family[1]) # To determine whether graph shows fitted values OR predicted probabilities.
+  pp       <- 'Predicted Probabilities'
+  fv       <- 'Fitted Values'
+  vspp     <- 'vs. Predicted Probabilities'
+  vsfv     <- 'vs. Fitted Values'
 
   ### Set up data frame of fit and residuals ###
   fit <- predict(model, type = fit_type)
