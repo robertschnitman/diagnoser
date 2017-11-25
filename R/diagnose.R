@@ -18,10 +18,6 @@
 ###    1. Generate 2x2 graphs that diagnose the residuals of a model.
 ###    2. Alternative for plot(model.object).
 ###
-###
-### INPUT: lm/glm object. E.g. model.lm <- lm(y ~ x).
-### OUTPUT: 2x2 plot with base graphics.
-###
 ### RECOMMENDED CITATION:
 ###  Schnitman, Robert (2017). diagnose.r. https://github.com/robertschnitman/diagnoser
 ######################################################################################
@@ -49,11 +45,12 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response') {
   }
 
   ### Graph is modified based on fit_type and residual_type specifications. ###
-  family <- model$family[1]               # To determine whether graph shows fitted values OR predicted probabilities.
-  pp   <- 'Predicted Probabilities'
-  fv   <- 'Fitted Values'
-  vspp <- 'vs. Predicted Probabilities'
-  vsfv <- 'vs. Fitted Values'
+  fit_type <- fit_type
+  family   <- ifelse(attr(model, 'class') == 'lm', 'lm', model$family[1]) # To determine whether graph shows fitted values OR predicted probabilities.
+  pp       <- 'Predicted Probabilities'
+  fv       <- 'Fitted Values'
+  vspp     <- 'vs. Predicted Probabilities'
+  vsfv     <- 'vs. Fitted Values'
 
   ### Set up 2x2 frame ###
   par(mfrow = c(2,2))
