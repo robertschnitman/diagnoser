@@ -38,7 +38,8 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
   a <- alpha
 
   ### Graph is modified based on fit_type and residual_type specifications. ###
-  family <- model$family[1]               # To determine whether graph shows fitted values OR predicted probabilities.
+  fit_type <- fit_type
+  family   <- ifelse(attr(model, 'class') == 'lm', 'lm', model$family[1]) # To determine whether graph shows fitted values OR predicted probabilities.
   pp   <- 'Predicted Probabilities'
   fv   <- 'Fitted Values'
   vspp <- 'vs. Predicted Probabilities'
