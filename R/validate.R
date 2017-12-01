@@ -24,12 +24,14 @@ validate <- function(model) {
   ### Common statistics for LM and GLM ###
   median.residual <- median(resid(model))
   mean.residual   <- mean(resid(model))
+  sd.residual     <- sd(resid(model))
   rmse            <- sqrt(mean(resid(model)^2))
   AIC             <- AIC(model)
   BIC             <- BIC(model)
   logLik          <- logLik(model)[1]
 
-  common          <- cbind(median.residual, mean.residual, rmse,
+  common          <- cbind(median.residual, mean.residual, sd.residual,
+                           rmse,
                            AIC, BIC, logLik)
 
   ### Case 1: OLS ###
