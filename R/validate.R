@@ -10,6 +10,8 @@
 #' validate(model.glm)
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
+# ADDED: 2017-12-01
+
 ##### === BEGIN === #####
 validate <- function(model) {
 
