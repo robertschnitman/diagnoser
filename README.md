@@ -270,6 +270,7 @@ validate(model.lm)    # column vector
     ## adj.rsq          7.368661e-01
     ## median.residual -2.932015e-01
     ## mean.residual   -5.204170e-18
+    ## sd.residual      2.990226e+00
     ## rmse             2.943133e+00
     ## AIC              1.678984e+02
     ## BIC              1.737614e+02
@@ -283,16 +284,18 @@ validate(model.lm)    # column vector
 t(validate(model.lm)) # broom format
 ```
 
-    ##             rsq   adj.rsq median.residual mean.residual     rmse      AIC
-    ## value 0.7538424 0.7368661      -0.2932015  -5.20417e-18 2.943133 167.8984
-    ##            BIC    logLik    Fstat dfnum dfden     p.value
-    ## value 173.7614 -79.94922 44.40536     3    29 1.48796e-09
+    ##             rsq   adj.rsq median.residual mean.residual sd.residual
+    ## value 0.7538424 0.7368661      -0.2932015  -5.20417e-18    2.990226
+    ##           rmse      AIC      BIC    logLik    Fstat dfnum dfden
+    ## value 2.943133 167.8984 173.7614 -79.94922 44.40536     3    29
+    ##           p.value
+    ## value 1.48796e-09
 
 ### Case 2: GLM (logit)
 
 ``` r
 model.glm <- glm(am ~ mpg + wt, mtcars, family = binomial(link = 'logit'))
-validate(model.glm)
+validate(model.glm)    # column vector
 ```
 
     ##                         value
@@ -304,6 +307,7 @@ validate(model.glm)
     ## df.residual       29.00000000
     ## median.residual   -0.04684164
     ## mean.residual     -0.04415190
+    ## sd.residual        0.74318136
     ## rmse               0.73280828
     ## AIC               23.18425524
     ## BIC               27.58146295
@@ -315,10 +319,10 @@ t(validate(model.glm)) # broom format
 
     ##       pseudo.rsq.mcfad adj.p.rsq.mcfad null.deviance residual.deviance
     ## value        0.6024899       0.6718866      43.22973          17.18426
-    ##       df.null df.residual median.residual mean.residual      rmse      AIC
-    ## value      31          29     -0.04684164    -0.0441519 0.7328083 23.18426
-    ##            BIC    logLik
-    ## value 27.58146 -8.592128
+    ##       df.null df.residual median.residual mean.residual sd.residual
+    ## value      31          29     -0.04684164    -0.0441519   0.7431814
+    ##            rmse      AIC      BIC    logLik
+    ## value 0.7328083 23.18426 27.58146 -8.592128
 
 ## 6. Conclusion and Future Work
 
