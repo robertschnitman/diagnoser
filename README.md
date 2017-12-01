@@ -254,7 +254,7 @@ glmdf(model = model.glm, conf = 99)
 
 ## 5. validate()
 
-The broom library's glance() had a vague label for the F statistic (simply "statistic") and lacked the pseudo R-squared, which is commonly based on McFadden's version (i.e. 1 - (residual deviance / null deviance))
+The broom library's glance() had a vague label for the F statistic (simply "statistic") and lacked the pseudo R-squared, which is commonly based on McFadden's version (i.e. 1 - (residual deviance ÷ null deviance))
 
 While the same function is friendly for data frames, it's wide form is cumbersome for quickly ascertaining model validity. Thus, **validate()** produces similar output as a column vector. Those who wish to have the values in broom's format can always transpose the vector.
 
