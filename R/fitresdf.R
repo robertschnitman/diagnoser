@@ -15,23 +15,6 @@
 #' fitresdf(model.lm, data = df)
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
-#######################################################################################
-### Robert Schnitman
-### 2017-11-14
-###
-### PURPOSE: Attach fitted values and residuals onto main dataset.
-###
-### INPUTS:
-###   1. lm/glm object. E.g. model.lm <- lm(y ~ x).
-###   2. data object.
-###   3. type. String.
-###
-### OUTPUT: data frame.
-###
-### RECOMMENDED CITATION:
-###  Schnitman, Robert (2017). fitresdf.r. https://github.com/robertschnitman/diagnoser
-#######################################################################################
-
 ##### === BEGIN === #####
 
 fitresdf <- function(model, data, type = 'response') {
@@ -47,8 +30,8 @@ fitresdf <- function(model, data, type = 'response') {
   ## Remember that column names must be the same between datasets for rbind() to work. ##
   if (NROW(data) != NROW(fitr)) {
 
-    data_na %<>% data[rowSums(is.na(data)) > 0, ] %>%
-      transform(., fit = NA, residual = NA, residual_margin = NA)
+    data_na <- data[rowSums(is.na(data)) > 0, ]
+    data_na <- transform(data_na, fit = NA, residual = NA, residual_margin = NA)
 
     data2   <- na.omit(data)           # Need to be mergeable with fitr matrix.
 
