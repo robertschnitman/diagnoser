@@ -1,6 +1,6 @@
 Package: diagnoser
 Type: Package
-Title: Graphical residual diagnostics and related tools
+Title: Residual and model diagnostics
 Version: 0.0.2.4
 Author: Robert Schnitman <robertschnitman@gmail.com>
 Maintainer: Robert Schnitman <robertschnitman@gmail.com>
