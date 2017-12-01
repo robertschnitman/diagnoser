@@ -4,13 +4,21 @@
 ***Recommended Citation:  
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Schnitman, Robert (2017). diagnoser v0.0.2.3. https://github.com/robertschnitman/diagnoser***
 
+# Outline
+0. Installation
+1. Introduction
+2. diagnose(), ggdiagnose(), and cdiagnose()
+3. fitres() and fitresdf()
+4. lmdf() and glmdf()
+5. validate()
+6. Conclusion
+
 ## 0. Installation
 ```r
 ## Ensure that you are running R >= 3.4.2.
 ## Package Dependencies:
-#     tm (>= 0.7.0), ggplot2 (>= 2.2.1), gridExtra (>= 2.3), 
-#     lazyeval (>= 0.2.1), rlang (>= 0.1.4), scales (>= 0.5.0),
-#     magrittr (>= 1.5)
+#     ggplot2 (>= 2.2.1), gridExtra (>= 2.3), 
+#     lazyeval (>= 0.2.1), rlang (>= 0.1.4), scales (>= 0.5.0)
 
 # install.packages("devtools")
 devtools::install_github("robertschnitman/diagnoser")
@@ -20,7 +28,7 @@ devtools::install_github("robertschnitman/diagnoser")
 
 The `diagnoser` package contains tools for diagnostics, modeling, and data management. Base R's plot(lm()) was the primary influence, as it was a useful tool for quickly assessing estimation bias and existence of heteroskedasticity; but interpreting more specialized concepts such as Cook's Distance proved to be difficult to understand for those without linear algebra knowledge. To improve upon comprehension for introductory students, I developed **diagnose() and ggdiagnose()**. Individuals with a fondness for the classics would appreciate **cdiagnose()**, which recreates the original plot(lm()) with ggplot2 graphics. 
 
-Other functions such as **lmdf()** and **fitresdf()** were inspired by tidyverse's broom library. Broom is fantastic for transforming model objects into data frames; but I was not quite satisfied with the mentioned its tidy() outputs (such as the lack of confidence intervals for OLS estimates).
+Other functions such as **fitres()**, **lmdf()**, and **validate()** were inspired by tidyverse's broom library. Broom is fantastic for transforming model objects into data frames; but I was not quite satisfied with the mentioned its tidy() outputs (such as the lack of confidence intervals for OLS estimates).
 
 The following sections provide examples.
 
@@ -244,30 +252,73 @@ glmdf(model = model.glm, conf = 99)
     ## 2     0.969446  1.370145880 0.1706414
     ## 3  8958.257954  0.005852429 0.9953305
 
-## 5. cleancorpus() and wfreqdf()
+## 5. validate()
 
-When I first learned about using the tm library, the process for converting raw text into a data frame of word frequencies was tedious: several tm\_map()'s had to be applied to the corpus and transformations for the TDM-to-dataframe ordeal. As a result, I created two functions specifically for the overall procedure from raw text to data frame. It is especially useful for bar charts.
+The broom library's glance() had a vague label for the F statistic (simply "statistic") and lacked the pseudo R-squared, which is commonly based on McFadden's version (i.e. 1 - (residual deviance / null deviance))
 
-While **wfreqdf()** nests **cleancorpus()**, the latter can be used independently to perform basic corpus corrections: it removes punctuation, strips white space, deletes numbers, and erases stopwords.
+While the same function is friendly for data frames, it's wide form is cumbersome for quickly ascertaining model validity. Thus, **validate()** produces similar output as a column vector. Those who wish to have the values in broom's format can always transpose the vector.
 
-At this time, these functions "work" for English stop words only. Other languages can be used for the stopwords argument, but perhaps they won't work as well as for English (for now!).
+### Case 1: OLS
 
 ``` r
-# library(tm) assumed.
-# wfreqdf() depends on cleancorpus().
-# setting stopwords is based on the tm library. E.g. English --> stopwords = 'english'
-# nonsense.txt is found in the main diagnoser directory.
-
-head(wfreqdf(filename = 'nonsense.txt', stopwords = 'english'))
+model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
+validate(model.lm)    # column vector
 ```
 
-    ##          word freq
-    ## 1     journal    3
-    ## 2      former    2
-    ## 3        just    2
-    ## 4 statistical    2
-    ## 5         you    2
-    ## 6  achievable    1
+    ##                         value
+    ## rsq              7.538424e-01
+    ## adj.rsq          7.368661e-01
+    ## median.residual -2.932015e-01
+    ## mean.residual   -5.204170e-18
+    ## rmse             2.943133e+00
+    ## AIC              1.678984e+02
+    ## BIC              1.737614e+02
+    ## logLik          -7.994922e+01
+    ## Fstat            4.440536e+01
+    ## dfnum            3.000000e+00
+    ## dfden            2.900000e+01
+    ## p.value          1.487960e-09
+
+``` r
+t(validate(model.lm)) # broom format
+```
+
+    ##             rsq   adj.rsq median.residual mean.residual     rmse      AIC
+    ## value 0.7538424 0.7368661      -0.2932015  -5.20417e-18 2.943133 167.8984
+    ##            BIC    logLik    Fstat dfnum dfden     p.value
+    ## value 173.7614 -79.94922 44.40536     3    29 1.48796e-09
+
+### Case 2: GLM (logit)
+
+``` r
+model.glm <- glm(am ~ mpg + wt, mtcars, family = binomial(link = 'logit'))
+validate(model.glm)
+```
+
+    ##                         value
+    ## pseudo.rsq.mcfad   0.60248991
+    ## adj.p.rsq.mcfad    0.67188659
+    ## null.deviance     43.22973328
+    ## residual.deviance 17.18425524
+    ## df.null           31.00000000
+    ## df.residual       29.00000000
+    ## median.residual   -0.04684164
+    ## mean.residual     -0.04415190
+    ## rmse               0.73280828
+    ## AIC               23.18425524
+    ## BIC               27.58146295
+    ## logLik            -8.59212762
+
+``` r
+t(validate(model.glm)) # broom format
+```
+
+    ##       pseudo.rsq.mcfad adj.p.rsq.mcfad null.deviance residual.deviance
+    ## value        0.6024899       0.6718866      43.22973          17.18426
+    ##       df.null df.residual median.residual mean.residual      rmse      AIC
+    ## value      31          29     -0.04684164    -0.0441519 0.7328083 23.18426
+    ##            BIC    logLik
+    ## value 27.58146 -8.592128
 
 ## 6. Conclusion and Future Work
 
@@ -275,10 +326,10 @@ I hope to improve upon these existing functions and create new ones that (1) min
 
 ### In the future...
 
-1. Functions similar to broom's glance() (perhaps with other model diagnostics and making "statistic" be clear that it is referring to the F-statistic).  
+1. ~~Functions similar to broom's glance() (perhaps with other model diagnostics and making "statistic" be clear that it is referring to the F-statistic).~~ Completed 2017-12-01.  
 2. ~~ggplot2 version of diagnose().~~ Completed 2017-11-15.
 3. Add VIF in **lmdf()** & **glmdf()**. Feasible solution with tidyr, but I would rather stay close to base R as much as possible.
-4. For wfreqdf, test for Japanese stop words (my kanji is extremely weak).
+4. Modify **validate()** for other model cases.
 5. ~~cdiagnose(): A ggplot2 version of the "classic" plot(lm()). Preferable for those with an understanding of Scale Location and Cook's Distance.~~ Completed 2017-11-15.
 6. **mdiagnose()**: probability diagnostics with the margins library.
 7. **marginsdf()**: margins results in a tidy data frame (with margin of errors and confidence intervals as in lmdf() and glmdf()).
