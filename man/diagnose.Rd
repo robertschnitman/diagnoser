@@ -4,7 +4,8 @@
 \alias{diagnose}
 \title{Graphically diagnose model residuals.}
 \usage{
-diagnose(model, fit_type = "response", residual_type = "response")
+diagnose(model, fit_type = "response", residual_type = "response",
+  point_color = "black", line_color = "black", pch = 1, lwd = 1)
 }
 \arguments{
 \item{model}{An lm or glm object.}
@@ -12,6 +13,14 @@ diagnose(model, fit_type = "response", residual_type = "response")
 \item{fit_type}{String. Default is "response". Type of fitted values to use based on options in predict().}
 
 \item{residual_type}{String. Default is "response". Type of residuals values to use based on options in resid().}
+
+\item{point_color}{Color of the points and fill color of the histograms. If left to defaults, fill of the histogram is white.}
+
+\item{line_color}{Color of the smoothed line.}
+
+\item{pch}{Point type. Same settings as Base R pch in plot().}
+
+\item{lwd}{Width of the smoothed line.}
 }
 \value{
 2x2 charts similar to plot(model.lm): 2 scatter plots and 2 histograms of residuals and "residuals margin,"
@@ -22,7 +31,8 @@ Graphically diagnose model residuals.
 }
 \examples{
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-diagnose(model.lm)
+diagnose(model.lm) # defaults
+diagnose(model.lm, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lwd = 2)
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}
