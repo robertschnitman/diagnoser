@@ -52,13 +52,13 @@ diagnose(model.lm, fit_type = 'response', residual_type = 'response')
   # These inputs are beneficial for glm objects using the binomial family.
 ```
 
-![](s2-1-a.png)
+![](s2-1-1.png)
 
 ``` r
 diagnose(model.lm, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lwd = 2)
   # Graph editing inputs. Recommended for larger data, as ggplot2 in ggdiagnose() and cdiagnose() can be slow.
 ```
-![](s2-1-b.png)
+![](s2-1-2.png)
 
 ### ggdiagnose()
 ``` r
