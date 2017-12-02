@@ -72,6 +72,7 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
        pch  = pch,
        col  = point_color)
   lines(loess.smooth(fitr.noinf[ , 'fit'], fitr.noinf[ , 'res']), col = line_color, lwd = lwd)
+  abline(h = 0, lty = 3)
 
   ### Figure 2 - Residuals, % vs. Fitted ###
   plot(x    = fitr.noinf[ , 'fit'],
@@ -84,6 +85,7 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
        pch  = pch,
        col  = point_color)
   lines(loess.smooth(fitr.noinf[ , 'pct'], fitr.noinf[ , 'res']), col = line_color, lwd = lwd)
+  abline(h = 0, lty = 3)
 
   ### Figure 3 - Distribution of Residuals ###
   hist(x = res, xlab = 'Residuals', main = 'Distribution of Residuals',
