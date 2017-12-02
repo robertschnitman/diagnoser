@@ -10,7 +10,15 @@
 #' validate(model.glm)
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
-# ADDED: 2017-12-01
+########################################################################################
+### Robert Schnitman
+### 2017-12-01
+###
+### PURPOSE: Common model statistics such as McFadden's R^2 in matrix form.
+###
+### RECOMMENDED CITATION:
+###  Schnitman, Robert (2017). validate.r. https://github.com/robertschnitman/diagnoser
+########################################################################################
 
 ##### === BEGIN === #####
 validate <- function(model) {
