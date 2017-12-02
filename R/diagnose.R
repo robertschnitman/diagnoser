@@ -10,7 +10,17 @@
 #' diagnose(model.lm)
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
-# CREATED: 2017-11-14
+######################################################################################
+### Robert Schnitman
+### 2017-11-14
+###
+### PURPOSE:
+###    1. Generate 2x2 graphs that diagnose the residuals of a model.
+###    2. Alternative for plot(model.object).
+###
+### RECOMMENDED CITATION:
+###  Schnitman, Robert (2017). diagnose.r. https://github.com/robertschnitman/diagnoser
+######################################################################################
 
 
 ##### === BEGIN === #####
