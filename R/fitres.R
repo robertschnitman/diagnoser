@@ -4,6 +4,7 @@
 #' @param data A data frame. If not specified, then the original data is used (i.e. model.frame(model)).
 #' @param type String. Prediction type depends on whether the object is lm ('response', 'terms') or glm ('link', 'response', 'terms'). (See ?predict.lm and ?predict.glm for details).
 #' @return A matrix.
+#' @details fitres() creates a matrix of the fitted values, residuals, and residuals as a proportion (percent) of the actual dependent variable values based on an OLS model or GLM.
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' fitres(model.lm, type = 'response')
