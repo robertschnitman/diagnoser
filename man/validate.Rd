@@ -10,10 +10,14 @@ validate(model)
 \item{model}{An lm or glm object.}
 }
 \value{
-Vector (column).
+Vector (column). Includes F-statistic, R-squared, RMSE, and others.
 }
 \description{
-Common model statistics in a vector. Includes McFadden's pseudo R-squared for glm objects.
+Common model statistics in a vector.
+}
+\details{
+The broom library's glance() had a vague label for the F statistic (simply "statistic") and lacked the pseudo R-squared, which is commonly based on McFadden's version (i.e. 1 - (residual deviance รท null deviance)).
+While the same function is friendly for data frames, it's wide form is cumbersome for quickly ascertaining model validity. Thus, validate() produces similar output as a column vector. Those who wish to have the values in broom's format can always transpose the vector.
 }
 \examples{
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
