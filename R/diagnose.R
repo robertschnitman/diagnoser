@@ -10,17 +10,7 @@
 #' diagnose(model.lm)
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
-######################################################################################
-### Robert Schnitman
-### 2017-11-14
-###
-### PURPOSE:
-###    1. Generate 2x2 graphs that diagnose the residuals of a model.
-###    2. Alternative for plot(model.object).
-###
-### RECOMMENDED CITATION:
-###  Schnitman, Robert (2017). diagnose.r. https://github.com/robertschnitman/diagnoser
-######################################################################################
+# CREATED: 2017-11-14
 
 
 ##### === BEGIN === #####
@@ -40,7 +30,7 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response') {
   warn2      <- ' rows were deleted due to infinite values.'
   if (diff == 1) {
     warning(diff, warn1, sep = ' ')
-  } else {
+  } else if (diff > 1) {
     warning(diff, warn2, sep = ' ')
   }
 
