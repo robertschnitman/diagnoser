@@ -2,7 +2,7 @@
 % Please edit documentation in R/validate.R
 \name{validate}
 \alias{validate}
-\title{Common model statistics in matrix form.}
+\title{Common model statistics in a vector.}
 \usage{
 validate(model)
 }
@@ -13,7 +13,7 @@ validate(model)
 Vector (column).
 }
 \description{
-Common model statistics in matrix form.
+Common model statistics in a vector. Includes McFadden's pseudo R-squared for glm objects.
 }
 \examples{
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
