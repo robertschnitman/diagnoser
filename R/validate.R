@@ -1,7 +1,9 @@
-#' Common model statistics in matrix form.
+#' Common model statistics in a vector.
 #'
 #' @param model An lm or glm object.
-#' @return Vector (column).
+#' @return Vector (column). Includes F-statistic, R-squared, RMSE, and others.
+#' @details The broom library's glance() had a vague label for the F statistic (simply "statistic") and lacked the pseudo R-squared, which is commonly based on McFadden's version (i.e. 1 - (residual deviance ÷ null deviance)).
+#' While the same function is friendly for data frames, it's wide form is cumbersome for quickly ascertaining model validity. Thus, validate() produces similar output as a column vector. Those who wish to have the values in broom's format can always transpose the vector.
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' validate(model.lm)
@@ -14,7 +16,7 @@
 ### Robert Schnitman
 ### 2017-12-01
 ###
-### PURPOSE: Common model statistics such as McFadden's R^2 in matrix form.
+### PURPOSE: Common model statistics such as F, R^2, and RMSE in a vector.
 ###
 ### RECOMMENDED CITATION:
 ###  Schnitman, Robert (2017). validate.r. https://github.com/robertschnitman/diagnoser
