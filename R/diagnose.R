@@ -3,7 +3,7 @@
 #' @param model An lm or glm object.
 #' @param fit_type String. Default is "response". Type of fitted values to use based on options in predict().
 #' @param residual_type String. Default is "response". Type of residuals values to use based on options in resid().
-#' @param point_color Color of the points and fill color of the histograms.
+#' @param point_color Color of the points and fill color of the histograms. If left to defaults, fill of the histogram is white.
 #' @param line_color Color of the smoothed line.
 #' @param pch Point type. Same settings as Base R pch in plot().
 #' @param lwd Width of the smoothed line.
@@ -12,7 +12,7 @@
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' diagnose(model.lm) # defaults
-#' diagnose(model.lm, point_color = 'salmon', line_color = 'black', pch = 16, lwd = 2)
+#' diagnose(model.lm, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lwd = 2)
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ######################################################################################
@@ -86,10 +86,12 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
   lines(loess.smooth(fitr.noinf[ , 'pct'], fitr.noinf[ , 'res']), col = line_color, lwd = lwd)
 
   ### Figure 3 - Distribution of Residuals ###
-  hist(x = res, xlab = 'Residuals', main = 'Distribution of Residuals', col = point_color)
+  hist(x = res, xlab = 'Residuals', main = 'Distribution of Residuals',
+       col = ifelse(point_color == 'black', 'white', point_color))
 
   ### Figure 4 - Distribution of Residuals (%) ###
-  hist(x = pct, xlab = 'Residuals Margin (%)', main = 'Distribution of Residuals Margin (%)', col = point_color)
+  hist(x = pct, xlab = 'Residuals Margin (%)', main = 'Distribution of Residuals Margin (%)',
+       col = ifelse(point_color == 'black', 'white', point_color))
 
 }
 ##### === END === #####
