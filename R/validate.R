@@ -41,8 +41,8 @@ validate <- function(model) {
   logLik          <- logLik(model)[1]
 
   common          <- cbind(median.residual, mean.residual, sd.residual,
-                           rmse,
-                           AIC, BIC, logLik)
+                           rmse, AIC, BIC,
+                           logLik)
 
   ### Case 1: OLS ###
   if (family == 'lm') {
@@ -61,7 +61,6 @@ validate <- function(model) {
     validation    <- t(cbind(rsq, adj.rsq, common,
                              Fstat, dfnum, dfden,
                              p.value))
-    validation
 
   ### Case 2: GLM ###
   } else {
@@ -77,11 +76,12 @@ validate <- function(model) {
     validation           <- t(cbind(pseudo.rsq.mcfad, adj.p.rsq.mcfad,
                                     null.deviance, residual.deviance,
                                     df.null, df.residual, common))
-    colnames(validation) <- 'value'
-    validation
+    colnames(validation) <- 'value' # "value" auto-inputted for lm case for some reason...
 
   }
 
+  ### OUTPUT ###
+  validation  # Let values float: if needed, use round().
 }
 
 ##### === END === #####
