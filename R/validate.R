@@ -70,18 +70,19 @@ validate <- function(model) {
     df.null           <- summ$df.null
     residual.deviance <- summ$deviance
     df.residual       <- summ$df.residual
-    pseudo.rsq.mcfad  <- 1- (residual.deviance/null.deviance)
-    adj.p.rsq.mcfad   <- 1- ((residual.deviance - coefs)/null.deviance)
+    pseudo.rsq.mcfad  <- 1 - (residual.deviance/null.deviance)
+    adj.p.rsq.mcfad   <- 1 - ((residual.deviance - coefs)/null.deviance)
 
-    validation           <- t(cbind(pseudo.rsq.mcfad, adj.p.rsq.mcfad,
-                                    null.deviance, residual.deviance,
-                                    df.null, df.residual, common))
-    colnames(validation) <- 'value' # "value" auto-inputted for lm case for some reason...
+    validation        <- t(cbind(pseudo.rsq.mcfad, adj.p.rsq.mcfad,
+                                 null.deviance, residual.deviance,
+                                 df.null, df.residual, common))
 
   }
 
   ### OUTPUT ###
+  colnames(validation) <- deparse(substitute(model))
   validation  # Let values float: if needed, use round().
+
 }
 
 ##### === END === #####
