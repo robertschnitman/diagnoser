@@ -268,10 +268,10 @@ Furthermore, While the same function is friendly for data frames, it's wide form
 
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-validate(model.lm)    # column vector
+validate(model.lm)
 ```
 
-    ##                         value
+    ##                      model.lm
     ## rsq              7.538424e-01
     ## adj.rsq          7.368661e-01
     ## median.residual -2.932015e-01
@@ -282,55 +282,33 @@ validate(model.lm)    # column vector
     ## BIC              1.737614e+02
     ## logLik          -7.994922e+01
     ## Fstat            4.440536e+01
-    ## dfnum            3.000000e+00
-    ## dfden            2.900000e+01
+    ## df.num           3.000000e+00
+    ## df.den           2.900000e+01
     ## p.value          1.487960e-09
-
-``` r
-t(validate(model.lm)) # broom format
-```
-
-    ##             rsq   adj.rsq median.residual mean.residual sd.residual
-    ## value 0.7538424 0.7368661      -0.2932015  -5.20417e-18    2.990226
-    ##           rmse      AIC      BIC    logLik    Fstat dfnum dfden
-    ## value 2.943133 167.8984 173.7614 -79.94922 44.40536     3    29
-    ##           p.value
-    ## value 1.48796e-09
 
 ### Case 2: GLM (logit)
 
 ``` r
 model.glm <- glm(am ~ mpg + wt, mtcars, family = binomial(link = 'logit'))
-validate(model.glm)    # column vector
+validate(model.glm)
 ```
 
-    ##                         value
-    ## pseudo.rsq.mcfad   0.60248991
-    ## adj.p.rsq.mcfad    0.67188659
-    ## null.deviance     43.22973328
-    ## residual.deviance 17.18425524
-    ## df.null           31.00000000
-    ## df.residual       29.00000000
-    ## median.residual   -0.04684164
-    ## mean.residual     -0.04415190
-    ## sd.residual        0.74318136
-    ## rmse               0.73280828
-    ## AIC               23.18425524
-    ## BIC               27.58146295
-    ## logLik            -8.59212762
+    ##                        model.glm
+    ## pseudo.rsq.mcfad      0.60248991
+    ## adj.pseudo.rsq.mcfad  0.67188659
+    ## null.deviance        43.22973328
+    ## residual.deviance    17.18425524
+    ## df.null              31.00000000
+    ## df.residual          29.00000000
+    ## median.residual      -0.04684164
+    ## mean.residual        -0.04415190
+    ## sd.residual           0.74318136
+    ## rmse                  0.73280828
+    ## AIC                  23.18425524
+    ## BIC                  27.58146295
+    ## logLik               -8.59212762
 
-``` r
-t(validate(model.glm)) # broom format
-```
-
-    ##       pseudo.rsq.mcfad adj.p.rsq.mcfad null.deviance residual.deviance
-    ## value        0.6024899       0.6718866      43.22973          17.18426
-    ##       df.null df.residual median.residual mean.residual sd.residual
-    ## value      31          29     -0.04684164    -0.0441519   0.7431814
-    ##            rmse      AIC      BIC    logLik
-    ## value 0.7328083 23.18426 27.58146 -8.592128
-
-## 6. Conclusion and Future Work
+## 6. Conclusion
 
 I hope to improve upon these existing functions and create new ones that (1) minimize the programming tedium in statistical reporting and (2) assist people in diagnosing the validity of their results.
 
