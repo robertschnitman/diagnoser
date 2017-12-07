@@ -51,31 +51,31 @@ validate <- function(model) {
 
     f       <- summ$fstatistic
     Fstat   <- f[1]
-    dfnum   <- summ$df[[1]]
-    dfden   <- summ$df[[2]]
+    df.num  <- summ$df[[1]]
+    df.den  <- summ$df[[2]]
 
     p             <- pf(f[1], f[2], f[3], lower.tail = FALSE)
     attributes(p) <- NULL
     p.value       <- p
 
     validation    <- t(cbind(rsq, adj.rsq, common,
-                             Fstat, dfnum, dfden,
+                             Fstat, df.num, df.den,
                              p.value))
 
   ### Case 2: GLM ###
   } else {
     coefs <- NROW(coef(model))
 
-    null.deviance     <- summ$null.deviance
-    df.null           <- summ$df.null
-    residual.deviance <- summ$deviance
-    df.residual       <- summ$df.residual
-    pseudo.rsq.mcfad  <- 1 - (residual.deviance/null.deviance)
-    adj.p.rsq.mcfad   <- 1 - ((residual.deviance - coefs)/null.deviance)
+    null.deviance          <- summ$null.deviance
+    df.null                <- summ$df.null
+    residual.deviance      <- summ$deviance
+    df.residual            <- summ$df.residual
+    pseudo.rsq.mcfad       <- 1 - (residual.deviance/null.deviance)
+    adj.pseudo.rsq.mcfad   <- 1 - ((residual.deviance - coefs)/null.deviance)
 
-    validation        <- t(cbind(pseudo.rsq.mcfad, adj.p.rsq.mcfad,
-                                 null.deviance, residual.deviance,
-                                 df.null, df.residual, common))
+    validation             <- t(cbind(pseudo.rsq.mcfad, adj.p.rsq.mcfad,
+                                      null.deviance, residual.deviance,
+                                      df.null, df.residual, common))
 
   }
 
