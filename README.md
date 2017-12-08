@@ -271,20 +271,21 @@ model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 validate(model.lm)
 ```
 
-    ##                      model.lm
-    ## rsq              7.538424e-01
-    ## adj.rsq          7.368661e-01
-    ## median.residual -2.932015e-01
-    ## mean.residual   -5.204170e-18
-    ## sd.residual      2.990226e+00
-    ## rmse             2.943133e+00
-    ## AIC              1.678984e+02
-    ## BIC              1.737614e+02
-    ## logLik          -7.994922e+01
-    ## Fstat            4.440536e+01
-    ## df.num           3.000000e+00
-    ## df.den           2.900000e+01
-    ## p.value          1.487960e-09
+    ##                   model.lm
+    ## n                32.000000
+    ## rsq               0.753842
+    ## adj.rsq           0.736866
+    ## Fstat            44.405361
+    ## df.num            3.000000
+    ## df.den           29.000000
+    ## p.value           0.000000
+    ## median.residual  -0.293202
+    ## mean.residual     0.000000
+    ## sd.residual       2.990226
+    ## rmse              2.943133
+    ## AIC             167.898446
+    ## BIC             173.761389
+    ## loglik          -79.949223
 
 ### Case 2: GLM (logit)
 
@@ -293,19 +294,20 @@ model.glm <- glm(am ~ mpg + wt, mtcars, family = binomial(link = 'logit'))
 validate(model.glm)
 ```
 
-    ##                        model.glm
-    ## pseudo.rsq.mcfad      0.60248991
-    ## null.deviance        43.22973328
-    ## residual.deviance    17.18425524
-    ## df.null              31.00000000
-    ## df.residual          29.00000000
-    ## median.residual      -0.04684164
-    ## mean.residual        -0.04415190
-    ## sd.residual           0.74318136
-    ## rmse                  0.73280828
-    ## AIC                  23.18425524
-    ## BIC                  27.58146295
-    ## logLik               -8.59212762
+    ##                   model.glm
+    ## n                 32.000000
+    ## pseudo.rsq.mcfad   0.602490
+    ## null.deviance     43.229733
+    ## residual.deviance 17.184255
+    ## df.null           31.000000
+    ## df.residual       29.000000
+    ## median.residual   -0.046842
+    ## mean.residual     -0.044152
+    ## sd.residual        0.743181
+    ## rmse               0.732808
+    ## AIC               23.184255
+    ## BIC               27.581463
+    ## loglik            -8.592128
 
 ## 6. Conclusion
 
