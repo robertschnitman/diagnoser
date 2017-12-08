@@ -71,10 +71,8 @@ validate <- function(model) {
     residual.deviance      <- summ$deviance
     df.residual            <- summ$df.residual
     pseudo.rsq.mcfad       <- 1 - (residual.deviance/null.deviance)
-    adj.pseudo.rsq.mcfad   <- 1 - ((residual.deviance - coefs)/null.deviance)
 
-    validation             <- t(cbind(pseudo.rsq.mcfad, adj.pseudo.rsq.mcfad,
-                                      null.deviance, residual.deviance,
+    validation             <- t(cbind(pseudo.rsq.mcfad, null.deviance, residual.deviance,
                                       df.null, df.residual, common))
 
   }
