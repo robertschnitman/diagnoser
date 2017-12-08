@@ -27,59 +27,56 @@ validate <- function(model) {
 
   ### Definitions for different validation statistics ###
   summ     <- summary(model)
-  family   <- ifelse(attr(model, 'class')[[1]] == 'lm',
-                     'lm',
-                     model$family[1])
+  family   <- ifelse(attr(model, 'class')[[1]] == 'lm', 'lm', model$family[1])
 
   ### Common statistics for LM and GLM ###
+  n               <- NROW(model.frame(model))   # Exclude from "common" object for ordering purposes.
   median.residual <- median(resid(model))
   mean.residual   <- mean(resid(model))
   sd.residual     <- sd(resid(model))
   rmse            <- sqrt(mean(resid(model)^2))
   AIC             <- AIC(model)
   BIC             <- BIC(model)
-  logLik          <- logLik(model)[1]
+  loglik          <- logLik(model)[1]
 
-  common          <- cbind(median.residual, mean.residual, sd.residual,
-                           rmse, AIC, BIC,
-                           logLik)
+  common          <- rbind(median.residual, mean.residual, sd.residual, rmse, AIC, BIC, loglik)
+  
 
   ### Case 1: OLS ###
   if (family == 'lm') {
-    rsq     <- summ$r.squared
-    adj.rsq <- summ$adj.r.squared
+    rsq           <- summ$r.squared
+    adj.rsq       <- summ$adj.r.squared
 
-    f       <- summ$fstatistic
-    Fstat   <- f[1]
-    df.num  <- summ$df[[1]]
-    df.den  <- summ$df[[2]]
+    f             <- summ$fstatistic
+    Fstat         <- f[1]
+    df.num        <- summ$df[[1]]
+    df.den        <- summ$df[[2]]
 
     p             <- pf(f[1], f[2], f[3], lower.tail = FALSE)
     attributes(p) <- NULL
     p.value       <- p
 
-    validation    <- t(cbind(rsq, adj.rsq, common,
-                             Fstat, df.num, df.den,
-                             p.value))
+    validation    <- rbind(n, rsq, adj.rsq, Fstat, df.num, df.den, p.value, common)
 
   ### Case 2: GLM ###
   } else {
     coefs <- NROW(coef(model))
 
-    null.deviance          <- summ$null.deviance
-    df.null                <- summ$df.null
-    residual.deviance      <- summ$deviance
-    df.residual            <- summ$df.residual
-    pseudo.rsq.mcfad       <- 1 - (residual.deviance/null.deviance)
+    null.deviance     <- summ$null.deviance
+    df.null           <- summ$df.null
+    residual.deviance <- summ$deviance
+    df.residual       <- summ$df.residual
+    pseudo.rsq.mcfad  <- 1 - (residual.deviance/null.deviance)
 
-    validation             <- t(cbind(pseudo.rsq.mcfad, null.deviance, residual.deviance,
-                                      df.null, df.residual, common))
+    validation        <- rbind(n,
+                               pseudo.rsq.mcfad, null.deviance, residual.deviance,
+                               df.null, df.residual, common)
 
   }
 
   ### OUTPUT ###
   colnames(validation) <- deparse(substitute(model))
-  validation  # Let values float: if needed, use round().
+  round(validation, 6) # when just "validation", digits are in form 0.000000e+00.
 
 }
 
