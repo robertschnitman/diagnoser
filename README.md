@@ -295,7 +295,6 @@ validate(model.glm)
 
     ##                        model.glm
     ## pseudo.rsq.mcfad      0.60248991
-    ## adj.pseudo.rsq.mcfad  0.67188659
     ## null.deviance        43.22973328
     ## residual.deviance    17.18425524
     ## df.null              31.00000000
