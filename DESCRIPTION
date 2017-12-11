@@ -1,6 +1,6 @@
 Package: diagnoser
 Type: Package
-Title: Residual and model diagnostics
+Title: Diagnostic tools for linear models
 Version: 0.0.2.4
 Author: Robert Schnitman <robertschnitman@gmail.com>
 Maintainer: Robert Schnitman <robertschnitman@gmail.com>
