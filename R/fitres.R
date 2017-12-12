@@ -28,10 +28,16 @@
 #####################################################################################
 
 fitres <- function(model, type = 'response') {
+
+  ### Type-checking ###
+  stopifnot(is.object(model))
+
+  ### Set up fitres matrix ###
   fit             <- predict(model, type = type)
   actual          <- model.frame(model)[, 1]
   residual        <- resid(model)
   residual_margin <- residual/actual
 
+  ### Output ###
   cbind(fit, residual, residual_margin)
 }
