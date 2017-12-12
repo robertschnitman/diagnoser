@@ -34,6 +34,10 @@
 ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
                        bins = 30, se = TRUE, freqpct = FALSE,
                        alpha = 1) {
+
+  ### Type-checking ###
+  if (!is.object(model)) {stop('Please use an lm or glm object for the "model" input!')}
+
   ### Set alpha value so that ggplot2 functions can process it ###
   a <- alpha
 
