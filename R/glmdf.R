@@ -1,11 +1,11 @@
 #' Transform glm() object into a data frame with margin of error and confidence intervals.
 #'
 #' @param model A glm object.
-#' @param conf A confidence level. Either 90, 95, or 99.
+#' @param conf A confidence level, 0-1.
 #' @return A data frame.
 #' @examples
 #' model.glm <- glm(data = mtcars, formula = am ~ mpg + gear, family = binomial(link = 'logit'))
-#' glmdf(model = model.glm, conf = 90)
+#' glmdf(model = model.glm, conf = 0.90)
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ######################################################################################
@@ -18,11 +18,6 @@
 ###   2. Add/rename statistics for model results.
 ###   3. Improve output as seen in the broom library.
 ###
-### INPUTS:
-###   1. model = GLM object.
-###        E.g. model.glm <- glm(y ~ x, family = binomial('logit')).
-###   2. conf = Confidence Level. Options are 90, 95, and 99.
-###
 ### OUTPUT = data frame.
 ###
 ### RECOMMENDED CITATION:
@@ -31,8 +26,10 @@
 
 ##### === BEGIN === #####
 
-glmdf <- function(model, conf = 95) {
-  # conf = Confidence level. Options are 90, 95, and 99.
+glmdf <- function(model, conf = 0.95) {
+
+  ### model should be an object and conf argument should be within 0-1 ###
+  stopifnot(is.object(model), conf >= 0 & conf <= 1)
 
   ### set up t/z statistics groups for value replacements in "Replace column names" ###
   t_grp <- c('gaussian', 'Gamma')
@@ -46,9 +43,9 @@ glmdf <- function(model, conf = 95) {
   names(summary.df) <- gsub('Std. Error', 'se',   names(summary.df))
 
 
-  names(summary.df) <- if (model.glm$family[1] %in% t_grp) {
+  names(summary.df) <- if (model$family[1] %in% t_grp) {
     gsub('t value', 't', names(summary.df))
-  } else if (model.glm$family[1] %in% z_grp) {
+  } else if (model$family[1] %in% z_grp) {
     gsub('z value', 'z', names(summary.df))
   } else {
     stop('Invalid family/link. \n  Valid options are gaussian/identity, Gamma/inverse, binomial/logit, and poisson/log. (b \' v \')b ')}
@@ -58,21 +55,17 @@ glmdf <- function(model, conf = 95) {
   ### Generate new variables ###
   summary.df$term      <- rownames(summary.df)                  # Intercept & independent variables.
 
-  summary.df$moe       <- with(summary.df,                      # % Margin of Error defined by conf argument.
-                                if      (conf == 95) {1.960*se}
-                                else if (conf == 90) {1.645*se}
-                                else if (conf == 99) {2.576*se}
-                                else {stop('Please correctly specify confidence level (conf argument)! \n  Your options are 90, 95, and 99. (b \' v \')b ')}
-  )
+  ci                  <- suppressMessages(confint(model, level = conf))     # To set up ci columns; eliminate profile message.
+  summary.df$ci_lower <- t(t(ci[rownames(ci) == rownames(summary.df), 1]))  # Confidence Interval: lower.
+  summary.df$ci_upper <- t(t(ci[rownames(ci) == rownames(summary.df), 2]))  # Confidence Interval: upper.
 
-  summary.df$ci_lower  <- with(summary.df, beta - moe)         # Confidence Interval: lower limit.
-  summary.df$ci_upper  <- with(summary.df, beta + moe)         # Confidence Interval: upper limit.
+  summary.df$moe      <- with(summary.df, ci_upper - beta) # % Margin of Error defined by conf argument.
 
   ### Remove row names (redundant with term variable) ###
-  row.names(summary.df) <- NULL
+  rownames(summary.df) <- NULL
 
   ### Print reordered columns ###
-  if (model.glm$family[1] %in% t_grp) {
+  if (model$family[1] %in% t_grp) {
     summary.df[, c('term',         # Intercept and independent variables.
                    'beta',         # Coefficients.
                    'se',           # Standard Error
@@ -81,7 +74,7 @@ glmdf <- function(model, conf = 95) {
                    'ci_upper',     # Upper bound of confidence interval.
                    't',            # T-statistic.
                    'p')]           # p-value.
-  } else if (model.glm$family[1] %in% z_grp) {
+  } else if (model$family[1] %in% z_grp) {
     summary.df[, c('term',       # Intercept and independent variables.
                    'beta',       # Coefficients.
                    'se',         # Standard Error
@@ -90,13 +83,8 @@ glmdf <- function(model, conf = 95) {
                    'ci_upper',   # Upper bound of confidence interval.
                    'z',          # z-statistic.
                    'p')]         # p-value.
-  } else {
-    stop('Invalid family/link. \n  Valid options are gaussian/identity, Gamma/inverse, binomial/logit, and poisson/log. (b \' v \')b ')}
+  } #else {
+    #stop('Invalid family/link. \n  Valid options are gaussian/identity, Gamma/inverse, binomial/logit, and poisson/log. (b \' v \')b ')}
 }
 
 ##### === END === #####
-
-## z-statistics & critical value source: Armstrong State University. 2017-11-14.
-##   http://www.math.armstrong.edu/statsonline/5/5.3.2.html
-## T-statistics & critical value source: Texas A&M University. 2017-11-14.
-##   https://www.stat.tamu.edu/~lzhou/stat302/T-Table.pdf
