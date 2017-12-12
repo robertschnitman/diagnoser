@@ -26,7 +26,7 @@
 validate <- function(model) {
 
   ### Type-checking ###
-  stopifnot(is.object(model))
+  if (!is.object(model)) {stop('Please use an lm or glm object for the "model" input!')}
 
   ### Definitions for different validation statistics ###
   summ     <- summary(model)
