@@ -32,6 +32,10 @@
 
 diagnose <- function(model, fit_type = 'response', residual_type = 'response',
                      point_color = 'black', line_color = 'black', pch = 1, lwd = 1) {
+
+  ### Type-checking ###
+  if (!is.object(model)) {stop('Please use an lm or glm object for the "model" input!')}
+
   ### Set up fitted values, residuals, and 2x2 frame ###
   fit <- predict(model, type = fit_type)
   res <- resid(model, type = residual_type)
@@ -42,8 +46,9 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
   fitr.noinf <- subset(fitr, !is.infinite(pct))
   diff       <- NROW(fitr) - NROW(fitr.noinf)
 
-  warn1      <- 'row was deleted due to infinite values.'
-  warn2      <- ' rows were deleted due to infinite values.'
+  warn1      <- ' row of values was omitted due to at least 1 infinite value.'
+  warn2      <- ' rows of values were omitted due to at least 1 infinite value.'
+
   if (diff == 1) {
     warning(diff, warn1, sep = ' ')
   } else if (diff > 1) {
@@ -94,6 +99,9 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
   ### Figure 4 - Distribution of Residuals (%) ###
   hist(x = pct, xlab = 'Residuals Margin (%)', main = 'Distribution of Residuals Margin (%)',
        col = ifelse(point_color == 'black', 'white', point_color))
+
+  ### Reset mfrow in case user wishes to create other base R plots ###
+  par(mfrow = c(1,1))
 
 }
 ##### === END === #####
