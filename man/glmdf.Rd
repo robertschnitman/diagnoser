@@ -4,12 +4,12 @@
 \alias{glmdf}
 \title{Transform glm() object into a data frame with margin of error and confidence intervals.}
 \usage{
-glmdf(model, conf = 95)
+glmdf(model, conf = 0.95)
 }
 \arguments{
 \item{model}{A glm object.}
 
-\item{conf}{A confidence level. Either 90, 95, or 99.}
+\item{conf}{A confidence level, 0-1.}
 }
 \value{
 A data frame.
@@ -19,7 +19,7 @@ Transform glm() object into a data frame with margin of error and confidence int
 }
 \examples{
 model.glm <- glm(data = mtcars, formula = am ~ mpg + gear, family = binomial(link = 'logit'))
-glmdf(model = model.glm, conf = 90)
+glmdf(model = model.glm, conf = 0.90)
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}

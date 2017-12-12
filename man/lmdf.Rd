@@ -4,12 +4,12 @@
 \alias{lmdf}
 \title{Transform lm() object into a data frame with margin of error and confidence intervals.}
 \usage{
-lmdf(model, conf = 95)
+lmdf(model, conf = 0.95)
 }
 \arguments{
 \item{model}{An lm object.}
 
-\item{conf}{A confidence level. Either 90, 95, or 99.}
+\item{conf}{A confidence level, 0-1. Consistent with the level argument in confint().}
 }
 \value{
 A data frame.
@@ -19,7 +19,7 @@ Transform lm() object into a data frame with margin of error and confidence inte
 }
 \examples{
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-lmdf(model = model.lm, conf = 90)
+lmdf(model = model.lm, conf = 0.90)
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}
