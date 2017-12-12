@@ -59,7 +59,7 @@ glmdf <- function(model, conf = 0.95) {
   summary.df$ci_lower <- t(t(ci[rownames(ci) == rownames(summary.df), 1]))  # Confidence Interval: lower.
   summary.df$ci_upper <- t(t(ci[rownames(ci) == rownames(summary.df), 2]))  # Confidence Interval: upper.
 
-  summary.df$moe      <- with(summary.df, ci_upper - beta) # % Margin of Error defined by conf argument.
+  summary.df$moe      <- with(summary.df, ci_upper - beta)
 
   ### Remove row names (redundant with term variable) ###
   rownames(summary.df) <- NULL
