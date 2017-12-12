@@ -22,7 +22,7 @@ fitresdf <- function(model, data, type = 'response') {
   ### Type-checking ###
   if (!is.object(model)) {
     stop('Please use an lm or glm object for the "model" input!')
-  } else if (!is.data.frame(model) | !is.matrix(model)) {
+  } else if (!is.data.frame(data) | !is.matrix(data)) {
     stop('Please use a matrix or dataframe for the "data" input!')
   }
 
