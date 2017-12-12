@@ -168,95 +168,43 @@ tail(fitresdf(model.lm, df))
 
 ## 4. lmdf() & glmdf()
 
-The functions **lmdf()** and **glmdf()** have similar features to tidying model objects with broom--better variables in the output, but these two functions can only handle lm() and glm() objects.
+The functions **lmdf()** and **glmdf()** have similar features to tidying model objects with additions
 
-The former presents OLS estimates with a margin of error and confidence intervals. The confidence level can be specified (90, 95, or 99) or left to the default value of 95 (representing 95% confidence). The latter function applies for GLM objects.
+The former presents OLS estimates with a margin of error and confidence intervals. The confidence level can be specified between 0 and 1 or left to the default value of 0.95 (representing 95% confidence). The latter function applies to GLM objects.
 
 ### lmdf()
 
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
-lmdf(model = model.lm, conf = 90)
+lmdf(model = model.lm, conf = 0.90) # conf = 0.95 is the default value; can be omitted.
 ```
 
     ##          term       beta        se      moe  ci_lower  ci_upper          t
-    ## 1 (Intercept) 38.9156530 5.0973967 8.385217 30.530436 47.300871  7.6344173
-    ## 2          wt -5.4850192 0.6986582 1.149293 -6.634312 -4.335727 -7.8507908
-    ## 3        gear -0.3195525 0.9265431 1.524163 -1.843716  1.204611 -0.3448868
+    ## 1 (Intercept) 38.9156530 5.0973967 8.661124 30.254529 47.576777  7.6344173
+    ## 2          wt -5.4850192 0.6986582 1.187109 -6.672128 -4.297910 -7.8507908
+    ## 3        gear -0.3195525 0.9265431 1.574315 -1.893867  1.254762 -0.3448868
     ##              p
     ## 1 2.037781e-08
     ## 2 1.170427e-08
     ## 3 7.326683e-01
-
-``` r
-lmdf(model = model.lm, conf = 95) # conf = 95 is the default value; can be omitted.
-```
-
-    ##          term       beta        se      moe  ci_lower  ci_upper          t
-    ## 1 (Intercept) 38.9156530 5.0973967 9.990897 28.924756 48.906550  7.6344173
-    ## 2          wt -5.4850192 0.6986582 1.369370 -6.854389 -4.115649 -7.8507908
-    ## 3        gear -0.3195525 0.9265431 1.816025 -2.135577  1.496472 -0.3448868
-    ##              p
-    ## 1 2.037781e-08
-    ## 2 1.170427e-08
-    ## 3 7.326683e-01
-
-``` r
-lmdf(model = model.lm, conf = 99)
-```
-
-    ##          term       beta        se       moe  ci_lower  ci_upper
-    ## 1 (Intercept) 38.9156530 5.0973967 13.130894 25.784759 52.046547
-    ## 2          wt -5.4850192 0.6986582  1.799743 -7.284763 -3.685276
-    ## 3        gear -0.3195525 0.9265431  2.386775 -2.706328  2.067223
-    ##            t            p
-    ## 1  7.6344173 2.037781e-08
-    ## 2 -7.8507908 1.170427e-08
-    ## 3 -0.3448868 7.326683e-01
 
 ### glmdf()
 
 ``` r
-model.glm <- glm(data = mtcars, formula = am ~ mpg + gear, family = binomial(link = 'logit'))
+model.glm <- glm(data = mtcars, formula = am ~ mpg + disp, family = binomial(link = 'logit'))
 
-glmdf(model = model.glm, conf = 90)
+glmdf(model = model.glm, conf = 0.90) # conf = 0.95 is the default value; can be omitted.
 ```
 
-    ##          term        beta           se          moe      ci_lower
-    ## 1 (Intercept) -88.2992383 1.387881e+04 2.283064e+04 -2.291894e+04
-    ## 2         mpg   0.3366025 2.456691e-01 4.041256e-01 -6.752315e-02
-    ## 3        gear  20.3061829 3.469702e+03 5.707659e+03 -5.687353e+03
-    ##       ci_upper            z         p
-    ## 1 2.274234e+04 -0.006362162 0.9949238
-    ## 2 7.407281e-01  1.370145880 0.1706414
-    ## 3 5.727966e+03  0.005852429 0.9953305
-
-``` r
-glmdf(model = model.glm, conf = 95) # conf = 95 is the default value; can be omitted.
-```
-
-    ##          term        beta           se          moe      ci_lower
-    ## 1 (Intercept) -88.2992383 1.387881e+04 2.720247e+04 -2.729077e+04
-    ## 2         mpg   0.3366025 2.456691e-01 4.815114e-01 -1.449089e-01
-    ## 3        gear  20.3061829 3.469702e+03 6.800615e+03 -6.780309e+03
-    ##       ci_upper            z         p
-    ## 1 2.711417e+04 -0.006362162 0.9949238
-    ## 2 8.181138e-01  1.370145880 0.1706414
-    ## 3 6.820922e+03  0.005852429 0.9953305
-
-``` r
-glmdf(model = model.glm, conf = 99)
-```
-
-    ##          term        beta           se          moe      ci_lower
-    ## 1 (Intercept) -88.2992383 1.387881e+04 3.575181e+04 -3.584011e+04
-    ## 2         mpg   0.3366025 2.456691e-01 6.328435e-01 -2.962411e-01
-    ## 3        gear  20.3061829 3.469702e+03 8.937952e+03 -8.917646e+03
-    ##       ci_upper            z         p
-    ## 1 35663.514542 -0.006362162 0.9949238
-    ## 2     0.969446  1.370145880 0.1706414
-    ## 3  8958.257954  0.005852429 0.9953305
+    ##          term         beta          se        moe     ci_lower    ci_upper
+    ## 1 (Intercept) -2.256714436 4.760078598 7.80654013 -10.43852072 5.549825690
+    ## 2         mpg  0.169978288 0.168372592 0.30799943  -0.08875314 0.477977714
+    ## 3        disp -0.007614694 0.007811081 0.01182511  -0.02216001 0.004210416
+    ##            z         p
+    ## 1 -0.4740918 0.6354344
+    ## 2  1.0095366 0.3127174
+    ## 3 -0.9748579 0.3296308
 
 ## 5. validate()
 
