@@ -14,7 +14,7 @@ cdiagnose(model, fit_type = "response", residual_type = "response",
 
 \item{residual_type}{String. Default is "response". Type of residuals values to use based on options in resid().}
 
-\item{se}{Boolean. To overly standard errors.}
+\item{se}{Boolean. To overlay standard errors.}
 
 \item{alpha}{Integer, [0, 1]. Points are more transparent the closer they are to 0.}
 }
