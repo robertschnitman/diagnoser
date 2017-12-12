@@ -3,7 +3,7 @@
 #' @param model An lm or glm object.
 #' @param fit_type String. Default is "response". Type of fitted values to use based on options in predict().
 #' @param residual_type String. Default is "response". Type of residuals values to use based on options in resid().
-#' @param se Boolean. To overly standard errors.
+#' @param se Boolean. To overlay standard errors.
 #' @param alpha Integer, [0, 1]. Points are more transparent the closer they are to 0.
 #' @return 2x2 charts that closely resemble the output to plot(model.lm) with ggplot2 graphics.
 #' @examples
