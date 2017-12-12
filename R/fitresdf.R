@@ -18,6 +18,15 @@
 ##### === BEGIN === #####
 
 fitresdf <- function(model, data, type = 'response') {
+
+  ### Type-checking ###
+  if (!is.object(model)) {
+    stop('Please use an lm or glm object for the "model" input!')
+  } else if (!is.data.frame(model) | !is.matrix(model)) {
+    stop('Please use a matrix or dataframe for the "data" input!')
+  }
+
+
   ### Collect the fit and residuals into a matrix to compare NROWs ###
   fit             <- predict(model, type = type)
   actual          <- model.frame(model)[, 1]
