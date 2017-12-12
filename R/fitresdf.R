@@ -20,12 +20,7 @@
 fitresdf <- function(model, data, type = 'response') {
 
   ### Type-checking ###
-  if (!is.object(model)) {
-    stop('Please use an lm or glm object for the "model" input!')
-  } else if (!is.data.frame(data) | !is.matrix(data)) {
-    stop('Please use a matrix or dataframe for the "data" input!')
-  }
-
+  stopifnot(is.object(model), is.data.frame(data))
 
   ### Collect the fit and residuals into a matrix to compare NROWs ###
   fit             <- predict(model, type = type)
