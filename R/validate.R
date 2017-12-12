@@ -25,6 +25,9 @@
 ##### === BEGIN === #####
 validate <- function(model) {
 
+  ### Type-checking ###
+  stopifnot(is.object(model))
+
   ### Definitions for different validation statistics ###
   summ     <- summary(model)
   family   <- ifelse(attr(model, 'class')[[1]] == 'lm', 'lm', model$family[1])
@@ -40,7 +43,7 @@ validate <- function(model) {
   loglik          <- logLik(model)[1]
 
   common          <- rbind(median.residual, mean.residual, sd.residual, rmse, AIC, BIC, loglik)
-  
+
 
   ### Case 1: OLS ###
   if (family == 'lm') {
@@ -56,7 +59,7 @@ validate <- function(model) {
     attributes(p) <- NULL
     p.value       <- p
 
-    validation    <- rbind(n, rsq, adj.rsq, Fstat, df.num, df.den, p.value, common)
+    output        <- rbind(n, rsq, adj.rsq, Fstat, df.num, df.den, p.value, common)
 
   ### Case 2: GLM ###
   } else {
@@ -68,15 +71,15 @@ validate <- function(model) {
     df.residual       <- summ$df.residual
     pseudo.rsq.mcfad  <- 1 - (residual.deviance/null.deviance)
 
-    validation        <- rbind(n,
+    output            <- rbind(n,
                                pseudo.rsq.mcfad, null.deviance, residual.deviance,
                                df.null, df.residual, common)
 
   }
 
   ### OUTPUT ###
-  colnames(validation) <- deparse(substitute(model))
-  round(validation, 6) # when just "validation", digits are in form 0.000000e+00.
+  colnames(output) <- deparse(substitute(model))
+  round(output, 6) # otherwise, digits are in form 0.000000e+00.
 
 }
 
