@@ -1,11 +1,11 @@
 #' Transform lm() object into a data frame with margin of error and confidence intervals.
 #'
 #' @param model An lm object.
-#' @param conf A confidence level. Either 90, 95, or 99.
+#' @param conf A confidence level, 0-1. Consistent with the level argument in confint().
 #' @return A data frame.
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-#' lmdf(model = model.lm, conf = 90)
+#' lmdf(model = model.lm, conf = 0.90)
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 #####################################################################################
@@ -18,21 +18,18 @@
 ###   2. Add/rename statistics for model results.
 ###   3. Improve output from the broom library.
 ###
-### INPUTS:
-###   1. model = lm object. E.g. model.lm <- lm(y ~ x).
-###   2. conf  = Confidence Level. Options are 90, 95, and 99.
-###
 ### OUTPUT: data frame.
 ###
-### LIBRARY DEPENDENCY: car.
 ### RECOMMENDED CITATION:
 ###  Schnitman, Robert (2017). lmdf.r. https://github.com/robertschnitman/diagnoser
 #####################################################################################
 
 ##### === BEGIN === #####
 
-lmdf <- function(model, conf = 95) { # "conf" = Confidence level.
-  #   Options are 90, 95, and 99.
+lmdf <- function(model, conf = 0.95) { # conf for confint
+
+  ### model should be an object and conf argument should be within 0-1 ###
+  stopifnot(is.object(model), conf >= 0 & conf <= 1)
 
   ### Save model estimates as a data frame. ###
   summary.df <- as.data.frame(summary(model)$coefficients)
@@ -46,18 +43,15 @@ lmdf <- function(model, conf = 95) { # "conf" = Confidence level.
   ### Generate new variables ###
   summary.df$term     <- rownames(summary.df)                 # Intercept & independent variables.
 
-  summary.df$moe      <- with(summary.df,                     # % Margin of Error defined by conf argument.
-                              if      (conf == 95) {1.960*se}
-                              else if (conf == 90) {1.645*se}
-                              else if (conf == 99) {2.576*se}
-                              else {stop('Please correctly specify confidence level (conf argument)! \n  Your options are 90, 95, and 99. (b \' v \')b ')}
-  )
+  ci                  <- confint(model, level = conf)                       # To set up ci columns
+  summary.df$ci_lower <- t(t(ci[rownames(ci) == rownames(summary.df), 1]))  # Confidence Interval: lower.
+  summary.df$ci_upper <- t(t(ci[rownames(ci) == rownames(summary.df), 2]))  # Confidence Interval: upper.
 
-  summary.df$ci_lower <- with(summary.df, beta - moe)         # Confidence Interval: lower.
-  summary.df$ci_upper <- with(summary.df, beta + moe)         # Confidence Interval: upper.
+  summary.df$moe      <- with(summary.df, ci_upper - beta) # % Margin of Error defined by conf argument.
+
 
   ### Remove row names (redundant with term variable) ###
-  row.names(summary.df) <- NULL
+  rownames(summary.df) <- NULL
 
   ### Print reordered columns ###
   summary.df[, c('term',         # Intercept and independent variables.
@@ -67,11 +61,8 @@ lmdf <- function(model, conf = 95) { # "conf" = Confidence level.
                  'ci_lower',     # Lower bound of confidence interval.
                  'ci_upper',     # Upper bound of confidence interval.
                  't',            # T-statistic.
-                 'p')]          # p-value.
+                 'p')]           # p-value.
 
 }
 
 ##### === END === #####
-
-## T-statistics & critical value source: Texas A&M University. 2017-11-14.
-##   https://www.stat.tamu.edu/~lzhou/stat302/T-Table.pdf
