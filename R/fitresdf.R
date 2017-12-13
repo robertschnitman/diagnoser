@@ -1,8 +1,9 @@
 #' Merge fitted values and residuals to the original data frame.
 #'
-#' @param model An lm or glm object.
+#' @param model An lm, glm, or nls object.
 #' @param data A data frame. If unspecified, then the original data is used (i.e. model.frame(model)).
-#' @param type String. Prediction type depends on whether the object is lm ('response', 'terms') or glm ('link', 'response', 'terms'). (See ?predict.lm and ?predict.glm for details).
+#' @param fit_type String. Default is "response". Type of fitted values to use based on options in predict().
+#' @param residual_type String. Default is "response". Type of residuals values to use based on options in resid().
 #' @return A data frame. "residual_margin" is the residuals as a proportion of the actual dependent variable values.
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
@@ -13,13 +14,14 @@
 #' df[1,1]  <- NA
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' fitresdf(model.lm, data = df)
+#'
 #' @section Warning:
 #' NLS objects will only work if "model = TRUE" is specified in the original NLS function.
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ##### === BEGIN === #####
 
-fitresdf <- function(model, data, type = 'response') {
+fitresdf <- function(model, data, fit_type = 'response', residual_type = 'response') {
 
   ### Type-checking ###
   lgm_condition <- class(model) == 'lm' | class(model)[1] == 'glm'
@@ -28,7 +30,7 @@ fitresdf <- function(model, data, type = 'response') {
   stopifnot(lgm_condition | nls_condition)
 
   ### Collect the fit and residuals into a matrix to compare NROWs ###
-  fit             <- predict(model, type = type)
+  fit             <- predict(model, type = fit_type)
   actual          <- if (lgm_condition) {
     model.frame(model)[1]
 
@@ -37,10 +39,10 @@ fitresdf <- function(model, data, type = 'response') {
 
   }
   residual        <- if (lgm_condition) {
-    resid(model)
+    resid(model, type = residual_type)
 
   } else if (nls_condition) {
-    r                <- resid(model)
+    r                <- resid(model, type = residual_type)
     attr(r, 'label') <- NULL
     r
 
