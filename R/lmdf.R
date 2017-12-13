@@ -28,8 +28,8 @@
 
 lmdf <- function(model, conf = 0.95) { # conf for confint
 
-  ### model should be an object and conf argument should be within 0-1 ###
-  stopifnot(is.object(model), conf >= 0 & conf <= 1)
+  ### model should be lm and conf argument should be within 0-1 ###
+  stopifnot(class(model) == 'lm', conf >= 0 & conf <= 1)
 
   ### Save model estimates as a data frame. ###
   summary.df <- as.data.frame(summary(model)$coefficients)
