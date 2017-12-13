@@ -57,7 +57,7 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
     resid(model, type = residual_type)
 
   } else if (nls_condition) {
-    r                <- resid(model, residual_type)
+    r                <- resid(model, type = residual_type)
     attr(r, 'label') <- NULL
     r
 
@@ -107,7 +107,7 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
                      paste('Residuals', vsfv, sep = ' ')),
        pch  = pch,
        col  = point_color)
-  lines(loess.smooth(fitr.noinf[ , 'fit'], fitr.noinf[ , 'res']), col = line_color, lwd = lwd)
+  lines(loess.smooth(y = fitr.noinf[ , 'res'], x = fitr.noinf[ , 'fit']), col = line_color, lwd = lwd)
   abline(h = 0, lty = 3)
 
   ### Figure 2 - Residuals, % vs. Fitted ###
@@ -120,7 +120,7 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
                      paste('Residuals Margin (%)', vsfv, sep = ' ')),
        pch  = pch,
        col  = point_color)
-  lines(loess.smooth(fitr.noinf[ , 'pct'], fitr.noinf[ , 'res']), col = line_color, lwd = lwd)
+  lines(loess.smooth(y = fitr.noinf[ , 'pct'], x = fitr.noinf[ , 'fit']), col = line_color, lwd = lwd)
   abline(h = 0, lty = 3)
 
   ### Figure 3 - Distribution of Residuals ###
