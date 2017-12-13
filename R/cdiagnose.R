@@ -35,7 +35,7 @@
 cdiagnose <- function(model, fit_type = 'response', residual_type = 'response', se = FALSE, alpha = 1) {
 
   ### Type-checking ###
-  if (!is.object(model)) {stop('Please use an lm or glm object for the "model" input!')}
+  stopifnot(class(model) == 'lm' | class(model)[1] == 'glm')
 
   ### Set alpha value so that ggplot2 functions can process it ###
   a <- alpha
