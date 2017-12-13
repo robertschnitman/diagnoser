@@ -63,14 +63,7 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   }
 
-  act <- if (lgm_condition) {              # Actual values from the depdendent variable.
-    model.frame(model)[1]
-
-  } else if (nls_condition) {
-    model.frame(model)[[1]]
-
-  }
-
+  act <- model.frame(model)[[1]]
   pct <- (res/act)*100                     # "Margin": residuals as a % of actual values.
 
   fitr       <- cbind(fit, res, act, pct)
