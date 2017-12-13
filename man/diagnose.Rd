@@ -8,7 +8,7 @@ diagnose(model, fit_type = "response", residual_type = "response",
   point_color = "black", line_color = "black", pch = 1, lwd = 1)
 }
 \arguments{
-\item{model}{An lm or glm object.}
+\item{model}{An lm, glm, or nls object.}
 
 \item{fit_type}{String. Default is "response". Type of fitted values to use based on options in predict().}
 
@@ -29,10 +29,24 @@ which is the residuals as a percentage of the actual dependent variable values.
 \description{
 Graphically diagnose model residuals.
 }
+\section{Warning}{
+
+NLS objects will only work if "model = TRUE" is specified in the original NLS function.
+}
+
 \examples{
+
+# OLS case
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 diagnose(model.lm) # defaults
 diagnose(model.lm, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lwd = 2)
+
+# NLS case
+require(graphics)
+DNase1    <- subset(DNase, Run == 1)
+fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
+diagnose(fm1DNase1)
+
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}

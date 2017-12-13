@@ -4,12 +4,14 @@
 \alias{fitres}
 \title{Create matrix of model fit, residuals, and residuals margin (residuals as a proportion of the actual values).}
 \usage{
-fitres(model, type = "response")
+fitres(model, fit_type = "response", residual_type = "response")
 }
 \arguments{
-\item{model}{An lm or glm object.}
+\item{model}{An lm, glm, or nls(model = TRUE) object.}
 
-\item{type}{String. Prediction type depends on whether the object is lm ('response', 'terms') or glm ('link', 'response', 'terms'). (See ?predict.lm and ?predict.glm for details).}
+\item{fit_type}{String. Prediction type. See ?predict for details.}
+
+\item{residual_type}{String. See ?resid for details.}
 
 \item{data}{A data frame. If not specified, then the original data is used (i.e. model.frame(model)).}
 }
@@ -22,9 +24,22 @@ Create matrix of model fit, residuals, and residuals margin (residuals as a prop
 \details{
 fitres() creates a matrix of the fitted values, residuals, and residuals as a proportion (percent) of the actual dependent variable values based on an OLS model or GLM.
 }
+\section{Warning}{
+
+NLS objects will only work if "model = TRUE" is specified in the original NLS function.
+}
+
 \examples{
+# OLS case
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 fitres(model.lm, type = 'response')
+
+# NLS case
+require(graphics)
+DNase1    <- subset(DNase, Run == 1)
+fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1)
+fitres(fm1DNase1)
+
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}

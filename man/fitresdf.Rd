@@ -4,14 +4,16 @@
 \alias{fitresdf}
 \title{Merge fitted values and residuals to the original data frame.}
 \usage{
-fitresdf(model, data, type = "response")
+fitresdf(model, data, fit_type = "response", residual_type = "response")
 }
 \arguments{
-\item{model}{An lm or glm object.}
+\item{model}{An lm, glm, or nls object.}
 
 \item{data}{A data frame. If unspecified, then the original data is used (i.e. model.frame(model)).}
 
-\item{type}{String. Prediction type depends on whether the object is lm ('response', 'terms') or glm ('link', 'response', 'terms'). (See ?predict.lm and ?predict.glm for details).}
+\item{fit_type}{String. Default is "response". Type of fitted values to use based on options in predict().}
+
+\item{residual_type}{String. Default is "response". Type of residuals values to use based on options in resid().}
 }
 \value{
 A data frame. "residual_margin" is the residuals as a proportion of the actual dependent variable values.
@@ -19,6 +21,11 @@ A data frame. "residual_margin" is the residuals as a proportion of the actual d
 \description{
 Merge fitted values and residuals to the original data frame.
 }
+\section{Warning}{
+
+NLS objects will only work if "model = TRUE" is specified in the original NLS function.
+}
+
 \examples{
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 fitresdf(data = mtcars, model = model.lm)
@@ -28,6 +35,7 @@ df       <- mtcars
 df[1,1]  <- NA
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 fitresdf(model.lm, data = df)
+
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}
