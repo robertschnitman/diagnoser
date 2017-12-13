@@ -13,6 +13,8 @@
 #' df[1,1]  <- NA
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' fitresdf(model.lm, data = df)
+#' @section Warning:
+#' NLS objects will only work if "model = TRUE" is specified in the original NLS function.
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ##### === BEGIN === #####
@@ -20,12 +22,29 @@
 fitresdf <- function(model, data, type = 'response') {
 
   ### Type-checking ###
-  stopifnot(class(model) == 'lm' | class(model)[1] == 'glm', is.data.frame(data))
+  lgm_condition <- class(model) == 'lm' | class(model)[1] == 'glm'
+  nls_condition <- class(model) == 'nls'
+
+  stopifnot(lgm_condition | nls_condition)
 
   ### Collect the fit and residuals into a matrix to compare NROWs ###
   fit             <- predict(model, type = type)
-  actual          <- model.frame(model)[, 1]
-  residual        <- resid(model)
+  actual          <- if (lgm_condition) {
+    model.frame(model)[1]
+
+  } else if (nls_condition) {
+    model.frame(model)[[1]]
+
+  }
+  residual        <- if (lgm_condition) {
+    resid(model)
+
+  } else if (nls_condition) {
+    r                <- resid(model)
+    attr(r, 'label') <- NULL
+    r
+
+  }
   residual_margin <- residual/actual
 
   fitr <- cbind(fit, residual, residual_margin)
@@ -52,7 +71,11 @@ fitresdf <- function(model, data, type = 'response') {
 
     rbind(cbind(data2, fitr), data_na)
 
-  } else {cbind(data, fitr)}
+  } else {
+    cbind(data, fitr)
+
+  }
+
 }
 
 ##### === END === #####
