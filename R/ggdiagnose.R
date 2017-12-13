@@ -10,8 +10,20 @@
 #' @return 2 scatter plots and 2 histograms of residuals and "residuals margin,"
 #' which is the residuals as a percentage of the actual dependent variable values.
 #' @examples
+#'
+#' # OLS case
 #' model <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' ggdiagnose(model, bins = NROW(mtcars), se = FALSE, freqpct = TRUE)
+#'
+#' # NLS case
+#' require(graphics)
+#' DNase1    <- subset(DNase, Run == 1)
+#' fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
+#' diagnose(fm1DNase1)
+#'
+#' @section Warning:
+#' NLS objects will only work if "model = TRUE" is specified in the original NLS function.
+#'
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ########################################################################################
@@ -36,14 +48,23 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
                        alpha = 1) {
 
   ### Type-checking ###
-  if (!is.object(model)) {stop('Please use an lm or glm object for the "model" input!')}
+  lgm_condition <- class(model) == 'lm' | class(model)[1] == 'glm'
+  nls_condition <- class(model) == 'nls'
+
+  stopifnot(lgm_condition | nls_condition)
 
   ### Set alpha value so that ggplot2 functions can process it ###
   a <- alpha
 
   ### Graph is modified based on fit_type and residual_type specifications. ###
   fit_type <- fit_type
-  family   <- ifelse(attr(model, 'class') == 'lm', 'lm', model$family[1]) # To determine whether graph shows fitted values OR predicted probabilities.
+  family   <-  if (class(model) == 'lm') {
+    'lm'
+  } else if (class(model)[1] == 'glm') {
+    model$family[1]
+  } else if (class(fm1DNase1) == 'nls') {
+    'nls'
+  }
   pp       <- 'Predicted Probabilities'
   fv       <- 'Fitted Values'
   vspp     <- 'vs. Predicted Probabilities'
@@ -51,9 +72,23 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   ### Set up data frame of fit and residuals ###
   fit <- predict(model, type = fit_type)
-  res <- resid(model, type = residual_type)
-  act <- model.frame(model)[, 1]
-  pct <- (res/act)*100
+  res <- if (lgm_condition) {
+    resid(model, type = residual_type)
+
+  } else if (nls_condition) {
+    r                <- resid(model, residual_type)
+    attr(r, 'label') <- NULL
+    r
+
+  }
+  act <- if (lgm_condition) {              # Actual values from the depdendent variable.
+    model.frame(model)[1]
+
+  } else if (nls_condition) {
+    model.frame(model)[[1]]
+
+  }
+  pct <- (res/act)
   df  <- as.data.frame(cbind(fit, res, pct))
 
   ### ggplot2 graphs use the same functions/colors; need to minimize repeating code ###
@@ -102,10 +137,12 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
   }
 
   ### grid.arrange() requires each of the graphs to be created beforehand ###
-  f1 <- rvf(y = res, x = fit, ylabel = 'Residuals')            # Figure 1 - Residuals vs. Fitted.
-  f2 <- rvf(y = pct, x = fit, ylabel = 'Residuals Margin (%)') # Figure 2 - Residuals Margin (%) vs. Fitted.
-  f3 <- histres(x = res, xlabel = 'Residuals')                 # Figure 3 - Distribution of Residuals.
-  f4 <- histres(x = pct, xlabel = 'Residuals Margin (%)')      # Figure 4 - Distribution of Residuals Margin (%).
+  f1 <- rvf(y = res, x = fit, ylabel = 'Residuals')          # Figure 1 - Residuals vs. Fitted.
+  f2 <- rvf(y = pct, x = fit, ylabel = 'Residuals Margin') + # Figure 2 - Residuals Margin (%) vs. Fitted.
+    scale_y_continuous(labels = scales::percent)
+  f3 <- histres(x = res, xlabel = 'Residuals')               # Figure 3 - Distribution of Residuals.
+  f4 <- histres(x = pct, xlabel = 'Residuals Margin') +      # Figure 4 - Distribution of Residuals Margin (%).
+    scale_x_continuous(labels = scales::percent)
 
   ### Arrange in 2x2 grid ###
   grid.arrange(f1, f2, f3, f4, ncol = 2)
