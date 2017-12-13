@@ -30,7 +30,7 @@
 fitres <- function(model, type = 'response') {
 
   ### Type-checking ###
-  stopifnot(class(model) == 'lm' | class(model) == 'glm')
+  stopifnot(class(model) == 'lm' | class(model)[1] == 'glm')
 
   ### Set up fitres matrix ###
   fit             <- predict(model, type = type)
