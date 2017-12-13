@@ -81,13 +81,8 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
     r
 
   }
-  act <- if (lgm_condition) {              # Actual values from the depdendent variable.
-    model.frame(model)[1]
+  act <- model.frame(model)[[1]]
 
-  } else if (nls_condition) {
-    model.frame(model)[[1]]
-
-  }
   pct <- (res/act)
   df  <- as.data.frame(cbind(fit, res, pct))
 
