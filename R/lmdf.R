@@ -41,7 +41,7 @@ lmdf <- function(model, conf = 0.95) { # conf for confint
   names(summary.df) <- gsub('^Pr.*',      'p',    names(summary.df))
 
   ### Generate new variables ###
-  summary.df$term     <- rownames(summary.df)                 # Intercept & independent variables.
+  summary.df$term     <- rownames(summary.df)                               # Intercept & independent variables.
 
   ci                  <- confint(model, level = conf)                       # To set up ci columns
   summary.df$ci_lower <- t(t(ci[rownames(ci) == rownames(summary.df), 1]))  # Confidence Interval: lower.
