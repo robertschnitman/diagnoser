@@ -28,8 +28,8 @@
 
 glmdf <- function(model, conf = 0.95) {
 
-  ### model should be an object and conf argument should be within 0-1 ###
-  stopifnot(is.object(model), conf >= 0 & conf <= 1)
+  ### model should be glm and conf argument should be within 0-1 ###
+  stopifnot(class(model)[1] == 'glm', conf >= 0 & conf <= 1)
 
   ### set up t/z statistics groups for value replacements in "Replace column names" ###
   t_grp <- c('gaussian', 'Gamma')
