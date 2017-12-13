@@ -28,10 +28,10 @@
 
 glmdf <- function(model, conf = 0.95) {
 
-  ### model should be glm and conf argument should be within 0-1 ###
+  ### Model should be glm and conf argument should be within 0-1 ###
   stopifnot(class(model)[1] == 'glm', conf >= 0 & conf <= 1)
 
-  ### set up t/z statistics groups for value replacements in "Replace column names" ###
+  ### Set up t/z statistics groups for value replacements in "Replace column names" ###
   t_grp <- c('gaussian', 'Gamma')
   z_grp <- c('binomial', 'poisson')
 
@@ -53,7 +53,7 @@ glmdf <- function(model, conf = 0.95) {
   names(summary.df) <- gsub('^Pr.*', 'p', names(summary.df))
 
   ### Generate new variables ###
-  summary.df$term      <- rownames(summary.df)                  # Intercept & independent variables.
+  summary.df$term     <- rownames(summary.df)                               # Intercept & independent variables.
 
   ci                  <- suppressMessages(confint(model, level = conf))     # To set up ci columns; eliminate profile message.
   summary.df$ci_lower <- t(t(ci[rownames(ci) == rownames(summary.df), 1]))  # Confidence Interval: lower.
@@ -74,6 +74,7 @@ glmdf <- function(model, conf = 0.95) {
                    'ci_upper',     # Upper bound of confidence interval.
                    't',            # T-statistic.
                    'p')]           # p-value.
+
   } else if (model$family[1] %in% z_grp) {
     summary.df[, c('term',       # Intercept and independent variables.
                    'beta',       # Coefficients.
