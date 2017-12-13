@@ -28,11 +28,6 @@
 ###
 ### PURPOSE: Generate fitted values and residuals into one matrix.
 ###
-### INPUT:
-###   1. lm/glm or nls object. E.g. model.lm <- lm(y ~ x).
-###   2. data object.
-###   3. type. String.
-###
 ### OUTPUT: matrix.
 ###
 ### RECOMMENDED CITATION:
@@ -61,7 +56,7 @@ fitres <- function(model, fit_type = 'response', residual_type = 'response') {
     resid(model, type = residual_type)
 
   } else if (nls_condition) {
-    r                <- resid(model, residual_type)
+    r                <- resid(model, type = residual_type)
     attr(r, 'label') <- NULL
     r
 
