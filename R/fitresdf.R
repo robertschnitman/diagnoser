@@ -17,7 +17,20 @@
 #'
 #' @section Warning:
 #' NLS objects will only work if "model = TRUE" is specified in the original NLS function.
+#'
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
+
+#####################################################################################
+### Robert Schnitman
+### 2017-11-14
+###
+### PURPOSE: Generate fitted values and residuals, merging them into a matrix.
+###
+### OUTPUT: dataframe.
+###
+### RECOMMENDED CITATION:
+###  Schnitman, Robert (2017). fitresdf.r. https://github.com/robertschnitman/diagnoser
+#####################################################################################
 
 ##### === BEGIN === #####
 
