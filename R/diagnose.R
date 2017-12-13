@@ -1,6 +1,6 @@
 #' Graphically diagnose model residuals.
 #'
-#' @param model An lm or glm object.
+#' @param model An lm, glm, or nls object.
 #' @param fit_type String. Default is "response". Type of fitted values to use based on options in predict().
 #' @param residual_type String. Default is "response". Type of residuals values to use based on options in resid().
 #' @param point_color Color of the points and fill color of the histograms. If left to defaults, fill of the histogram is white.
@@ -10,9 +10,21 @@
 #' @return 2x2 charts similar to plot(model.lm): 2 scatter plots and 2 histograms of residuals and "residuals margin,"
 #' which is the residuals as a percentage of the actual dependent variable values.
 #' @examples
+#'
+#' # OLS case
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' diagnose(model.lm) # defaults
 #' diagnose(model.lm, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lwd = 2)
+#'
+#' # NLS case
+#' require(graphics)
+#' DNase1    <- subset(DNase, Run == 1)
+#' fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
+#' diagnose(fm1DNase1)
+#'
+#' @section Warning:
+#' NLS objects will only work if "model = TRUE" is specified in the original NLS function.
+#'
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ######################################################################################
@@ -34,12 +46,31 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
                      point_color = 'black', line_color = 'black', pch = 1, lwd = 1) {
 
   ### Type-checking ###
-  if (!is.object(model)) {stop('Please use an lm or glm object for the "model" input!')}
+  lgm_condition <- class(model) == 'lm' | class(model)[1] == 'glm'
+  nls_condition <- class(model) == 'nls'
+
+  stopifnot(lgm_condition | nls_condition)
 
   ### Set up fitted values, residuals, and 2x2 frame ###
   fit <- predict(model, type = fit_type)
-  res <- resid(model, type = residual_type)
-  act <- model.frame(model)[, 1]           # Actual values from the depdendent variable.
+  res <- if (lgm_condition) {
+    resid(model, type = residual_type)
+
+  } else if (nls_condition) {
+    r                <- resid(model, residual_type)
+    attr(r, 'label') <- NULL
+    r
+
+  }
+
+  act <- if (lgm_condition) {              # Actual values from the depdendent variable.
+    model.frame(model)[1]
+
+  } else if (nls_condition) {
+    model.frame(model)[[1]]
+
+  }
+
   pct <- (res/act)*100                     # "Margin": residuals as a % of actual values.
 
   fitr       <- cbind(fit, res, act, pct)
@@ -57,7 +88,14 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   ### Graph is modified based on fit_type and residual_type specifications. ###
   fit_type <- fit_type
-  family   <- ifelse(attr(model, 'class') == 'lm', 'lm', model$family[1]) # To determine whether graph shows fitted values OR predicted probabilities.
+  family   <- if (class(model) == 'lm') {
+    'lm'
+  } else if (class(model)[1] == 'glm') {
+    model$family[1]
+  } else if (class(fm1DNase1) == 'nls') {
+    'nls'
+  }
+
   pp       <- 'Predicted Probabilities'
   fv       <- 'Fitted Values'
   vspp     <- 'vs. Predicted Probabilities'
