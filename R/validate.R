@@ -1,4 +1,4 @@
-#' Common model statistics in a vector.
+#' Common linear model statistics in a vector.
 #'
 #' @param model An lm or glm object.
 #' @return Vector (column). Includes F-statistic, R-squared, RMSE, and others.
@@ -33,7 +33,7 @@ validate <- function(model) {
   family   <- ifelse(attr(model, 'class')[[1]] == 'lm', 'lm', model$family[1])
 
   ### Common statistics for LM and GLM ###
-  n               <- NROW(model.frame(model))   # Exclude from "common" object for ordering purposes.
+  n               <- nobs(model)           # Exclude from "common" object for ordering purposes.
   median.residual <- median(resid(model))
   mean.residual   <- mean(resid(model))
   sd.residual     <- sd(resid(model))
@@ -79,7 +79,7 @@ validate <- function(model) {
 
   ### OUTPUT ###
   colnames(output) <- deparse(substitute(model))
-  round(output, 6) # otherwise, digits are in form 0.000000e+00.
+  round(output, 6) # if not rounded, digits are in form 0.000000e+00.
 
 }
 
