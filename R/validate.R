@@ -1,4 +1,4 @@
-#' Common linear model statistics in a vector.
+#' Common linear model fit statistics in a vector.
 #'
 #' @param model An lm or glm object.
 #' @return Vector (column). Includes F-statistic, R-squared, RMSE, and others.
