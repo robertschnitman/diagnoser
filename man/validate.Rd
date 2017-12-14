@@ -2,7 +2,7 @@
 % Please edit documentation in R/validate.R
 \name{validate}
 \alias{validate}
-\title{Common linear model statistics in a vector.}
+\title{Common linear model fit statistics in a vector.}
 \usage{
 validate(model)
 }
@@ -13,7 +13,7 @@ validate(model)
 Vector (column). Includes F-statistic, R-squared, RMSE, and others.
 }
 \description{
-Common linear model statistics in a vector.
+Common linear model fit statistics in a vector.
 }
 \details{
 The broom library's glance() had a vague label for the F statistic (simply "statistic") and lacked the pseudo R-squared, which is commonly based on McFadden's version (i.e. 1 - (residual deviance / null deviance)).
