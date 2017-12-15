@@ -63,7 +63,7 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
     stop('Please install both ggplot2 and gridExtra.')
   }
 
-  options(warn = 1)
+  options(warn = 0)
 
   ### Set alpha value so that ggplot2 functions can process it ###
   a <- alpha
