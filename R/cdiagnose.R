@@ -20,7 +20,7 @@
 ###    1. Generate 2x2 graphs that diagnose the residuals of a model.
 ###    2. Alternative for plot(lm()).
 ###
-### LIBRARY DEPENDENCY: ggplot2 (>= 2.2.1), gridExtra (>= 2.3)
+### IMPORTS: ggplot2 (>= 2.2.1), gridExtra (>= 2.3)
 ###
 ### RECOMMENDED CITATION:
 ###  Schnitman, Robert (2017). cdiagnose.r. https://github.com/robertschnitman/diagnoser
@@ -36,6 +36,18 @@ cdiagnose <- function(model, fit_type = 'response', residual_type = 'response', 
 
   ### Type-checking ###
   stopifnot(class(model) == 'lm' | class(model)[1] == 'glm')
+
+  options(warn = -1)
+
+  if (require(ggplot2) == TRUE & require(gridExtra) == TRUE) {
+    require(ggplot2)
+    require(gridExtra)
+  } else {
+
+    stop('Please install both ggplot2 and gridExtra.')
+  }
+
+  options(warn = 0)
 
   ### Set alpha value so that ggplot2 functions can process it ###
   a <- alpha
