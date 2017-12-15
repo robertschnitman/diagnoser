@@ -272,7 +272,7 @@ I hope to improve upon these existing functions and create new ones that (1) min
 1. ~~Functions similar to broom's glance() (perhaps with other model diagnostics and making "statistic" be clear that it is referring to the F-statistic).~~ Completed 2017-12-01.  
 2. ~~ggplot2 version of diagnose().~~ Completed 2017-11-15.
 3. Add VIF in lmdf() & glmdf(). Feasible solution with tidyr, but I would rather stay close to base R as much as possible.
-4. Modify **validate()** for non-regression model cases.
+4. Modify validate() for non-regression model cases.
 5. ~~cdiagnose(): A ggplot2 version of the "classic" plot(lm()). Preferable for those with an understanding of Scale Location and Cook's Distance.~~ Completed 2017-11-15.
 6. **mdiagnose()**: probability diagnostics with the margins library.
 7. **marginsdf()**: margins results in a tidy data frame (with margin of errors and confidence intervals as in lmdf() and glmdf()).
