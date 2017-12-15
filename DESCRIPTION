@@ -1,7 +1,7 @@
 Package: diagnoser
 Type: Package
 Title: Diagnostic tools for regression modeling
-Version: 0.0.2.4
+Version: 0.0.2.5
 Author: Robert Schnitman <robertschnitman@gmail.com>
 Maintainer: Robert Schnitman <robertschnitman@gmail.com>
 Description: Plot residuals, store model results in a data frame, and compute common fit statistics.  The diagnose() family provides alternative graphs to Base R's plot(lm()). Additional functions--inspired by the broom library--calculate margin of errors and confidence intervals alongside regression results.
