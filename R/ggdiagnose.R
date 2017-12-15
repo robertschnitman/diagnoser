@@ -55,7 +55,7 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   options(warn = -1)
 
-  if (require(ggplot2) == TRUE & require(gridExtra) == TRUE & require(scales)) {
+  if (require(ggplot2) == TRUE & require(gridExtra) == TRUE & require(scales) == TRUE) {
 
     require(ggplot2)
     require(gridExtra)
