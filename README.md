@@ -17,9 +17,9 @@
 ```r
 ## Ensure that you are running R 3.4.2 or higher.
 ## Package Dependencies:
-#     lazyeval (>= 0.2.1), rlang (>= 0.1.4), scales (>= 0.5.0),
+#     lazyeval (>= 0.2.1), rlang (>= 0.1.4)
 #  Package Imports:
-#     ggplot2 (>= 2.2.1), gridExtra (>= 2.3)
+#     ggplot2 (>= 2.2.1), gridExtra (>= 2.3), scales (>= 0.5.0)
 
 # install.packages("devtools")
 devtools::install_github("robertschnitman/diagnoser")
@@ -289,7 +289,7 @@ I hope to improve upon these existing functions and create new ones that (1) min
 
 1. ~~Functions similar to broom's glance() (perhaps with other model diagnostics and making "statistic" be clear that it is referring to the F-statistic).~~ Completed 2017-12-01.  
 2. ~~ggplot2 version of diagnose().~~ Completed 2017-11-15.
-3. Add VIF modeldf().
+3. Add VIF in modeldf().
 4. Modify validate() for non-regression model cases.
 5. ~~cdiagnose(): A ggplot2 version of the "classic" plot(lm()). Preferable for those with an understanding of Scale Location and Cook's Distance.~~ Completed 2017-11-15.
 6. **mdiagnose()**: probability diagnostics with the margins library.
