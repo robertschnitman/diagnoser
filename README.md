@@ -281,6 +281,27 @@ validate(model.glm)
     ## BIC               27.581463
     ## loglik            -8.592128
 
+### Case 3: NLS
+
+``` r
+require(graphics)
+DNase1    <- subset(DNase, Run == 1)
+model.nls <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
+validate(model.nls)
+```
+
+    ##                  model.nls
+    ## n                16.000000
+    ## sigma             0.019194
+    ## df.sigma         13.000000
+    ## median.residual  -0.001454
+    ## mean.residual    -0.000660
+    ## sd.residual       0.017856
+    ## rmse              0.017302
+    ## AIC             -76.416424
+    ## BIC             -73.326069
+    ## loglik           42.208212
+
 ## 6. Conclusion
 
 I hope to improve upon these existing functions and create new ones that (1) minimize the programming tedium in statistical reporting and (2) assist people in diagnosing the validity of their results.
