@@ -2,18 +2,18 @@
 % Please edit documentation in R/validate.R
 \name{validate}
 \alias{validate}
-\title{Common linear model fit statistics in a vector.}
+\title{Common regression fit statistics in a vector.}
 \usage{
 validate(model)
 }
 \arguments{
-\item{model}{An lm or glm object.}
+\item{model}{An lm, glm, or nls object.}
 }
 \value{
 Vector (column). Includes F-statistic, R-squared, RMSE, and others.
 }
 \description{
-Common linear model fit statistics in a vector.
+Common regression fit statistics in a vector.
 }
 \details{
 The broom library's glance() had a vague label for the F statistic (simply "statistic") and lacked the pseudo R-squared, which is commonly based on McFadden's version (i.e. 1 - (residual deviance / null deviance)).
@@ -25,6 +25,11 @@ validate(model.lm)
 
 model.glm <- glm(data = mtcars, am ~ mpg + wt, family = binomial(link = 'logit'))
 validate(model.glm)
+
+require(graphics)
+DNase1    <- subset(DNase, Run == 1)
+model.nls <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
+validate(model.nls)
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}
