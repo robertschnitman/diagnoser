@@ -291,17 +291,19 @@ model.nls <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model =
 validate(model.nls)
 ```
 
-    ##                  model.nls
-    ## n                16.000000
-    ## sigma             0.019194
-    ## df.sigma         13.000000
-    ## median.residual  -0.001454
-    ## mean.residual    -0.000660
-    ## sd.residual       0.017856
-    ## rmse              0.017302
-    ## AIC             -76.416424
-    ## BIC             -73.326069
-    ## loglik           42.208212
+    ##                        model.nls
+    ## n                      16.000000
+    ## iterations              0.000000
+    ## convergence_tolerance   0.000008
+    ## sigma                   0.019194
+    ## df.sigma               13.000000
+    ## median.residual        -0.001454
+    ## mean.residual          -0.000660
+    ## sd.residual             0.017856
+    ## rmse                    0.017302
+    ## AIC                   -76.416424
+    ## BIC                   -73.326069
+    ## loglik                 42.208212
 
 ## 6. Conclusion
 
