@@ -78,7 +78,7 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
     'lm'
   } else if (class(model)[1] == 'glm') {
     model$family[1]
-  } else if (class(fm1DNase1) == 'nls') {
+  } else if (class(model) == 'nls') {
     'nls'
   }
   pp       <- 'Predicted Probabilities'
