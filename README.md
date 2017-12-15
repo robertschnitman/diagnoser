@@ -9,7 +9,7 @@
 1. Introduction
 2. diagnose(), ggdiagnose(), and cdiagnose()
 3. fitres() and fitresdf()
-4. lmdf() and glmdf()
+4. modeldf()
 5. validate()
 6. Conclusion
 
@@ -27,9 +27,9 @@ devtools::install_github("robertschnitman/diagnoser")
 
 ## 1. Introduction
 
-The `diagnoser` package contains tools for regression diagnostics. Base R's plot(lm()) was the primary influence, as it was a useful tool for quickly assessing estimation bias and existence of heteroskedasticity; but interpreting more specialized concepts such as Cook's Distance proved to be difficult to understand for those without linear algebra knowledge. To improve upon comprehension for introductory students, I developed **diagnose()** and **ggdiagnose()**. Individuals with a fondness for the classics would appreciate **cdiagnose()**, which recreates the original plot(lm()) with ggplot2 graphics. 
+The `diagnoser` package contains tools for regression diagnostics. Base R's plot(lm()) was the primary influence, as it was a useful tool for quickly assessing estimation bias and existence of heteroskedasticity; but interpreting more specialized concepts such as Cook's Distance proved to be difficult to understand for those without linear algebra knowledge. To improve upon comprehension for introductory students, I developed **diagnose()** and **ggdiagnose()**. Individuals with a fondness for the classics would appreciate **cdiagnose()**, which recreates the original plot(lm()) with ggplot2 graphics.
 
-Other functions such as **fitres()**, **lmdf()**, and **validate()** were inspired by tidyverse's broom library. While broom eases the process of transforming mnodel objects into data frames, outputs from tidy() lacked estimates integral to the social and health sciences, such as the margin of error for OLS estimates. Additionally, glance() does not produce a pseudo r-squared for general linear models. The functions **lmdf()** and **validate()** seek to fulfill the gaps from these broom functions.
+Other functions such as **fitres()**, **modeldf()**, and **validate()** were inspired by tidyverse's broom library. While broom eases the process of transforming mnodel objects into data frames, outputs from tidy() lacked estimates integral to the social and health sciences, such as the margin of error for OLS estimates. Additionally, glance() does not produce a pseudo r-squared for general linear models. The functions **modeldf()** and **validate()** seek to fulfill the gaps from these broom functions.
 
 The following sections provide examples.
 
@@ -173,18 +173,18 @@ tail(fitresdf(model.lm, df))
     ## Datsun 710           NA              NA
 
 
-## 4. lmdf() & glmdf()
+## 4. modeldf()
 
-The functions **lmdf()** and **glmdf()** have similar features to tidying model objects with additions
+The function **modeldf()** have similar features to tidying model objects with additions
 
 The former presents OLS estimates with a margin of error and confidence intervals. The confidence level can be specified between 0 and 1 or left to the default value of 0.95 (representing 95% confidence). The latter function applies to GLM objects.
 
-### lmdf()
+### Case 1: OLS
 
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
-lmdf(model = model.lm, conf = 0.90) # conf = 0.95 is the default value; can be omitted.
+modeldf(model = model.lm, conf = 0.90) # conf = 0.95 is the default value; can be omitted.
 ```
 
     ##          term       beta        se      moe  ci_lower  ci_upper          t
@@ -196,12 +196,12 @@ lmdf(model = model.lm, conf = 0.90) # conf = 0.95 is the default value; can be o
     ## 2 1.170427e-08
     ## 3 7.326683e-01
 
-### glmdf()
+### Case 2: GLM (logit)
 
 ``` r
 model.glm <- glm(data = mtcars, formula = am ~ mpg + disp, family = binomial(link = 'logit'))
 
-glmdf(model = model.glm, conf = 0.90) # conf = 0.95 is the default value; can be omitted.
+modeldf(model = model.glm, conf = 0.90) # conf = 0.95 is the default value; can be omitted.
 ```
 
     ##          term         beta          se        moe     ci_lower    ci_upper
@@ -212,6 +212,25 @@ glmdf(model = model.glm, conf = 0.90) # conf = 0.95 is the default value; can be
     ## 1 -0.4740918 0.6354344
     ## 2  1.0095366 0.3127174
     ## 3 -0.9748579 0.3296308
+
+### Case 3: NLS
+
+``` r
+require(graphics)
+DNase1    <- subset(DNase, Run == 1)
+fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
+
+modeldf(model = fm1DNase1, conf = 0.85) # conf = 0.95 is the default value; can be omitted.
+```
+
+    ##   term     beta         se        moe  ci_lower ci_upper        t
+    ## 1 Asym 2.345182 0.07815410 0.13175992 2.2343149 2.476941 30.00715
+    ## 2 xmid 1.483092 0.08135333 0.13441752 1.3656609 1.617509 18.23025
+    ## 3 scal 1.041455 0.03227082 0.05132188 0.9933049 1.092777 32.27236
+    ##              p
+    ## 1 2.165539e-13
+    ## 2 1.218541e-10
+    ## 3 8.506932e-14
 
 ## 5. validate()
 
@@ -272,12 +291,12 @@ I hope to improve upon these existing functions and create new ones that (1) min
 
 1. ~~Functions similar to broom's glance() (perhaps with other model diagnostics and making "statistic" be clear that it is referring to the F-statistic).~~ Completed 2017-12-01.  
 2. ~~ggplot2 version of diagnose().~~ Completed 2017-11-15.
-3. Add VIF in lmdf() & glmdf(). Feasible solution with tidyr, but I would rather stay close to base R as much as possible.
+3. Add VIF modeldf().
 4. Modify validate() for non-regression model cases.
 5. ~~cdiagnose(): A ggplot2 version of the "classic" plot(lm()). Preferable for those with an understanding of Scale Location and Cook's Distance.~~ Completed 2017-11-15.
 6. **mdiagnose()**: probability diagnostics with the margins library.
 7. **marginsdf()**: margins results in a tidy data frame (with margin of errors and confidence intervals as in lmdf() and glmdf()).
-8.  Simplify/combine lmdf() and glmdf(), as well as accept NLS objects.
+8.  ~~Simplify/combine lmdf() and glmdf(), as well as accept NLS objects.~~ Completed 2017-12-15 \[modeldf()\].
 9.  Generate fit statistics in validation() for NLS models
 10. **nlsdiagnose()**: Consider alternative set of graphs appropriate for NLS objects.
 
