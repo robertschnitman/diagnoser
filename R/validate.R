@@ -63,7 +63,9 @@ validate <- function(model) {
     attributes(p) <- NULL
     p.value       <- p
 
-    output        <- rbind(n, rsq, adj.rsq, Fstat, df.num, df.den, p.value, common)
+    ols_stats     <- rbind(rsq, adj.rsq, Fstat, df.num, df.den, p.value)
+
+    output        <- rbind(n, ols_stats, common)
 
   ### Case 2: GLM ###
   } else if (class(model)[1] == 'glm') {
@@ -74,16 +76,16 @@ validate <- function(model) {
     df.residual       <- summ$df.residual
     pseudo.rsq.mcfad  <- 1 - (residual.deviance/null.deviance)
 
-    output            <- rbind(n,
-                               pseudo.rsq.mcfad, null.deviance, residual.deviance,
-                               df.null, df.residual, common)
+    glm_stats         <- rbind(pseudo.rsq.mcfad, null.deviance, residual.deviance, df.null, df.residual)
+
+    output            <- rbind(n, glm_stats, common)
 
   ### Case 3: NLS ###
   } else if (class(model)[1] == 'nls') {
 
     iterations            <- summ$finIter
-    convergence_tolerance <- summ$finTol
-    sigma                 <- summ$sigma
+    convergence_tolerance <- summ$convInfo$finTol
+    sigma                 <- summ$convInfo$sigma
     df.sigma              <- summ$df[2]
 
     nls_stats             <- rbind(iterations, convergence_tolerance, sigma, df.sigma)
