@@ -83,9 +83,9 @@ validate <- function(model) {
   ### Case 3: NLS ###
   } else if (class(model)[1] == 'nls') {
 
-    iterations            <- summ$finIter
+    iterations            <- summ$convInfo$finIter
     convergence_tolerance <- summ$convInfo$finTol
-    sigma                 <- summ$convInfo$sigma
+    sigma                 <- summ$sigma
     df.sigma              <- summ$df[2]
 
     nls_stats             <- rbind(iterations, convergence_tolerance, sigma, df.sigma)
