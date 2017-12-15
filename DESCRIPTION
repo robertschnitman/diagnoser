@@ -7,8 +7,8 @@ Maintainer: Robert Schnitman <robertschnitman@gmail.com>
 Description: Plot residuals, store model results in a data frame, and compute common fit statistics.  The diagnose() family provides alternative graphs to Base R's plot(lm()). Additional functions--inspired by the broom library--calculate margin of errors and confidence intervals alongside regression results.
 URL: https://github.com/robertschnitman/diagnoser
 BugReports: https://github.com/robertschnitman/diagnoser/issues
-Depends: R (>= 3.4.2), lazyeval (>= 0.2.1), rlang (>= 0.1.4), scales (>= 0.5.0)
-Imports: ggplot2 (>= 2.2.1), gridExtra (>= 2.3)
+Depends: R (>= 3.4.2), lazyeval (>= 0.2.1), rlang (>= 0.1.4)
+Imports: ggplot2 (>= 2.2.1), gridExtra (>= 2.3), scales (>= 0.5.0)
 License: GNU General Public License v3.0
 Encoding: UTF-8
 LazyData: TRUE
