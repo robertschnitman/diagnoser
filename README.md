@@ -175,9 +175,7 @@ tail(fitresdf(model.lm, df))
 
 ## 4. modeldf()
 
-The function **modeldf()** have similar features to tidying model objects with additions
-
-The former presents OLS estimates with a margin of error and confidence intervals. The confidence level can be specified between 0 and 1 or left to the default value of 0.95 (representing 95% confidence). The latter function applies to GLM objects.
+The function **modeldf()** has similar features to tidying model objects with additions.
 
 ### Case 1: OLS
 
@@ -295,7 +293,7 @@ I hope to improve upon these existing functions and create new ones that (1) min
 4. Modify validate() for non-regression model cases.
 5. ~~cdiagnose(): A ggplot2 version of the "classic" plot(lm()). Preferable for those with an understanding of Scale Location and Cook's Distance.~~ Completed 2017-11-15.
 6. **mdiagnose()**: probability diagnostics with the margins library.
-7. **marginsdf()**: margins results in a tidy data frame (with margin of errors and confidence intervals as in lmdf() and glmdf()).
+7. **marginsdf()**: margins results in a tidy data frame (with margin of errors and confidence intervals as in model()).
 8.  ~~Simplify/combine lmdf() and glmdf(), as well as accept NLS objects.~~ Completed 2017-12-15 \[modeldf()\].
 9.  Generate fit statistics in validation() for NLS models
 10. **nlsdiagnose()**: Consider alternative set of graphs appropriate for NLS objects.
