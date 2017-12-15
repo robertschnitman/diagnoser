@@ -34,7 +34,7 @@
 ###    1. Generate 2x2 graphs that diagnose the residuals of a model.
 ###    2. Alternative for plot(model.object).
 ###
-### IMPORTS: ggplot2 (>= 2.2.1), gridExtra (>= 2.3)
+### IMPORTS: ggplot2 (>= 2.2.1), gridExtra (>= 2.3), scales (>= 0.5.0)
 ###
 ### RECOMMENDED CITATION:
 ###  Schnitman, Robert (2017). ggdiagnose.r. https://github.com/robertschnitman/diagnoser
@@ -55,12 +55,16 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   options(warn = -1)
 
-  if (require(ggplot2) == TRUE & require(gridExtra) == TRUE) {
+  if (require(ggplot2) == TRUE & require(gridExtra) == TRUE & require(scales)) {
+
     require(ggplot2)
     require(gridExtra)
+    require(scales)
+
   } else {
 
-    stop('Please install both ggplot2 and gridExtra.')
+    stop('Please install ALL of ggplot2, gridExtra, and scales.')
+
   }
 
   options(warn = 0)
