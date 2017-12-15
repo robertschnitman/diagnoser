@@ -2,7 +2,7 @@
 ***Robert Schnitman***  
 ***2017-11-14***  
 ***Recommended Citation:  
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Schnitman, Robert (2017). diagnoser v0.0.2.4. https://github.com/robertschnitman/diagnoser***
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Schnitman, Robert (2017). diagnoser v0.0.2.5. https://github.com/robertschnitman/diagnoser***
 
 # Outline
 0. Installation
