@@ -68,15 +68,15 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   fitr       <- cbind(fit, res, act, pct)
   fitr.noinf <- subset(fitr, !is.infinite(pct))
-  diff       <- NROW(fitr) - NROW(fitr.noinf)
+  fitr.inf   <- subset(fitr, is.infinite(pct))
 
-  warn1      <- ' row of values was omitted due to at least 1 infinite value.'
-  warn2      <- ' rows of values were omitted due to at least 1 infinite value.'
+  warn1      <- paste(NROW(fitr.inf), 'Inf value in residuals margin vector.')
+  warn2      <- paste(NROW(fitr.inf), 'Inf values in residuals margin vector.')
 
-  if (diff == 1) {
-    warning(diff, warn1, sep = ' ')
-  } else if (diff > 1) {
-    warning(diff, warn2, sep = ' ')
+  if (NROW(fitr.inf) == 1) {
+    warning(warn1)
+  } else if (NROW(fitr.inf) > 1) {
+    warning(warn2)
   }
 
   ### Graph is modified based on fit_type and residual_type specifications. ###
