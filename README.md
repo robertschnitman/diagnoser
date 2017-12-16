@@ -124,7 +124,7 @@ The former creates a matrix of the fitted values, residuals, and residuals as a 
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
-head(fitres(model.lm, type = 'response'))
+head(fitres(model.lm, fit_type = 'response'))
     # default type value is 'response'.
 ```
 
@@ -141,7 +141,7 @@ head(fitres(model.lm, type = 'response'))
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
-head(fitresdf(model = model.lm, data = mtcars, type = 'response'))
+head(fitresdf(model = model.lm, data = mtcars, fit_type = 'response'))
 ```
 
     ##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
