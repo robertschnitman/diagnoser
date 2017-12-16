@@ -12,8 +12,6 @@ fitres(model, fit_type = "response", residual_type = "response")
 \item{fit_type}{String. Prediction type. See ?predict for details.}
 
 \item{residual_type}{String. See ?resid for details.}
-
-\item{data}{A data frame. If not specified, then the original data is used (i.e. model.frame(model)).}
 }
 \value{
 A matrix.
