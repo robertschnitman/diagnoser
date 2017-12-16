@@ -47,40 +47,51 @@ However, for those with advanced training or simply disagree with me, I also pre
 Because base R's plotting of model objects do not include NLM/NLS objects, neither does **cdiagnose()**, which is justified considering the linear algebra involved in leverage and Cook's Distance. Nonetheless, future work will consider an alternative for non-linear models.
 
 ### diagnose()
+
+#### Case 1: OLS
+
 ``` r
 # OLS case
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 
 diagnose(model.lm, fit_type = 'response', residual_type = 'response')
-  # The fit_type option specifies prediction type in predict(). 
-  # Similarly, residual_type specifies for resid().
-  # These inputs are beneficial for glm objects using the binomial family.
 ```
 
-![](README_files/figure-markdown_github/s2-1-1.png)
+![](README_files/figure-markdown_github/s2-1-1-1.png)
 
 ``` r
-# NLS case
+  # The fit_type option specifies prediction type in predict(). 
+  #   Similarly, residual_type specifies for resid().
+  #   These inputs are useful for glm objects using the binomial family.
+```
+
+#### Case 2: NLS
+
+``` r
 require(graphics)
 DNase1    <- subset(DNase, Run == 1)
 fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
 diagnose(fm1DNase1, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lwd = 2)
   # Graph editing inputs. Recommended for larger data, as ggplot2 in ggdiagnose() and cdiagnose() can be slow.
 ```
-![](README_files/figure-markdown_github/s2-1-2.png)
+
+![](README_files/figure-markdown_github/s2-1-2-1.png)
 
 ### ggdiagnose()
+
 ``` r
 # NLS case
-ggdiagnose(fm1DNase1, fit_type = 'response', residual_type = 'response',
-           bins = NROW(mtcars), se = TRUE, freqpct = TRUE, alpha = 0.5)
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+
+ggdiagnose(model.nls, fit_type = 'response', residual_type = 'response',
+           bins = nobs(model.nls), se = TRUE, freqpct = TRUE, alpha = 0.5)
   # The fit_type option specifies prediction type in predict(). 
   #   Similarly, residual_type specifies for resid().
-  #   These inputs are beneficial for glm objects using the binomial family.
+  #   These inputs are useful for glm objects using the binomial family.
   # Default bins value is 30.
   # Default se value is TRUE.
   # Default freqpct value is FALSE.
-  # Default alpha value is 1.
+  # Default alpha value is 1.           
 ```
 
 ![](README_files/figure-markdown_github/s2-2-1.png)
@@ -88,12 +99,13 @@ ggdiagnose(fm1DNase1, fit_type = 'response', residual_type = 'response',
 ### cdiagnose()
 
 ``` r
-model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
+# OLS case
+model.lm <- lm(data = Orange, formula = log(circumference) ~ age)
 
 cdiagnose(model.lm, fit_type = 'response', residual_type = 'response', se = FALSE, alpha = 1)
   # The fit_type option specifies prediction type in predict(). 
   #   Similarly, residual_type specifies for resid().
-  #   These inputs are beneficial for glm objects using the binomial family.
+  #   These inputs are useful for glm objects using the binomial family.
   # Default bins value is 30.
   # Default se value is FALSE.
   # Default alpha value is 1.
