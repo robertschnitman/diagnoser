@@ -52,7 +52,7 @@ modeldf <- function(model, conf = 0.95) {
 
   names(summary.df) <- gsub('^Pr.*', 'p', names(summary.df))
 
-  ### Generate new variables ###
+  ### Generate new variables (non-VIF) ###
   summary.df$term     <- rownames(summary.df)                               # Intercept & independent variables.
 
   ci                  <- suppressMessages(confint(model, level = conf))     # To set up ci columns; eliminate profile message.
@@ -60,12 +60,35 @@ modeldf <- function(model, conf = 0.95) {
   summary.df$ci_upper <- t(t(ci[rownames(ci) == rownames(summary.df), 2]))  # Confidence Interval: upper.
 
   summary.df$moe      <- with(summary.df, ci_upper - beta)
+  
+  ### VIF only works for OLS and GLM ###
+  
+  if (any(c('lm', 'glm') %in% class(model)[1])) {
+    
+    vifs           <- as.data.frame(t(t(car::vif(model))))
+    names(vifs)    <- 'vif'
+    vifs$term      <- rownames(vifs)
+    
+    summary_vif.df <- merge(summary.df, vifs, by = 'term', all.x = TRUE)
+    
+  }
 
   ### Remove row names (redundant with term variable) ###
-  rownames(summary.df) <- NULL
+  
+  if (any(c('lm', 'glm') %in% class(model)[1])) {
+    
+    rownames(summary_vif.df) <- NULL
+    
+  } else {
+    
+    rownames(summary.df) <- NULL  
+    
+  }
+  
 
   ### Print reordered columns ###
-  if (any(c('lm', 'nls') == class(model)[1]) || (class(model)[1] == 'glm' & model$family[1] %in% t_grp)) {
+  
+  if (class(model)[1] == 'nls') {
     summary.df[, c('term',         # Intercept and independent variables.
                    'beta',         # Coefficients.
                    'se',           # Standard Error
@@ -75,15 +98,28 @@ modeldf <- function(model, conf = 0.95) {
                    't',            # T-statistic.
                    'p')]           # p-value.
 
-  } else if (class(model)[1] == 'glm' & model$family[1] %in% z_grp) {
-    summary.df[, c('term',         # Intercept and independent variables.
-                   'beta',         # Coefficients.
-                   'se',           # Standard Error
-                   'moe',          # % Margin of Error, being specified by conf argument.
-                   'ci_lower',     # Lower bound of confidence interval.
-                   'ci_upper',     # Upper bound of confidence interval.
-                   'z',            # z-statistic.
-                   'p')]           # p-value.
+  } else if (class(model)[1] == 'lm' || (class(model)[1] == 'glm' & model$family[1] %in% t_grp)) {
+    summary_vif.df[, c('term',         # Intercept and independent variables.
+                       'beta',         # Coefficients.
+                       'se',           # Standard Error
+                       'moe',          # % Margin of Error, being specified by conf argument.
+                       'ci_lower',     # Lower bound of confidence interval.
+                       'ci_upper',     # Upper bound of confidence interval.
+                       't',            # T-statistic.
+                       'p',            # p-value.
+                       'vif')]         # VIF
+    
+  } else if (class(model)[1] != 'lm' & class(model)[1] == 'glm' & model$family[1] %in% z_grp) {
+    summary_vif.df[, c('term',         # Intercept and independent variables.
+                       'beta',         # Coefficients.
+                       'se',           # Standard Error
+                       'moe',          # % Margin of Error, being specified by conf argument.
+                       'ci_lower',     # Lower bound of confidence interval.
+                       'ci_upper',     # Upper bound of confidence interval.
+                       'z',            # z-statistic.
+                       'p',            # p-value.
+                       'vif')]         # VIF
+    
   }
 
 }
