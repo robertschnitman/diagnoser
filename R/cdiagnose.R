@@ -52,6 +52,12 @@ cdiagnose <- function(model, fit_type = 'response', residual_type = 'response', 
   }
 
   options(warn = 0)
+  
+  if (any(!'model' %in% names(model))) {
+    
+    stop('No model frame exists. If the model input is an nls object, please change it to the following format: nls(y ~ x, data, model = TRUE, ...)')
+    
+  }
 
   ### Set alpha value so that ggplot2 functions can process it ###
   a <- alpha
