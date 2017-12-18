@@ -20,8 +20,7 @@
 ## Package Dependencies:
 #     lazyeval (>= 0.2.1), rlang (>= 0.1.4)
 #  Package Imports:
-#     ggplot2 (>= 2.2.1), gridExtra (>= 2.3), scales (>= 0.5.0)
-#     car (>= 2.1)
+#     ggplot2 (>= 2.2.1), gridExtra (>= 2.3), scales (>= 0.5.0), car (>= 2.1)
 
 # install.packages("devtools")
 devtools::install_github("robertschnitman/diagnoser")
@@ -189,7 +188,7 @@ tail(fitresdf(model.lm, df))
 
 ## 4. modeldf()
 
-The function **modeldf()** has similar features to tidying model objects with additions. The margin of error (*moe*) and confidence interval columns (*ci\_\**) would inform those in the health sciences the impact range of their variables of interest--other discplines may benefit as well from these estimates. By importing the `car` library, the variance inflation factors (*VIF*) measure the extent of collinearity in linear models.
+The function **modeldf()** has similar features to tidying model objects with additions. The margin of error (*moe*) and confidence interval columns (*ci\_\**) would inform those in the health sciences the impact range of their variables of interest--other discplines may benefit as well from these estimates. The variance inflation factors (*VIF*)--which are estimated with `vif()` from `car`--measure the extent of collinearity in linear models.
 
 ### Case 1: OLS
 
