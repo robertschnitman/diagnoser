@@ -50,6 +50,12 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
   nls_condition <- class(model) == 'nls'
 
   stopifnot(lgm_condition | nls_condition)
+  
+  if (any(!'model' %in% names(model))) {
+    
+    stop('No model frame exists. If the model input is an nls object, please change it to the following format: nls(y ~ x, data, model = TRUE, ...)')
+    
+  }
 
   ### Set up fitted values, residuals, and 2x2 frame ###
   fit <- predict(model, type = fit_type)
