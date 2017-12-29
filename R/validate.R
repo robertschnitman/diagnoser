@@ -67,8 +67,8 @@ validate <- function(model) {
 
     output        <- rbind(n, ols_stats, common)
 
-  ### Case 2: GLM ###
-  } else if (class(model)[1] == 'glm') {
+  ### Case 2: GLM (non-logistic) ###
+  } else if (class(model)[1] == 'glm' & family(model)$link != 'logit') {
 
     null.deviance     <- summ$null.deviance
     df.null           <- summ$df.null
@@ -80,7 +80,31 @@ validate <- function(model) {
 
     output            <- rbind(n, glm_stats, common)
 
-  ### Case 3: NLS ###
+  ### Case 3: GLM (logistic) ###
+  } else if (class(model)[1] == 'glm' & family(model)$link == 'logit') {
+
+    null.deviance     <- summ$null.deviance
+    df.null           <- summ$df.null
+    residual.deviance <- summ$deviance
+    df.residual       <- summ$df.residual
+    pseudo.rsq.mcfad  <- 1 - (residual.deviance/null.deviance)
+
+    aer               <- function(y, yhat) {
+
+      length(yhat[yhat != y])/length(yhat[yhat == y])
+
+    } # Apparent Error Rate
+
+    fit               <- predict(model, type = 'response')
+    actual            <- model.frame(model)[[1]]
+    fit_binary        <- ifelse(fit < 0.5, 0, 1)
+    error_rate        <- aer(actual, fit_binary)
+
+    glm_stats         <- rbind(pseudo.rsq.mcfad, error_rate, null.deviance, residual.deviance, df.null, df.residual)
+
+    output            <- rbind(n, glm_stats, common)
+
+  ### Case 4: NLS ###
   } else if (class(model)[1] == 'nls') {
 
     iterations            <- summ$convInfo$finIter
