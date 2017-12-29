@@ -41,25 +41,28 @@ fitresdf <- function(model, data, fit_type = 'response', residual_type = 'respon
   nls_condition <- class(model) == 'nls'
 
   stopifnot(lgm_condition | nls_condition)
-  
+
   if (any(!'model' %in% names(model))) {
-    
+
     stop('No model frame exists. If the model input is an nls object, please change it to the following format: nls(y ~ x, data, model = TRUE, ...)')
-    
+
   }
 
   ### Collect the fit and residuals into a matrix to compare NROWs ###
   fit             <- predict(model, type = fit_type)
   actual          <- model.frame(model)[[1]]
-  residual        <- if (lgm_condition) {
+  residual        <- if (lgm_condition[1]) {
+
     resid(model, type = residual_type)
 
   } else if (nls_condition) {
+
     r                <- resid(model, type = residual_type)
     attr(r, 'label') <- NULL
     r
 
   }
+
   residual_margin <- residual/actual
 
   fitr <- cbind(fit, residual, residual_margin)
