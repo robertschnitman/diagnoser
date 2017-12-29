@@ -53,7 +53,6 @@ Because base R's plotting of model objects do not include NLM/NLS objects, neith
 ``` r
 # OLS case
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-
 diagnose(model.lm, fit_type = 'response', residual_type = 'response')
 ```
 
@@ -82,7 +81,6 @@ diagnose(fm1DNase1, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, l
 ``` r
 # NLS case
 model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
-
 ggdiagnose(model.nls, fit_type = 'response', residual_type = 'response',
            bins = nobs(model.nls), se = TRUE, freqpct = TRUE, alpha = 0.5)
   # The fit_type option specifies prediction type in predict(). 
@@ -123,7 +121,6 @@ The former creates a matrix of the fitted values, residuals, and residuals as a 
 
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-
 head(fitres(model.lm, fit_type = 'response'))
     # default type value is 'response'.
 ```
@@ -140,7 +137,6 @@ head(fitres(model.lm, fit_type = 'response'))
 
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-
 head(fitresdf(model = model.lm, data = mtcars, fit_type = 'response'))
 ```
 
@@ -194,7 +190,6 @@ The function **modeldf()** has similar features to tidying model objects with ad
 
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ disp + hp + wt + gear + am)
-
 modeldf(model = model.lm, conf = 0.90) # conf = 0.95 is the default value; can be omitted.
 ```
 
@@ -217,7 +212,6 @@ modeldf(model = model.lm, conf = 0.90) # conf = 0.95 is the default value; can b
 
 ``` r
 model.glm <- glm(data = mtcars, formula = am ~ mpg + disp + hp, family = binomial(link = 'logit'))
-
 modeldf(model = model.glm, conf = 0.90) # conf = 0.95 is the default value; can be omitted.
 ```
 
@@ -238,7 +232,6 @@ modeldf(model = model.glm, conf = 0.90) # conf = 0.95 is the default value; can 
 require(graphics)
 DNase1    <- subset(DNase, Run == 1)
 fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
-
 modeldf(model = fm1DNase1, conf = 0.85) # conf = 0.95 is the default value; can be omitted.
 ```
 
@@ -255,7 +248,7 @@ modeldf(model = fm1DNase1, conf = 0.85) # conf = 0.95 is the default value; can 
 
 The `glance()` from `broom` had a vague label for the F statistic (simply "statistic") and lacked any kind of pseudo R-squared for logistic regressions.
 
-Furthermore, while the same function is friendly for data frames, its wide form is cumbersome for quickly ascertaining model validity. Thus, **validate()** produces similar output as a column vector, adding McFadden's pseudo R-squared for logistic regressions. Those who wish to have the values in the format of `broom` can always transpose the vector.
+Furthermore, while the same function is friendly for data frames, its wide form is cumbersome for quickly ascertaining model validity. Thus, **validate()** produces similar output as a column vector, adding McFadden's pseudo R-squared and the apparent error rate--defined as the ratio of the number of incorrect predictions to correct ones (i.e. number incorrect / number correct)--for logistic regressions. Those who wish to have the values in the format of `broom` can always transpose the vector.
 
 ### Case 1: OLS
 
@@ -290,6 +283,7 @@ validate(model.glm)
     ##                   model.glm
     ## n                 32.000000
     ## pseudo.rsq.mcfad   0.602490
+    ## error_rate         0.066667
     ## null.deviance     43.229733
     ## residual.deviance 17.184255
     ## df.null           31.000000
