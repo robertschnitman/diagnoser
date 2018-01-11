@@ -250,6 +250,8 @@ The `glance()` from `broom` had a vague label for the F statistic (simply "stati
 
 Furthermore, while the same function is friendly for data frames, its wide form is cumbersome for quickly ascertaining model validity. Thus, **validate()** produces similar output as a column vector, adding McFadden's pseudo R-squared and the apparent error rate--defined as the ratio of the number of incorrect predictions to correct ones (i.e. number incorrect / number correct)--for logistic regressions. Those who wish to have the values in the format of `broom` can always transpose the vector.
 
+Output definitions are in the help file associated with this function.
+
 ### Case 1: OLS
 
 ``` r
@@ -261,14 +263,16 @@ validate(model.lm)
     ## n                32.000000
     ## rsq               0.753842
     ## adj.rsq           0.736866
-    ## Fstat            44.405361
+    ## F.stat           44.405361
     ## df.num            3.000000
     ## df.den           29.000000
     ## p.value           0.000000
-    ## median.residual  -0.293202
-    ## mean.residual     0.000000
-    ## sd.residual       2.990226
+    ## residual.median  -0.293202
+    ## residual.mean     0.000000
+    ## residual.sd       2.990226
     ## rmse              2.943133
+    ## mae               2.353567
+    ## mpe              -0.015267
     ## AIC             167.898446
     ## BIC             173.761389
     ## loglik          -79.949223
@@ -277,7 +281,7 @@ validate(model.lm)
 
 ``` r
 model.glm <- glm(am ~ mpg + wt, mtcars, family = binomial(link = 'logit'))
-validate(model.glm)
+validate(model.glm) # Note the inapplicability of mpe.
 ```
 
     ##                   model.glm
@@ -288,10 +292,12 @@ validate(model.glm)
     ## residual.deviance 17.184255
     ## df.null           31.000000
     ## df.residual       29.000000
-    ## median.residual   -0.046842
-    ## mean.residual     -0.044152
-    ## sd.residual        0.743181
+    ## residual.median   -0.046842
+    ## residual.mean     -0.044152
+    ## residual.sd        0.743181
     ## rmse               0.732808
+    ## mae                0.508942
+    ## mpe                    -Inf
     ## AIC               23.184255
     ## BIC               27.581463
     ## loglik            -8.592128
@@ -311,10 +317,12 @@ validate(model.nls)
     ## convergence_tolerance   0.000008
     ## sigma                   0.019194
     ## df.sigma               13.000000
-    ## median.residual        -0.001454
-    ## mean.residual          -0.000660
-    ## sd.residual             0.017856
+    ## residual.median        -0.001454
+    ## residual.mean          -0.000660
+    ## residual.sd             0.017856
     ## rmse                    0.017302
+    ## mae                     0.013570
+    ## mpe                    -0.084337
     ## AIC                   -76.416424
     ## BIC                   -73.326069
     ## loglik                 42.208212
