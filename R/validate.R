@@ -15,6 +15,34 @@
 #' DNase1    <- subset(DNase, Run == 1)
 #' model.nls <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
 #' validate(model.nls)
+#'
+#' @section Output definitions:
+#' adj.rsq = Adjusted R-Squared
+#' AIC = Akaike Information Criterion.
+#' BIC = Bayesian Information Criterion.
+#' convergence_tolerance = Tolerance of convergence, calculated from summary(model)$convInfo$finTol
+#' df.den = degrees of freedom, denominator.
+#' df.null = Degrees of freedom for the null deviance.
+#' df.num = degrees of freedom, numerator.
+#' df.sigma = degrees of freedom for sigma.
+#' error_rate = (Apparent) Error Rate, calculated as number of misclassifications divided by correct classifications.
+#' F.stat = F statistic
+#' iterations = Number of iterations for NLS model to converge.
+#' loglik = Log Likelihood.
+#' mae = Mean Absolute Error.
+#' mpe = Mean Percentage Error.
+#' n = number of observations used in the model.
+#' null.deviance = Null Deviance.
+#' p.value = p-value for the F statistic.
+#' pseudo.rsq.mcfad = McFadden's Pseudo R-Squared, calculated as 1 - (residual.deviance/null.deviance).
+#' residual.deviance = Residual Deviance.
+#' residual.mean = mean of the residual.
+#' residual.median = median of the residual.
+#' residual.sd = Standard deviation of the residual.
+#' rmse = Root Mean Square Error, calculated as sqrt(mean(resid(model)^2)).
+#' rsq = R-squared.
+#' sigma = Standard deviation of the NLS model, calculated from summary(model)$sigma
+#'
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
 ########################################################################################
@@ -38,15 +66,17 @@ validate <- function(model) {
 
   ### Mutual statistics ###
   n               <- nobs(model)           # Exclude from "common" object for ordering purposes.
-  median.residual <- median(resid(model))
-  mean.residual   <- mean(resid(model))
-  sd.residual     <- sd(resid(model))
+  residual.median <- median(resid(model))
+  residual.mean   <- mean(resid(model))
+  residual.sd     <- sd(resid(model))
   rmse            <- sqrt(mean(resid(model)^2))
+  mae             <- mean(abs(resid(model)))
+  mpe             <- mean(resid(model)/model.frame(model)[[1]])
   AIC             <- AIC(model)
   BIC             <- BIC(model)
   loglik          <- logLik(model)[1]
 
-  common          <- rbind(median.residual, mean.residual, sd.residual, rmse, AIC, BIC, loglik)
+  common          <- rbind(residual.median, residual.mean, residual.sd, rmse, mae, mpe, AIC, BIC, loglik)
 
 
   ### Case 1: OLS ###
@@ -55,7 +85,7 @@ validate <- function(model) {
     adj.rsq       <- summ$adj.r.squared
 
     f             <- summ$fstatistic
-    Fstat         <- f[1]
+    F.stat         <- f[1]
     df.num        <- summ$df[[1]]
     df.den        <- summ$df[[2]]
 
@@ -63,7 +93,7 @@ validate <- function(model) {
     attributes(p) <- NULL
     p.value       <- p
 
-    ols_stats     <- rbind(rsq, adj.rsq, Fstat, df.num, df.den, p.value)
+    ols_stats     <- rbind(rsq, adj.rsq, F.stat, df.num, df.den, p.value)
 
     output        <- rbind(n, ols_stats, common)
 
