@@ -19,6 +19,35 @@ Common regression fit statistics in a vector.
 The broom library's glance() had a vague label for the F statistic (simply "statistic") and lacked the pseudo R-squared, which is commonly based on McFadden's version (i.e. 1 - (residual deviance / null deviance)).
 While the same function is friendly for data frames, it's wide form is cumbersome for quickly ascertaining model validity. Thus, validate() produces similar output as a column vector. Those who wish to have the values in broom's format can always transpose the vector.
 }
+\section{Output definitions}{
+
+adj.rsq = Adjusted R-Squared
+AIC = Akaike Information Criterion.
+BIC = Bayesian Information Criterion.
+convergence_tolerance = Tolerance of convergence, calculated from summary(model)$convInfo$finTol
+df.den = degrees of freedom, denominator.
+df.null = Degrees of freedom for the null deviance.
+df.num = degrees of freedom, numerator.
+df.sigma = degrees of freedom for sigma.
+error_rate = (Apparent) Error Rate, calculated as number of misclassifications divided by correct classifications.
+F.stat = F statistic
+iterations = Number of iterations for NLS model to converge.
+loglik = Log Likelihood.
+mae = Mean Absolute Error.
+mpe = Mean Percentage Error.
+n = number of observations used in the model.
+null.deviance = Null Deviance.
+p.value = p-value for the F statistic.
+pseudo.rsq.mcfad = McFadden's Pseudo R-Squared, calculated as 1 - (residual.deviance/null.deviance).
+residual.deviance = Residual Deviance.
+residual.mean = mean of the residual.
+residual.median = median of the residual.
+residual.sd = Standard deviation of the residual.
+rmse = Root Mean Square Error, calculated as sqrt(mean(resid(model)^2)).
+rsq = R-squared.
+sigma = Standard deviation of the NLS model, calculated from summary(model)$sigma
+}
+
 \examples{
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 validate(model.lm)
@@ -30,6 +59,7 @@ require(graphics)
 DNase1    <- subset(DNase, Run == 1)
 model.nls <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
 validate(model.nls)
+
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}
