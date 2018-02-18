@@ -19,7 +19,7 @@
 #' require(graphics)
 #' DNase1    <- subset(DNase, Run == 1)
 #' fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
-#' diagnose(fm1DNase1)
+#' ggdiagnose(fm1DNase1)
 #'
 #' @section Warning:
 #' NLS objects will only work if "model = TRUE" is specified in the original NLS function.
