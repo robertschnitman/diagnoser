@@ -19,7 +19,7 @@ Transform lm, glm, or nls object into a data frame with margin of error and conf
 }
 \examples{
 model.glm <- glm(data = mtcars, formula = am ~ mpg + gear, family = binomial(link = 'logit'))
-glmdf(model = model.glm, conf = 0.90)
+modeldf(model = model.glm, conf = 0.90)
 }
 \seealso{
 \url{https://github.com/robertschnitman/diagnoser}
