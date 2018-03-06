@@ -11,13 +11,12 @@
 #' model.glm <- glm(data = mtcars, am ~ mpg + wt, family = binomial(link = 'logit'))
 #' validate(model.glm)
 #'
-#' require(graphics)
-#' DNase1    <- subset(DNase, Run == 1)
-#' model.nls <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
+#' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
 #' validate(model.nls)
 #'
 #' @section Output definitions:
 #' adj.rsq = Adjusted R-Squared
+#' aer = Apparent Error Rate, calculated as number of misclassifications divided by correct classifications.
 #' AIC = Akaike Information Criterion.
 #' BIC = Bayesian Information Criterion.
 #' convergence_tolerance = Tolerance of convergence, calculated from summary(model)$convInfo$finTol
@@ -25,7 +24,6 @@
 #' df.null = Degrees of freedom for the null deviance.
 #' df.num = degrees of freedom, numerator.
 #' df.sigma = degrees of freedom for sigma.
-#' error_rate = (Apparent) Error Rate, calculated as number of misclassifications divided by correct classifications.
 #' F.stat = F statistic
 #' iterations = Number of iterations for NLS model to converge.
 #' loglik = Log Likelihood.
@@ -115,13 +113,13 @@ validate <- function(model) {
     fit               <- predict(model, type = 'response')
     actual            <- model.frame(model)[[1]]
     fit_binary        <- ifelse(fit < 0.5, 0, 1)
-    error_rate        <- aer(actual, fit_binary)
+    aer               <- aer(actual, fit_binary)
 
 
     glm_stats         <- rbind(null.deviance, residual.deviance, df.null, df.residual)
 
     output            <- if (family(model)$link == 'logit') {
-      rbind(n, pseudo.rsq.mcfad, error_rate, glm_stats, common)
+      rbind(n, pseudo.rsq.mcfad, aer, glm_stats, common)
     } else {
       rbind(n, pseudo.rsq.mcfad, glm_stats, common)
     }
