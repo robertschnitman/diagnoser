@@ -41,10 +41,8 @@ model <- lm(data = mtcars, formula = mpg ~ wt + gear)
 ggdiagnose(model, bins = NROW(mtcars), se = FALSE, freqpct = TRUE)
 
 # NLS case
-require(graphics)
-DNase1    <- subset(DNase, Run == 1)
-fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
-ggdiagnose(fm1DNase1)
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+ggdiagnose(model.nls)
 
 }
 \seealso{
