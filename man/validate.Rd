@@ -22,6 +22,7 @@ While the same function is friendly for data frames, it's wide form is cumbersom
 \section{Output definitions}{
 
 adj.rsq = Adjusted R-Squared
+aer = Apparent Error Rate, calculated as number of misclassifications divided by correct classifications.
 AIC = Akaike Information Criterion.
 BIC = Bayesian Information Criterion.
 convergence_tolerance = Tolerance of convergence, calculated from summary(model)$convInfo$finTol
@@ -29,7 +30,6 @@ df.den = degrees of freedom, denominator.
 df.null = Degrees of freedom for the null deviance.
 df.num = degrees of freedom, numerator.
 df.sigma = degrees of freedom for sigma.
-error_rate = (Apparent) Error Rate, calculated as number of misclassifications divided by correct classifications.
 F.stat = F statistic
 iterations = Number of iterations for NLS model to converge.
 loglik = Log Likelihood.
@@ -55,9 +55,7 @@ validate(model.lm)
 model.glm <- glm(data = mtcars, am ~ mpg + wt, family = binomial(link = 'logit'))
 validate(model.glm)
 
-require(graphics)
-DNase1    <- subset(DNase, Run == 1)
-model.nls <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
 validate(model.nls)
 
 }
