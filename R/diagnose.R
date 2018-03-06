@@ -18,7 +18,7 @@
 #'
 #' # NLS case
 #' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
-#' ggdiagnose(model.nls)
+#' diagnose(model.nls)
 #'
 #' @section Warning:
 #' NLS objects will only work if "model = TRUE" is specified in the original NLS function.
