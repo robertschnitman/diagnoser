@@ -11,10 +11,8 @@
 #' fitres(model.lm, type = 'response')
 #'
 #' # NLS case
-#' require(graphics)
-#' DNase1    <- subset(DNase, Run == 1)
-#' fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1)
-#' fitres(fm1DNase1)
+#' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+#' fitres(model.nls)
 #'
 #' @section Warning:
 #' NLS objects will only work if "model = TRUE" is specified in the original NLS function.
