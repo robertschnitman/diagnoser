@@ -67,14 +67,12 @@ diagnose(model.lm, fit_type = 'response', residual_type = 'response')
 #### Case 2: NLS
 
 ``` r
-require(graphics)
-DNase1    <- subset(DNase, Run == 1)
-fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
-diagnose(fm1DNase1, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lwd = 2)
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+diagnose(model.nls, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lwd = 2)
   # Graph editing inputs. Recommended for larger data, as ggplot2 in ggdiagnose() and cdiagnose() can be slow.
 ```
 
-![](README_files/figure-markdown_github/s2-1-2-1.png)
+![](README_files/figure-markdown_github/s2-2-1-1.png)
 
 ### ggdiagnose()
 
@@ -92,7 +90,7 @@ ggdiagnose(model.nls, fit_type = 'response', residual_type = 'response',
   # Default alpha value is 1.           
 ```
 
-![](README_files/figure-markdown_github/s2-2-1.png)
+![](README_files/figure-markdown_github/s2-2-2-1.png)
 
 ### cdiagnose()
 
@@ -109,7 +107,7 @@ cdiagnose(model.lm, fit_type = 'response', residual_type = 'response', se = FALS
   # Default alpha value is 1.
 ```
 
-![](README_files/figure-markdown_github/s2-3-1.png)
+![](README_files/figure-markdown_github/s2-3-1-1.png)
 
 ## 3. fitres() & fitresdf()
 
@@ -140,20 +138,13 @@ model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 head(fitresdf(model = model.lm, data = mtcars, fit_type = 'response'))
 ```
 
-    ##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
-    ## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
-    ## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
-    ## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
-    ## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
-    ## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
-    ## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
-    ##                        fit   residual residual_margin
-    ## Mazda RX4         23.26669 -2.2666926     -0.10793774
-    ## Mazda RX4 Wag     21.86801 -0.8680127     -0.04133394
-    ## Datsun 710        24.91220 -2.1121984     -0.09264028
-    ## Hornet 4 Drive    20.32266  1.0773414      0.05034305
-    ## Hornet Sportabout 19.08853 -0.3885293     -0.02077697
-    ## Valiant           18.97883 -0.8788289     -0.04855408
+    ##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb       fit   residual residual_margin
+    ## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4  23.26669 -2.2666926     -0.10793774
+    ## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4  21.86801 -0.8680127     -0.04133394
+    ## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1  24.91220 -2.1121984     -0.09264028
+    ## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1  20.32266  1.0773414      0.05034305
+    ## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2  19.08853 -0.3885293     -0.02077697
+    ## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1  18.97883 -0.8788289     -0.04855408      
 
 ``` r
 # Warning message displays when the specified data frame has missing values.
@@ -166,20 +157,13 @@ tail(fitresdf(model.lm, df))
     ## Warning in fitresdf(model.lm, data = df, type = "response"): 3 rows with
     ## missing values were moved to the bottom of the data frame.
 
-    ##                mpg cyl disp  hp drat   wt qsec vs am gear carb      fit
-    ## Ferrari Dino  19.7   6  145 175 3.62 2.77 15.5  0  1    5    6 22.38605
-    ## Maserati Bora 15.0   8  301 335 3.54 3.57 14.6  0  1    5    8 17.89170
-    ## Volvo 142E    21.4   4  121 109 4.11 2.78 18.6  1  1    4    2 22.63986
-    ## Mazda RX4       NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA
-    ## Mazda RX4 Wag   NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA
-    ## Datsun 710      NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA
-    ##                residual residual_margin
-    ## Ferrari Dino  -2.686050     -0.13634772
-    ## Maserati Bora -2.891697     -0.19277978
-    ## Volvo 142E    -1.239856     -0.05793718
-    ## Mazda RX4            NA              NA
-    ## Mazda RX4 Wag        NA              NA
-    ## Datsun 710           NA              NA
+    ##                mpg cyl disp  hp drat   wt qsec vs am gear carb      fit  residual residual_margin
+    ## Ferrari Dino  19.7   6  145 175 3.62 2.77 15.5  0  1    5    6 22.38605 -2.686050     -0.13634772
+    ## Maserati Bora 15.0   8  301 335 3.54 3.57 14.6  0  1    5    8 17.89170 -2.891697     -0.19277978
+    ## Volvo 142E    21.4   4  121 109 4.11 2.78 18.6  1  1    4    2 22.63986 -1.239856     -0.05793718
+    ## Mazda RX4       NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA        NA              NA
+    ## Mazda RX4 Wag   NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA        NA              NA
+    ## Datsun 710      NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA        NA              NA
 
 
 ## 4. modeldf()
@@ -193,20 +177,13 @@ model.lm <- lm(data = mtcars, formula = mpg ~ disp + hp + wt + gear + am)
 modeldf(model = model.lm, conf = 0.90) # conf = 0.95 is the default value; can be omitted.
 ```
 
-    ##          term         beta         se        moe    ci_lower    ci_upper
-    ## 1 (Intercept) 32.108024910 4.84359733 8.26132640 23.84669851 40.36935131
-    ## 2          am  1.605381694 1.78234460 3.03999888 -1.43461719  4.64538058
-    ## 3        disp  0.005352328 0.01178752 0.02010500 -0.01475267  0.02545733
-    ## 4        gear  0.651585626 1.21191542 2.06706466 -1.41547904  2.71865029
-    ## 5          hp -0.042892355 0.01424230 0.02429192 -0.06718428 -0.01860043
-    ## 6          wt -3.113042246 1.17912588 2.01113824 -5.12418048 -1.10190401
-    ##            t            p      vif
-    ## 1  6.6289625 4.959127e-07       NA
-    ## 2  0.9007134 3.760085e-01 3.583076
-    ## 3  0.4540675 6.535481e-01 9.668205
-    ## 4  0.5376494 5.953915e-01 3.621713
-    ## 5 -3.0116168 5.721679e-03 4.319422
-    ## 6 -2.6401271 1.382770e-02 6.029643
+    ##          term         beta         se        moe    ci_lower    ci_upper          t            p      vif
+    ## 1 (Intercept) 32.108024910 4.84359733 8.26132640 23.84669851 40.36935131  6.6289625 4.959127e-07       NA
+    ## 2          am  1.605381694 1.78234460 3.03999888 -1.43461719  4.64538058  0.9007134 3.760085e-01 3.583076
+    ## 3        disp  0.005352328 0.01178752 0.02010500 -0.01475267  0.02545733  0.4540675 6.535481e-01 9.668205
+    ## 4        gear  0.651585626 1.21191542 2.06706466 -1.41547904  2.71865029  0.5376494 5.953915e-01 3.621713
+    ## 5          hp -0.042892355 0.01424230 0.02429192 -0.06718428 -0.01860043 -3.0116168 5.721679e-03 4.319422
+    ## 6          wt -3.113042246 1.17912588 2.01113824 -5.12418048 -1.10190401 -2.6401271 1.382770e-02 6.029643
 
 ### Case 2: GLM (logit)
 
@@ -215,34 +192,22 @@ model.glm <- glm(data = mtcars, formula = am ~ mpg + disp + hp, family = binomia
 modeldf(model = model.glm, conf = 0.90) # conf = 0.95 is the default value; can be omitted.
 ```
 
-    ##          term        beta          se         moe     ci_lower    ci_upper
-    ## 1 (Intercept) -33.8128314 24.17533401 26.83504619 -94.19070326 -6.97778523
-    ## 2        disp  -0.0654460  0.04304626  0.04707836  -0.16992781 -0.01836764
-    ## 3          hp   0.1493636  0.07871156  0.20423473   0.05857355  0.35359832
-    ## 4         mpg   1.2849763  0.89894752  2.22397961   0.29320289  3.50895588
-    ##           z          p       vif
-    ## 1 -1.398650 0.16191796        NA
-    ## 2 -1.520364 0.12841942 15.021316
-    ## 3  1.897607 0.05774791 23.014959
-    ## 4  1.429423 0.15288269  8.822745
+    ##          term        beta          se         moe     ci_lower    ci_upper         z          p       vif
+    ## 1 (Intercept) -33.8128314 24.17533401 26.83504619 -94.19070326 -6.97778523 -1.398650 0.16191796        NA
+    ## 2        disp  -0.0654460  0.04304626  0.04707836  -0.16992781 -0.01836764 -1.520364 0.12841942 15.021316
+    ## 3          hp   0.1493636  0.07871156  0.20423473   0.05857355  0.35359832  1.897607 0.05774791 23.014959
+    ## 4         mpg   1.2849763  0.89894752  2.22397961   0.29320289  3.50895588  1.429423 0.15288269  8.822745
 
 ### Case 3: NLS
 
 ``` r
-require(graphics)
-DNase1    <- subset(DNase, Run == 1)
-fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
-modeldf(model = fm1DNase1, conf = 0.85) # conf = 0.95 is the default value; can be omitted.
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+modeldf(model = model.nls, conf = 0.85) # conf = 0.95 is the default value; can be omitted.
 ```
 
-    ##   term     beta         se        moe  ci_lower ci_upper        t
-    ## 1 Asym 2.345182 0.07815410 0.13175992 2.2343149 2.476941 30.00715
-    ## 2 xmid 1.483092 0.08135333 0.13441752 1.3656609 1.617509 18.23025
-    ## 3 scal 1.041455 0.03227082 0.05132188 0.9933049 1.092777 32.27236
-    ##              p
-    ## 1 2.165539e-13
-    ## 2 1.218541e-10
-    ## 3 8.506932e-14
+    ##     term        beta         se         moe    ci_lower    ci_upper         t             p
+    ## 1 theta0 -121.608226 13.2364581 19.40604989 -140.672736 -102.202176 -9.187369  2.167395e-15
+    ## 2 theta1    1.170315  0.0182639  0.02489023    1.141823    1.195206  64.078073 3.014033e-91
 
 ## 5. validate()
 
@@ -287,7 +252,7 @@ validate(model.glm) # Note the inapplicability of mpe.
     ##                   model.glm
     ## n                 32.000000
     ## pseudo.rsq.mcfad   0.602490
-    ## error_rate         0.066667
+    ## aer                0.066667
     ## null.deviance     43.229733
     ## residual.deviance 17.184255
     ## df.null           31.000000
@@ -305,27 +270,25 @@ validate(model.glm) # Note the inapplicability of mpe.
 ### Case 3: NLS
 
 ``` r
-require(graphics)
-DNase1    <- subset(DNase, Run == 1)
-model.nls <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
 validate(model.nls)
 ```
 
-    ##                        model.nls
-    ## n                      16.000000
-    ## iterations              0.000000
-    ## convergence_tolerance   0.000008
-    ## sigma                   0.019194
-    ## df.sigma               13.000000
-    ## residual.median        -0.001454
-    ## residual.mean          -0.000660
-    ## residual.sd             0.017856
-    ## rmse                    0.017302
-    ## mae                     0.013570
-    ## mpe                    -0.084337
-    ## AIC                   -76.416424
-    ## BIC                   -73.326069
-    ## loglik                 42.208212
+    ##                         model.nls
+    ## n                      116.000000
+    ## iterations               4.000000
+    ## convergence_tolerance    0.000001
+    ## sigma                   23.624178
+    ## df.sigma               114.000000
+    ## residual.median         -0.684547
+    ## residual.mean           -0.000002
+    ## residual.sd             23.521240
+    ## rmse                    23.419636
+    ## mae                     17.120045
+    ## mpe                     -0.287614
+    ## AIC                   1066.823097
+    ## BIC                   1075.083868
+    ## loglik                -530.411549
 
 ## 6. Conclusion
 
