@@ -42,10 +42,8 @@ diagnose(model.lm) # defaults
 diagnose(model.lm, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lwd = 2)
 
 # NLS case
-require(graphics)
-DNase1    <- subset(DNase, Run == 1)
-fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
-diagnose(fm1DNase1)
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+ggdiagnose(model.nls)
 
 }
 \seealso{
