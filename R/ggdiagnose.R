@@ -16,10 +16,8 @@
 #' ggdiagnose(model, bins = NROW(mtcars), se = FALSE, freqpct = TRUE)
 #'
 #' # NLS case
-#' require(graphics)
-#' DNase1    <- subset(DNase, Run == 1)
-#' fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
-#' ggdiagnose(fm1DNase1)
+#' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+#' ggdiagnose(model.nls)
 #'
 #' @section Warning:
 #' NLS objects will only work if "model = TRUE" is specified in the original NLS function.
@@ -68,11 +66,11 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
   }
 
   options(warn = 0)
-  
+
   if (any(!'model' %in% names(model))) {
-    
+
     stop('No model frame exists. If the model input is an nls object, please change it to the following format: nls(y ~ x, data, model = TRUE, ...)')
-    
+
   }
 
   ### Set alpha value so that ggplot2 functions can process it ###
