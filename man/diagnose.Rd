@@ -43,7 +43,7 @@ diagnose(model.lm, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lw
 
 # NLS case
 model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
-ggdiagnose(model.nls)
+diagnose(model.nls)
 
 }
 \seealso{
