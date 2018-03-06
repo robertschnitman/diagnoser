@@ -17,10 +17,8 @@
 #' diagnose(model.lm, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lwd = 2)
 #'
 #' # NLS case
-#' require(graphics)
-#' DNase1    <- subset(DNase, Run == 1)
-#' fm1DNase1 <- nls(density ~ SSlogis(log(conc), Asym, xmid, scal), DNase1, model = TRUE)
-#' diagnose(fm1DNase1)
+#' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+#' ggdiagnose(model.nls)
 #'
 #' @section Warning:
 #' NLS objects will only work if "model = TRUE" is specified in the original NLS function.
@@ -50,11 +48,11 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
   nls_condition <- class(model) == 'nls'
 
   stopifnot(lgm_condition | nls_condition)
-  
+
   if (any(!'model' %in% names(model))) {
-    
+
     stop('No model frame exists. If the model input is an nls object, please change it to the following format: nls(y ~ x, data, model = TRUE, ...)')
-    
+
   }
 
   ### Set up fitted values, residuals, and 2x2 frame ###
