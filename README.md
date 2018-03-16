@@ -12,7 +12,6 @@
 4. modeldf()
 5. validate()
 6. Conclusion
-7. Future Plans
 
 ## 0. Installation
 ```r
@@ -293,18 +292,5 @@ validate(model.nls)
 ## 6. Conclusion
 
 I hope to improve upon these existing functions and create new ones that (1) minimize the programming tedium in statistical reporting and (2) assist people in diagnosing the validity of their results.
-
-## 7. Future Plans
-
-1. ~~Functions similar to broom's glance() (perhaps with other model diagnostics and making "statistic" be clear that it is referring to the F-statistic).~~ Completed 2017-12-01.  
-2. ~~ggplot2 version of diagnose().~~ Completed 2017-11-15.
-3. ~~Add VIF in modeldf().~~ Completed 2017-12-18.
-4. Modify validate() for non-regression model cases.
-5. ~~cdiagnose(): A ggplot2 version of the "classic" plot(model.object). Preferable for those with an understanding of Scale Location and Cook's Distance.~~ Completed 2017-11-15.
-6. **mdiagnose()**: probability diagnostics with the margins library.
-7. **marginsdf()**: margins results in a tidy data frame (with margin of errors and confidence intervals as in modeldf()).
-8.  ~~Simplify/combine lmdf() and glmdf(), as well as accept NLS objects.~~ Completed 2017-12-15 \[modeldf()\].
-9.  ~~Generate fit statistics in validation() for NLS models~~ Completed 2017-12-15.
-10. **nlsdiagnose()**: Consider alternative set of graphs appropriate for NLS objects.
 
 *End of Document*
