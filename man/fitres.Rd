@@ -7,6 +7,7 @@
 fitres(model, affix = FALSE, fit_type = "response",
   residual_type = "response")
 
+
 }
 \arguments{
 \item{model}{An lm, glm, or nls(model = TRUE) object.}
@@ -37,12 +38,11 @@ NLS objects will only work if "model = TRUE" is specified in the original NLS fu
 \examples{
 # OLS case
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-fitres(model.lm, type = 'response')
+fitres(model.lm, fit_type = 'response')
 
 # NLS case
 model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
 fitres(model.nls)
-
 
 }
 \seealso{
