@@ -46,7 +46,7 @@ fitres <- function(model, fit_type = 'response', residual_type = 'response') {
   }
 
   ### Set up fitres matrix ###
-  fit             <- predict(model, type = fit_type, na.action = na.include)
+  fit             <- predict(model, type = fit_type)
   actual          <- model.frame(model)[[1]]
 
   residual        <- if (lgm_condition[1]) {
