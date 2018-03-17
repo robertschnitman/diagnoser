@@ -8,7 +8,7 @@
 #' @examples
 #' # OLS case
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-#' fitres(model.lm, type = 'response')
+#' fitres(model.lm, fit_type = 'response')
 #'
 #' # NLS case
 #' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
@@ -46,10 +46,11 @@ fitres <- function(model, fit_type = 'response', residual_type = 'response') {
   }
 
   ### Set up fitres matrix ###
-  fit             <- predict(model, type = fit_type)
+  fit             <- predict(model, type = fit_type, na.action = na.include)
   actual          <- model.frame(model)[[1]]
 
   residual        <- if (lgm_condition[1]) {
+
     resid(model, type = residual_type)
 
   } else if (nls_condition) {
