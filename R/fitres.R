@@ -1,14 +1,16 @@
 #' Create matrix of model fit, residuals, and residuals margin (residuals as a proportion of the actual values).
 #'
 #' @param model An lm, glm, or nls(model = TRUE) object.
+#' @param data Dataframe. If defined, column-wise binds predictions/residuals to dataframe.
 #' @param fit_type String. Prediction type. See ?predict for details.
 #' @param residual_type String. See ?resid for details.
-#' @return A matrix.
-#' @details fitres() creates a matrix of the fitted values, residuals, and residuals as a proportion (percent) of the actual dependent variable values based on an OLS model or GLM.
+#' @return A matrix OR dataframe (if data is not null).
+#' @details fitres() creates a matrix of the fitted values, residuals, and residuals as a proportion (percent) of the actual dependent variable values based on an OLS model or GLM. If the data input is defined, then said matrix is column-wise binded to the specified dataset.
 #' @examples
 #' # OLS case
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 #' fitres(model.lm, fit_type = 'response')
+#' fitres(model.lm, data = mtcars)
 #'
 #' # NLS case
 #' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
@@ -23,17 +25,17 @@
 ### Robert Schnitman
 ### 2017-11-14
 ###
-### PURPOSE: Generate fitted values and residuals into one matrix.
+### PURPOSE: Generate fitted values and residuals into one matrix/dataframe.
 ###
-### OUTPUT: matrix.
+### OUTPUT: matrix OR data frame.
 ###
 ### RECOMMENDED CITATION:
 ###  Schnitman, Robert (2017). fitres.r. https://github.com/robertschnitman/diagnoser
 #####################################################################################
 
-fitres <- function(model, fit_type = 'response', residual_type = 'response') {
+fitres <- function(model, data = NULL, fit_type = 'response', residual_type = 'response') {
 
-  ### Type-checking ###
+  ### 1. Type-check model input. ###
   lgm_condition <- class(model) == 'lm' | class(model)[1] == 'glm'
   nls_condition <- class(model) == 'nls'
 
@@ -45,10 +47,9 @@ fitres <- function(model, fit_type = 'response', residual_type = 'response') {
 
   }
 
-  ### Set up fitres matrix ###
-  fit             <- predict(model, type = fit_type)
+  ### 2. Collect the fit and residuals into a matrix to compare NROWs. ###
+  fit             <- predict(model, type = fit_type, na.action = na.exclude)
   actual          <- model.frame(model)[[1]]
-
   residual        <- if (lgm_condition[1]) {
 
     resid(model, type = residual_type)
@@ -63,8 +64,23 @@ fitres <- function(model, fit_type = 'response', residual_type = 'response') {
 
   residual_margin <- residual/actual
 
+  fitr <- cbind(fit, residual, residual_margin)
 
-  ### Output ###
-  cbind(fit, residual, residual_margin)
+  ### 3. Generate output based on whether the data input is defined. ###
+
+  if (is.null(data)) {
+
+    fitr
+
+  } else {
+
+    cb <- cbind(data, fitr[match(rownames(data), rownames(fitr)), ]) # merge by row-index
+
+    as.data.frame(cb)
+
+  }
+
 
 }
+
+##### === END === #####
