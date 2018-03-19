@@ -114,8 +114,6 @@ The function **fitres()** will look similar to those who have used `augment()` f
 
 It creates a matrix of the fitted values, residuals, and residuals as a proportion (percent) based on the actual dependent variable's values. when the *data* input is specified, the function produces a dataframe that *merges* the fitted values and residual variables as columns to said specified dataset.
 
-### fitres()
-
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 head(fitres(model.lm, fit_type = 'response'))
