@@ -1,6 +1,7 @@
 #' Common regression fit statistics in a vector.
 #'
 #' @param model An lm, glm, or nls object.
+#' @param dataframe Logical. FALSE (default) outputs a matrix; TRUE outputs a dataframe.
 #' @return Vector (column). Includes F-statistic, R-squared, RMSE, and others.
 #' @details The broom library's glance() had a vague label for the F statistic (simply "statistic") and lacked the pseudo R-squared, which is commonly based on McFadden's version (i.e. 1 - (residual deviance / null deviance)).
 #' While the same function is friendly for data frames, it's wide form is cumbersome for quickly ascertaining model validity. Thus, validate() produces similar output as a column vector. Those who wish to have the values in broom's format can always transpose the vector.
@@ -14,7 +15,7 @@
 #' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
 #' validate(model.nls)
 #'
-#' @section Output definitions:
+#' @section Output definitions (alphabetical order):
 #' adj.rsq = Adjusted R-Squared
 #' aer = Apparent Error Rate, calculated as number of misclassifications divided by correct classifications.
 #' AIC = Akaike Information Criterion.
@@ -54,7 +55,7 @@
 ########################################################################################
 
 ##### === BEGIN === #####
-validate <- function(model) {
+validate <- function(model, dataframe = FALSE) {
 
   ### Type-checking ###
   stopifnot(any(c('lm', 'glm', 'nls') %in% class(model)[1]))
@@ -83,7 +84,7 @@ validate <- function(model) {
     adj.rsq       <- summ$adj.r.squared
 
     f             <- summ$fstatistic
-    F.stat         <- f[1]
+    F.stat        <- f[1]
     df.num        <- summ$df[[1]]
     df.den        <- summ$df[[2]]
 
@@ -141,7 +142,25 @@ validate <- function(model) {
 
   ### OUTPUT ###
   colnames(output) <- deparse(substitute(model))
-  round(output, 6) # if not rounded, digits are in form 0.000000e+00.
+  output <- round(output, 6) # if not rounded, digits are in form 0.000000e+00.
+
+  if (dataframe == FALSE) {
+
+    output # matrix
+
+  } else { # dataframe
+
+    output <- as.data.frame(output)
+
+    output$statistic <- row.names(output)
+
+    row.names(output) <- NULL
+
+    output[, c(2, 1)] # reverse order so that the category is first
+
+
+  }
+
 
 }
 
