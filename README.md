@@ -8,7 +8,7 @@
 0. Installation
 1. Introduction
 2. diagnose(), ggdiagnose(), and cdiagnose()
-3. fitres() and fitresdf()
+3. fitres()
 4. modeldf()
 5. validate()
 6. Conclusion
@@ -108,11 +108,11 @@ cdiagnose(model.lm, fit_type = 'response', residual_type = 'response', se = FALS
 
 ![](README_files/figure-markdown_github/s2-3-1-1.png)
 
-## 3. fitres() & fitresdf()
+## 3. fitres()
 
-The functions **fitres()** and **fitresdf()** will look similar to those who have used `augment()` from `broom`.
+The function **fitres()** will look similar to those who have used `augment()` from `broom`.
 
-The former creates a matrix of the fitted values, residuals, and residuals as a proportion (percent) based on the actual dependent variable's values. The latter produces a data frame from *merging* the fitted values and residual variables as columns to a specified dataset. If there are any rows with missing values in the original data frame, then they will be moved to the bottom of the new one.
+It creates a matrix of the fitted values, residuals, and residuals as a proportion (percent) based on the actual dependent variable's values. when the *data* input is specified, the function produces a dataframe that *merges* the fitted values and residual variables as columns to said specified dataset.
 
 ### fitres()
 
@@ -130,11 +130,9 @@ head(fitres(model.lm, fit_type = 'response'))
     ## Hornet Sportabout 19.08853 -0.3885293     -0.02077697
     ## Valiant           18.97883 -0.8788289     -0.04855408
 
-### fitresdf()
-
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-head(fitresdf(model = model.lm, data = mtcars, fit_type = 'response'))
+head(fitres(model = model.lm, data = mtcars, fit_type = 'response'))
 ```
 
     ##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb       fit   residual residual_margin
@@ -144,26 +142,6 @@ head(fitresdf(model = model.lm, data = mtcars, fit_type = 'response'))
     ## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1  20.32266  1.0773414      0.05034305
     ## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2  19.08853 -0.3885293     -0.02077697
     ## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1  18.97883 -0.8788289     -0.04855408      
-
-``` r
-# Warning message displays when the specified data frame has missing values.
-df        <- mtcars
-df[1:3, ] <- NA
-model.lm  <- lm(data = df, formula = mpg ~ wt + gear)
-tail(fitresdf(model.lm, df))
-```
-
-    ## Warning in fitresdf(model.lm, data = df, type = "response"): 3 rows with
-    ## missing values were moved to the bottom of the data frame.
-
-    ##                mpg cyl disp  hp drat   wt qsec vs am gear carb      fit  residual residual_margin
-    ## Ferrari Dino  19.7   6  145 175 3.62 2.77 15.5  0  1    5    6 22.38605 -2.686050     -0.13634772
-    ## Maserati Bora 15.0   8  301 335 3.54 3.57 14.6  0  1    5    8 17.89170 -2.891697     -0.19277978
-    ## Volvo 142E    21.4   4  121 109 4.11 2.78 18.6  1  1    4    2 22.63986 -1.239856     -0.05793718
-    ## Mazda RX4       NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA        NA              NA
-    ## Mazda RX4 Wag   NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA        NA              NA
-    ## Datsun 710      NA  NA   NA  NA   NA   NA   NA NA NA   NA   NA       NA        NA              NA
-
 
 ## 4. modeldf()
 
