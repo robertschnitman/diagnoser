@@ -35,7 +35,7 @@
 
 fitres <- function(model, data = NULL, fit_type = 'response', residual_type = 'response') {
 
-  ### 1. Type-check model input. ###
+  ### 1. Type-check model and data inputs. ###
   lgm_condition <- class(model) == 'lm' | class(model)[1] == 'glm'
   nls_condition <- class(model) == 'nls'
 
@@ -44,6 +44,12 @@ fitres <- function(model, data = NULL, fit_type = 'response', residual_type = 'r
   if (any(!'model' %in% names(model))) {
 
     stop('No model frame exists. If the model input is an nls object, please change it to the following format: nls(y ~ x, data, model = TRUE, ...)')
+
+  }
+
+  if (!is.null(data) & !"data.frame" %in% class(data)) {
+
+    stop('Specified dataset is not a data.frame class (i.e. !"data.frame" %in% class(data).")')
 
   }
 
