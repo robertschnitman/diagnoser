@@ -4,10 +4,12 @@
 \alias{validate}
 \title{Common regression fit statistics in a vector.}
 \usage{
-validate(model)
+validate(model, dataframe = FALSE)
 }
 \arguments{
 \item{model}{An lm, glm, or nls object.}
+
+\item{dataframe}{Logical. FALSE (default) outputs a matrix; TRUE outputs a dataframe.}
 }
 \value{
 Vector (column). Includes F-statistic, R-squared, RMSE, and others.
@@ -19,7 +21,7 @@ Common regression fit statistics in a vector.
 The broom library's glance() had a vague label for the F statistic (simply "statistic") and lacked the pseudo R-squared, which is commonly based on McFadden's version (i.e. 1 - (residual deviance / null deviance)).
 While the same function is friendly for data frames, it's wide form is cumbersome for quickly ascertaining model validity. Thus, validate() produces similar output as a column vector. Those who wish to have the values in broom's format can always transpose the vector.
 }
-\section{Output definitions}{
+\section{Output definitions (alphabetical order)}{
 
 adj.rsq = Adjusted R-Squared
 aer = Apparent Error Rate, calculated as number of misclassifications divided by correct classifications.
@@ -50,7 +52,7 @@ sigma = Standard deviation of the NLS model, calculated from summary(model)$sigm
 
 \examples{
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-validate(model.lm)
+validate(model.lm, TRUE)
 
 model.glm <- glm(data = mtcars, am ~ mpg + wt, family = binomial(link = 'logit'))
 validate(model.glm)
