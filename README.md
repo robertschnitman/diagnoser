@@ -212,7 +212,7 @@ modeldf(model = model.nls, conf = 0.85) # conf = 0.95 is the default value; can 
 
 The `glance()` from `broom` had a vague label for the F statistic (simply "statistic") and lacked any kind of pseudo R-squared for logistic regressions.
 
-Furthermore, while the same function is friendly for data frames, its wide form is cumbersome for quickly ascertaining model validity. Thus, **validate()** produces similar output as a column vector, adding McFadden's pseudo R-squared and the apparent error rate--defined as the ratio of the number of incorrect predictions to correct ones (i.e. number incorrect / number correct)--for logistic regressions. Those who wish to have the values in the format of `broom` can always transpose the vector.
+Furthermore, while the same function is friendly for data frames, its wide form is cumbersome for quickly ascertaining model validity. Thus, **validate()** produces similar output as a column vector, adding McFadden's pseudo R-squared and the apparent error rate--defined as the ratio of the number of incorrect predictions to correct ones (i.e. number incorrect / number correct)--for logistic regressions. Those who wish to have the values in the format of `broom` can always transpose the vector. Alternatively, converting the output to a dataframe is simple by setting *dataframe = TRUE* in the function.
 
 Output definitions are in the help file associated with this function.
 
@@ -240,6 +240,29 @@ validate(model.lm)
     ## AIC             167.898446
     ## BIC             173.761389
     ## loglik          -79.949223
+
+``` r
+validate(model.lm, TRUE) # dataframe
+```
+
+    ##          statistic   model.lm
+    ## 1                n  32.000000
+    ## 2              rsq   0.753842
+    ## 3          adj.rsq   0.736866
+    ## 4           F.stat  44.405361
+    ## 5           df.num   3.000000
+    ## 6           df.den  29.000000
+    ## 7          p.value   0.000000
+    ## 8  residual.median  -0.293202
+    ## 9    residual.mean   0.000000
+    ## 10     residual.sd   2.990226
+    ## 11            rmse   2.943133
+    ## 12             mae   2.353567
+    ## 13             mpe  -0.015267
+    ## 14             AIC 167.898446
+    ## 15             BIC 173.761389
+    ## 16          loglik -79.949223
+
 
 ### Case 2: GLM (logit)
 
