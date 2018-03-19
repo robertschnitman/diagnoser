@@ -7,7 +7,7 @@
 #' While the same function is friendly for data frames, it's wide form is cumbersome for quickly ascertaining model validity. Thus, validate() produces similar output as a column vector. Those who wish to have the values in broom's format can always transpose the vector.
 #' @examples
 #' model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
-#' validate(model.lm)
+#' validate(model.lm, TRUE)
 #'
 #' model.glm <- glm(data = mtcars, am ~ mpg + wt, family = binomial(link = 'logit'))
 #' validate(model.glm)
