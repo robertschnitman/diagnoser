@@ -186,7 +186,7 @@ modeldf(model = model.nls, conf = 0.85) # conf = 0.95 is the default value; can 
 
 ## 5. validate()
 
-The `glance()` from `broom` had a vague label for the F statistic (simply "statistic") and lacked any kind of pseudo R-squared for logistic regressions.
+The `glance()` function from `broom` had a vague label for the F statistic (simply "statistic") and lacked any kind of pseudo R-squared for logistic regressions.
 
 Furthermore, while the same function is friendly for data frames, its wide form is cumbersome for quickly ascertaining model validity. Thus, **validate()** produces similar output as a column vector, adding McFadden's pseudo R-squared and the apparent error rate--defined as the ratio of the number of incorrect predictions to correct ones (i.e. number incorrect / number correct)--for logistic regressions. Those who wish to have the values in the format of `broom` can always transpose the vector. Alternatively, converting the output to a dataframe is simple by setting *dataframe = TRUE* in the function.
 
