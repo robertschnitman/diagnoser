@@ -112,7 +112,7 @@ cdiagnose(model.lm, fit_type = 'response', residual_type = 'response', se = FALS
 
 The function **fitres()** will look similar to those who have used `augment()` from `broom`.
 
-It creates a matrix of the fitted values, residuals, and residuals as a proportion (percent) based on the actual dependent variable's values. when the *data* input is specified, the function produces a dataframe that *merges* the fitted values and residual variables as columns to said specified dataset.
+It creates a matrix of the fitted values, residuals, and residuals as a proportion (percent) based on the actual dependent variable's values. When the *data* input is specified, the function produces a dataframe that *merges* the fitted values and residual variables as columns to said specified dataset.
 
 ``` r
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
