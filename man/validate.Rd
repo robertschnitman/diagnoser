@@ -37,6 +37,7 @@ iterations = Number of iterations for NLS model to converge.
 loglik = Log Likelihood.
 mae = Mean Absolute Error.
 mpe = Mean Percentage Error.
+medianpe = Median Percentage Error.
 n = number of observations used in the model.
 null.deviance = Null Deviance.
 p.value = p-value for the F statistic.
@@ -47,6 +48,7 @@ residual.median = median of the residual.
 residual.sd = Standard deviation of the residual.
 rmse = Root Mean Square Error, calculated as sqrt(mean(resid(model)^2)).
 rsq = R-squared.
+sdpe = Standard Deviation of the Percent Error
 sigma = Standard deviation of the NLS model, calculated from summary(model)$sigma
 }
 
