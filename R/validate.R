@@ -2,7 +2,7 @@
 #'
 #' @param model An lm, glm, or nls object.
 #' @param dataframe Logical. FALSE (default) outputs a matrix; TRUE outputs a dataframe.
-#' @return Vector (column). Includes F-statistic, R-squared, RMSE, and others.
+#' @return Vector or dataframe. Includes F-statistic, R-squared, RMSE, and others.
 #' @details The broom library's glance() had a vague label for the F statistic (simply "statistic") and lacked the pseudo R-squared, which is commonly based on McFadden's version (i.e. 1 - (residual deviance / null deviance)).
 #' While the same function is friendly for data frames, it's wide form is cumbersome for quickly ascertaining model validity. Thus, validate() produces similar output as a column vector. Those who wish to have the values in broom's format can always transpose the vector.
 #' @examples
@@ -143,6 +143,10 @@ validate <- function(model, dataframe = FALSE) {
   ### OUTPUT ###
   colnames(output) <- deparse(substitute(model))
   output <- round(output, 6) # if not rounded, digits are in form 0.000000e+00.
+  
+  value_col <- colnames(output) # The model object name can vary,
+                                #   and we need to order the final
+								                #   output columns accordingly.
 
   if (dataframe == FALSE) {
 
@@ -154,9 +158,9 @@ validate <- function(model, dataframe = FALSE) {
 
     output$statistic <- row.names(output)
 
-    row.names(output) <- NULL
+    row.names(output) <- NULL           # Redundant with the statistic column.
 
-    output[, c(2, 1)] # reverse order so that the category is first
+    output[, c("statistic", value_col)] # reverse order so that the category is first
 
 
   }
