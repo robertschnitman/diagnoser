@@ -28,6 +28,7 @@
 #' F.stat = F statistic
 #' iterations = Number of iterations for NLS model to converge.
 #' loglik = Log Likelihood.
+#' mad = Median Absolute Deviation.
 #' mae = Mean Absolute Error.
 #' mpe = Mean Percentage Error.
 #' medianpe = Median Percentage Error.
@@ -41,7 +42,7 @@
 #' residual.sd = Standard deviation of the residual.
 #' rmse = Root Mean Square Error, calculated as sqrt(mean(resid(model)^2)).
 #' rsq = R-squared.
-#' sdpe = Standard Deviation of the Percent Error
+#' sdpe = Standard Deviation of the Percent Error.
 #' sigma = Standard deviation of the NLS model, calculated from summary(model)$sigma
 #'
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
@@ -74,15 +75,16 @@ validate <- function(model, dataframe = FALSE) {
   residual.mean   <- mean(r)
   residual.sd     <- sd(r)
   rmse            <- sqrt(mean(r^2))
+  mad             <- median(abs(r - median(r)))
   mae             <- mean(abs(r))
   medianpe        <- median(r/depvar)
   mpe             <- mean(r/depvar)
   sdpe            <- sd(r/depvar)
   AIC             <- AIC(model)
   BIC             <- BIC(model)
-  loglik          <- logLik(model)[1]
+  loglik          <- logLik(model)[1] # [2] is the degrees of freedom.
 
-  common          <- rbind(residual.median, residual.mean, residual.sd, rmse, mae, medianpe, mpe, sdpe, AIC, BIC, loglik)
+  common          <- rbind(residual.median, residual.mean, residual.sd, rmse, mad, mae, medianpe, mpe, sdpe, AIC, BIC, loglik)
 
 
   ### Case 1: OLS ###
