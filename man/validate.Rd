@@ -12,7 +12,7 @@ validate(model, dataframe = FALSE)
 \item{dataframe}{Logical. FALSE (default) outputs a matrix; TRUE outputs a dataframe.}
 }
 \value{
-Vector (column). Includes F-statistic, R-squared, RMSE, and others.
+Vector or dataframe. Includes F-statistic, R-squared, RMSE, and others.
 }
 \description{
 Common regression fit statistics in a vector.
