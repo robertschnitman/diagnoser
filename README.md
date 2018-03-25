@@ -211,6 +211,7 @@ validate(model.lm)
     ## residual.mean     0.000000
     ## residual.sd       2.990226
     ## rmse              2.943133
+    ## mad               1.943778
     ## mae               2.353567
     ## medianpe         -0.016107
     ## mpe              -0.015267
@@ -235,20 +236,21 @@ validate(model.lm, TRUE) # dataframe
     ## 9    residual.mean   0.000000
     ## 10     residual.sd   2.990226
     ## 11            rmse   2.943133
-    ## 12             mae   2.353567
-    ## 13        medianpe  -0.016107
-    ## 14             mpe  -0.015267
-    ## 15            sdpe   0.161915
-    ## 16             AIC 167.898446
-    ## 17             BIC 173.761389
-    ## 18          loglik -79.949223
+    ## 12             mad   1.943778
+    ## 13             mae   2.353567
+    ## 14        medianpe  -0.016107
+    ## 15             mpe  -0.015267
+    ## 16            sdpe   0.161915
+    ## 17             AIC 167.898446
+    ## 18             BIC 173.761389
+    ## 19          loglik -79.949223
 
 
 ### Case 2: GLM (logit)
 
 ``` r
 model.glm <- glm(am ~ mpg + wt, mtcars, family = binomial(link = 'logit'))
-validate(model.glm) # Note the inapplicability of mpe.
+validate(model.glm) # Note the inapplicability of the percent error (pe) statistics.
 ```
 
     ##                   model.glm
@@ -263,6 +265,7 @@ validate(model.glm) # Note the inapplicability of mpe.
     ## residual.mean     -0.044152
     ## residual.sd        0.743181
     ## rmse               0.732808
+    ## mad                0.384793
     ## mae                0.508942
     ## medianpe               -Inf
     ## mpe                    -Inf
@@ -276,6 +279,9 @@ validate(model.glm) # Note the inapplicability of mpe.
 ``` r
 model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
 validate(model.nls) # Only works if "model = TRUE" is specified in nls().
+                    #   Setting "model = TRUE" will store the model frame
+                    #     and thus the dependent variable values, which
+                    #     the residuals can then be computed.
 ```
 
     ##                         model.nls
@@ -288,6 +294,7 @@ validate(model.nls) # Only works if "model = TRUE" is specified in nls().
     ## residual.mean           -0.000002
     ## residual.sd             23.521240
     ## rmse                    23.419636
+    ## mad                     15.047691
     ## mae                     17.120045
     ## medianpe                -0.011579
     ## mpe                     -0.287614
