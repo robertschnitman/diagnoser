@@ -212,7 +212,9 @@ validate(model.lm)
     ## residual.sd       2.990226
     ## rmse              2.943133
     ## mae               2.353567
+    ## medianpe         -0.016107
     ## mpe              -0.015267
+    ## sdpe              0.161915
     ## AIC             167.898446
     ## BIC             173.761389
     ## loglik          -79.949223
@@ -234,10 +236,12 @@ validate(model.lm, TRUE) # dataframe
     ## 10     residual.sd   2.990226
     ## 11            rmse   2.943133
     ## 12             mae   2.353567
-    ## 13             mpe  -0.015267
-    ## 14             AIC 167.898446
-    ## 15             BIC 173.761389
-    ## 16          loglik -79.949223
+    ## 13        medianpe  -0.016107
+    ## 14             mpe  -0.015267
+    ## 15            sdpe   0.161915
+    ## 16             AIC 167.898446
+    ## 17             BIC 173.761389
+    ## 18          loglik -79.949223
 
 
 ### Case 2: GLM (logit)
@@ -260,7 +264,9 @@ validate(model.glm) # Note the inapplicability of mpe.
     ## residual.sd        0.743181
     ## rmse               0.732808
     ## mae                0.508942
+    ## medianpe               -Inf
     ## mpe                    -Inf
+    ## sdpe                    NaN
     ## AIC               23.184255
     ## BIC               27.581463
     ## loglik            -8.592128
@@ -269,7 +275,7 @@ validate(model.glm) # Note the inapplicability of mpe.
 
 ``` r
 model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
-validate(model.nls)
+validate(model.nls) # Only works if "model = TRUE" is specified in nls().
 ```
 
     ##                         model.nls
@@ -283,13 +289,15 @@ validate(model.nls)
     ## residual.sd             23.521240
     ## rmse                    23.419636
     ## mae                     17.120045
+    ## medianpe                -0.011579
     ## mpe                     -0.287614
+    ## sdpe                     1.161944
     ## AIC                   1066.823097
     ## BIC                   1075.083868
     ## loglik                -530.411549
 
 ## 6. Conclusion
 
-I hope to improve upon these existing functions and create new ones that (1) minimize the programming tedium in statistical reporting and (2) assist people in diagnosing the validity of their results.
+The functions discussed and demonstrated will be improved on a continuing basis to (1) minimize the programming tedium in statistical reporting and (2) assist people in diagnosing the validity of their results. New functions to be added based on feasibility and future needs as necessary.
 
 *End of Document*
