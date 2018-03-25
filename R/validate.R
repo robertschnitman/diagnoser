@@ -30,6 +30,7 @@
 #' loglik = Log Likelihood.
 #' mae = Mean Absolute Error.
 #' mpe = Mean Percentage Error.
+#' medianpe = Median Percentage Error.
 #' n = number of observations used in the model.
 #' null.deviance = Null Deviance.
 #' p.value = p-value for the F statistic.
@@ -40,6 +41,7 @@
 #' residual.sd = Standard deviation of the residual.
 #' rmse = Root Mean Square Error, calculated as sqrt(mean(resid(model)^2)).
 #' rsq = R-squared.
+#' sdpe = Standard Deviation of the Percent Error
 #' sigma = Standard deviation of the NLS model, calculated from summary(model)$sigma
 #'
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
@@ -48,7 +50,7 @@
 ### Robert Schnitman
 ### 2017-12-01
 ###
-### PURPOSE: Common model statistics such as F, R^2, and RMSE in a vector.
+### PURPOSE: Produce common model statistics such as F, R^2, and RMSE in a vector.
 ###
 ### RECOMMENDED CITATION:
 ###  Schnitman, Robert (2017). validate.r. https://github.com/robertschnitman/diagnoser
@@ -64,18 +66,23 @@ validate <- function(model, dataframe = FALSE) {
   summ     <- summary(model)
 
   ### Mutual statistics ###
-  n               <- nobs(model)           # Exclude from "common" object for ordering purposes.
-  residual.median <- median(resid(model))
-  residual.mean   <- mean(resid(model))
-  residual.sd     <- sd(resid(model))
-  rmse            <- sqrt(mean(resid(model)^2))
-  mae             <- mean(abs(resid(model)))
-  mpe             <- mean(resid(model)/model.frame(model)[[1]])
+  r      <- resid(model)             # Easier to read when setting up variables.
+  depvar <- model.frame(model)[[1]]  # Dependent variable values.
+
+  n               <- nobs(model)     #  Exclude from "common" object for ordering purposes.
+  residual.median <- median(r)
+  residual.mean   <- mean(r)
+  residual.sd     <- sd(r)
+  rmse            <- sqrt(mean(r^2))
+  mae             <- mean(abs(r))
+  medianpe        <- median(r/depvar)
+  mpe             <- mean(r/depvar)
+  sdpe            <- sd(r/depvar)
   AIC             <- AIC(model)
   BIC             <- BIC(model)
   loglik          <- logLik(model)[1]
 
-  common          <- rbind(residual.median, residual.mean, residual.sd, rmse, mae, mpe, AIC, BIC, loglik)
+  common          <- rbind(residual.median, residual.mean, residual.sd, rmse, mae, medianpe, mpe, sdpe, AIC, BIC, loglik)
 
 
   ### Case 1: OLS ###
@@ -143,10 +150,10 @@ validate <- function(model, dataframe = FALSE) {
   ### OUTPUT ###
   colnames(output) <- deparse(substitute(model))
   output <- round(output, 6) # if not rounded, digits are in form 0.000000e+00.
-  
+
   value_col <- colnames(output) # The model object name can vary,
                                 #   and we need to order the final
-								                #   output columns accordingly.
+								#   output columns accordingly.
 
   if (dataframe == FALSE) {
 
