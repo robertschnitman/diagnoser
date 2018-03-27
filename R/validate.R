@@ -16,7 +16,7 @@
 #' validate(model.nls)
 #'
 #' @section Output definitions (alphabetical order):
-#' adj.rsq = Adjusted R-Squared
+#' adj.rsq = Adjusted R-Squared.
 #' aer = Apparent Error Rate, calculated as the proportion of misclassifications (i.e. number of incorrect / total cases).
 #' AIC = Akaike Information Criterion.
 #' BIC = Bayesian Information Criterion.
@@ -37,12 +37,14 @@
 #' p.value = p-value for the F statistic.
 #' pseudo.rsq.mcfad = McFadden's Pseudo R-Squared, calculated as 1 - (residual.deviance/null.deviance).
 #' residual.deviance = Residual Deviance.
-#' residual.mean = mean of the residual.
-#' residual.median = median of the residual.
+#' residual.mean = Mean of the residual.
+#' residual.median = Median of the residual.
 #' residual.sd = Standard deviation of the residual.
+#' residual.se = Standard error of the residual .
 #' rmse = Root Mean Square Error, calculated as sqrt(mean(resid(model)^2)).
 #' rsq = R-squared.
 #' sdpe = Standard Deviation of the Percent Error.
+#' sepe = Standard Error of the Percent Error (sd(residuals %)/sqrt(n)).
 #' sigma = Standard deviation of the NLS model, calculated from summary(model)$sigma
 #'
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
@@ -74,17 +76,19 @@ validate <- function(model, dataframe = FALSE) {
   residual.median <- median(r)
   residual.mean   <- mean(r)
   residual.sd     <- sd(r)
+  residual.se     <- residual.sd/sqrt(n)
   rmse            <- sqrt(mean(r^2))
   mad             <- median(abs(r - median(r)))
   mae             <- mean(abs(r))
   medianpe        <- median(r/depvar)
   mpe             <- mean(r/depvar)
   sdpe            <- sd(r/depvar)
+  sepe            <- sdpe/sqrt(n)
   AIC             <- AIC(model)
   BIC             <- BIC(model)
   loglik          <- logLik(model)[1] # [2] is the degrees of freedom.
 
-  common          <- rbind(residual.median, residual.mean, residual.sd, rmse, mad, mae, medianpe, mpe, sdpe, AIC, BIC, loglik)
+  common          <- rbind(residual.median, residual.mean, residual.sd, residual.se, rmse, mad, mae, medianpe, mpe, sdpe, sepe, AIC, BIC, loglik)
 
 
   ### Case 1: OLS ###
