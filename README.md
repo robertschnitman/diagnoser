@@ -256,7 +256,7 @@ validate(model.glm) # Note the inapplicability of the percent error (pe) statist
     ##                   model.glm
     ## n                 32.000000
     ## pseudo.rsq.mcfad   0.602490
-    ## aer                0.066667
+    ## aer                0.062500
     ## null.deviance     43.229733
     ## residual.deviance 17.184255
     ## df.null           31.000000
