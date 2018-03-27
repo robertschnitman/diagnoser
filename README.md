@@ -210,12 +210,14 @@ validate(model.lm)
     ## residual.median  -0.293202
     ## residual.mean     0.000000
     ## residual.sd       2.990226
+    ## residual.se       0.528602
     ## rmse              2.943133
     ## mad               1.943778
     ## mae               2.353567
     ## medianpe         -0.016107
     ## mpe              -0.015267
     ## sdpe              0.161915
+    ## sepe              0.028623
     ## AIC             167.898446
     ## BIC             173.761389
     ## loglik          -79.949223
@@ -235,15 +237,17 @@ validate(model.lm, TRUE) # dataframe
     ## 8  residual.median  -0.293202
     ## 9    residual.mean   0.000000
     ## 10     residual.sd   2.990226
-    ## 11            rmse   2.943133
-    ## 12             mad   1.943778
-    ## 13             mae   2.353567
-    ## 14        medianpe  -0.016107
-    ## 15             mpe  -0.015267
-    ## 16            sdpe   0.161915
-    ## 17             AIC 167.898446
-    ## 18             BIC 173.761389
-    ## 19          loglik -79.949223
+    ## 11     residual.se   0.528602
+    ## 12            rmse   2.943133
+    ## 13             mad   1.943778
+    ## 14             mae   2.353567
+    ## 15        medianpe  -0.016107
+    ## 16             mpe  -0.015267
+    ## 17            sdpe   0.161915
+    ## 18            sepe   0.028623
+    ## 19             AIC 167.898446
+    ## 20             BIC 173.761389
+    ## 21          loglik -79.949223
 
 
 ### Case 2: GLM (logit)
@@ -264,12 +268,14 @@ validate(model.glm) # Note the inapplicability of the percent error (pe) statist
     ## residual.median   -0.046842
     ## residual.mean     -0.044152
     ## residual.sd        0.743181
+    ## residual.se        0.131377
     ## rmse               0.732808
     ## mad                0.384793
     ## mae                0.508942
     ## medianpe               -Inf
     ## mpe                    -Inf
     ## sdpe                    NaN
+    ## sepe                    NaN
     ## AIC               23.184255
     ## BIC               27.581463
     ## loglik            -8.592128
@@ -293,12 +299,14 @@ validate(model.nls) # Only works if "model = TRUE" is specified in nls().
     ## residual.median         -0.684547
     ## residual.mean           -0.000002
     ## residual.sd             23.521240
+    ## residual.se              2.183892
     ## rmse                    23.419636
     ## mad                     15.047691
     ## mae                     17.120045
     ## medianpe                -0.011579
     ## mpe                     -0.287614
     ## sdpe                     1.161944
+    ## sepe                     0.107884
     ## AIC                   1066.823097
     ## BIC                   1075.083868
     ## loglik                -530.411549
