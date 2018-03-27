@@ -23,7 +23,7 @@ While the same function is friendly for data frames, it's wide form is cumbersom
 }
 \section{Output definitions (alphabetical order)}{
 
-adj.rsq = Adjusted R-Squared
+adj.rsq = Adjusted R-Squared.
 aer = Apparent Error Rate, calculated as the proportion of misclassifications (i.e. number of incorrect / total cases).
 AIC = Akaike Information Criterion.
 BIC = Bayesian Information Criterion.
@@ -44,12 +44,14 @@ null.deviance = Null Deviance.
 p.value = p-value for the F statistic.
 pseudo.rsq.mcfad = McFadden's Pseudo R-Squared, calculated as 1 - (residual.deviance/null.deviance).
 residual.deviance = Residual Deviance.
-residual.mean = mean of the residual.
-residual.median = median of the residual.
+residual.mean = Mean of the residual.
+residual.median = Median of the residual.
 residual.sd = Standard deviation of the residual.
+residual.se = Standard error of the residual .
 rmse = Root Mean Square Error, calculated as sqrt(mean(resid(model)^2)).
 rsq = R-squared.
 sdpe = Standard Deviation of the Percent Error.
+sepe = Standard Error of the Percent Error (sd(residuals %)/sqrt(n)).
 sigma = Standard deviation of the NLS model, calculated from summary(model)$sigma
 }
 
