@@ -24,7 +24,7 @@ While the same function is friendly for data frames, it's wide form is cumbersom
 \section{Output definitions (alphabetical order)}{
 
 adj.rsq = Adjusted R-Squared
-aer = Apparent Error Rate, calculated as number of misclassifications divided by correct classifications.
+aer = Apparent Error Rate, calculated as the proportion of misclassifications (i.e. number of incorrect / total cases).
 AIC = Akaike Information Criterion.
 BIC = Bayesian Information Criterion.
 convergence_tolerance = Tolerance of convergence, calculated from summary(model)$convInfo$finTol
