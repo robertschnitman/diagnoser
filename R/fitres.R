@@ -1,4 +1,4 @@
-#' Create matrix of model fit, residuals, and residuals margin (residuals as a proportion of the actual values).
+#' Create matrix of model fit, residuals, and residuals % (proportion).
 #'
 #' @param model An lm, glm, or nls(model = TRUE) object.
 #' @param data Dataframe. If defined, column-wise binds predictions/residuals to dataframe.
@@ -68,9 +68,9 @@ fitres <- function(model, data = NULL, fit_type = 'response', residual_type = 'r
 
   }
 
-  residual_margin <- residual/actual
+  residual_pct <- residual/actual
 
-  fitr <- cbind(fit, residual, residual_margin)
+  fitr <- cbind(fit, residual, residual_pct)
 
   ### 3. Generate output based on whether the data input is defined. ###
 
