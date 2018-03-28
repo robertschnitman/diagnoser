@@ -35,7 +35,7 @@ The following sections provide examples.
 
 ## 2. diagnose(), ggdiagnose(), and cdiagnose()
 
-The functions **diagnose()** and **ggdiagnose()** provide alternatives for the `plot(model.object)` approach. The Q-Q, Scale-Location, and Residuals-vs.-Leverage plots in the latter method can present difficulties in interpretations. For example, Cook's Distance typically is not taught at the secondary and undergraduate levels--when it is, teachers will forego explanation of the math due to its complexity and instead focus solely on the interpretation, leaving students in the dark on how the statistic works. If the goal is to maximize students' comprehension of detecting heteroskedasticity, one option is to replace the three previously mentioned graphs with histograms and an addition of another variable: residuals margin, the residuals as a percentage of the values for the dependent variable (i.e. `(residuals ÷ actual values)*100`).
+The functions **diagnose()** and **ggdiagnose()** provide alternatives for the `plot(model.object)` approach. The Q-Q, Scale-Location, and Residuals-vs.-Leverage plots in the latter method can present difficulties in interpretations. For example, Cook's Distance typically is not taught at the secondary and undergraduate levels--when it is, teachers will forego explanation of the math due to its complexity and instead focus solely on the interpretation, leaving students in the dark on how the statistic works. If the goal is to maximize students' comprehension of detecting heteroskedasticity, one option is to replace the three previously mentioned graphs with histograms and an addition of another variable: residuals as a percentage of the values for the dependent variable (i.e. `(residuals ÷ actual values)*100`).
 
 Thinking of residuals in terms of percent differences can help determine their *magnitude*. For example, if you notice an outlier in the residuals having the value of "5", does this issue necessitate a re-estimation of the model that excludes this observation? A common method is to examine the (adjusted) R-squared before-and-after the outlier exclusion. The problem of "mining" the model occurs, however, and heightens the risk of a Type 1 Error (i.e. false positive). One solution, then, is to confirm whether this extremity is substantively different from the rest of the values--you may, based on prior knowledge, decide whether thresholds of 10% or 15% should be marked as such.
 
@@ -120,7 +120,7 @@ head(fitres(model.lm, fit_type = 'response'))
     # default type value is 'response'.
 ```
 
-    ##                        fit   residual residual_margin
+    ##                        fit   residual    residual_pct
     ## Mazda RX4         23.26669 -2.2666926     -0.10793774
     ## Mazda RX4 Wag     21.86801 -0.8680127     -0.04133394
     ## Datsun 710        24.91220 -2.1121984     -0.09264028
@@ -133,7 +133,7 @@ model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 head(fitres(model = model.lm, data = mtcars, fit_type = 'response'))
 ```
 
-    ##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb       fit   residual residual_margin
+    ##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb       fit   residual residual_pct
     ## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4  23.26669 -2.2666926     -0.10793774
     ## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4  21.86801 -0.8680127     -0.04133394
     ## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1  24.91220 -2.1121984     -0.09264028
