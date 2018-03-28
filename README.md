@@ -53,15 +53,12 @@ Because base R's plotting of model objects do not include NLM/NLS objects, neith
 # OLS case
 model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 diagnose(model.lm, fit_type = 'response', residual_type = 'response')
-```
-
-![](README_files/figure-markdown_github/s2-1-1-1.png)
-
-``` r
   # The fit_type option specifies prediction type in predict(). 
   #   Similarly, residual_type specifies for resid().
   #   These inputs are useful for glm objects using the binomial family.
 ```
+
+![](README_files/figure-markdown_github/s2-1-1-1.png)
 
 #### Case 2: NLS
 
@@ -133,7 +130,7 @@ model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
 head(fitres(model = model.lm, data = mtcars, fit_type = 'response'))
 ```
 
-    ##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb       fit   residual residual_pct
+    ##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb       fit   residual    residual_pct
     ## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4  23.26669 -2.2666926     -0.10793774
     ## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4  21.86801 -0.8680127     -0.04133394
     ## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1  24.91220 -2.1121984     -0.09264028
