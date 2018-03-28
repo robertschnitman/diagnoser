@@ -23,8 +23,7 @@ diagnose(model, fit_type = "response", residual_type = "response",
 \item{lwd}{Width of the smoothed line.}
 }
 \value{
-2x2 charts similar to plot(model.lm): 2 scatter plots and 2 histograms of residuals and "residuals margin,"
-which is the residuals as a percentage of the actual dependent variable values.
+2x2 charts similar to plot(model.lm): 2 scatter plots and 2 histograms of residuals and residuals %.
 }
 \description{
 Graphically diagnose model residuals.
