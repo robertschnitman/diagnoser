@@ -7,8 +7,7 @@
 #' @param line_color Color of the smoothed line.
 #' @param pch Point type. Same settings as Base R pch in plot().
 #' @param lwd Width of the smoothed line.
-#' @return 2x2 charts similar to plot(model.lm): 2 scatter plots and 2 histograms of residuals and "residuals margin,"
-#' which is the residuals as a percentage of the actual dependent variable values.
+#' @return 2x2 charts similar to plot(model.lm): 2 scatter plots and 2 histograms of residuals and residuals %.
 #' @examples
 #'
 #' # OLS case
@@ -118,10 +117,10 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
   plot(x    = fitr.noinf[ , 'fit'],
        y    = fitr.noinf[ , 'pct'],
        xlab = ifelse(fit_type == 'response' & family == 'binomial', pp, fv),
-       ylab = 'Residuals Margin (%)',
+       ylab = 'Residuals (%)',
        main = ifelse(fit_type == 'response' & family == 'binomial',
-                     paste('Residuals Margin (%)', vspp, sep = ' '),
-                     paste('Residuals Margin (%)', vsfv, sep = ' ')),
+                     paste('Residuals (%)', vspp, sep = ' '),
+                     paste('Residuals (%)', vsfv, sep = ' ')),
        pch  = pch,
        col  = point_color)
   lines(loess.smooth(y = fitr.noinf[ , 'pct'], x = fitr.noinf[ , 'fit']), col = line_color, lwd = lwd)
@@ -132,7 +131,7 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
        col = ifelse(point_color == 'black', 'white', point_color))
 
   ### Figure 4 - Distribution of Residuals (%) ###
-  hist(x = pct, xlab = 'Residuals Margin (%)', main = 'Distribution of Residuals Margin (%)',
+  hist(x = pct, xlab = 'Residuals (%)', main = 'Distribution of Residuals (%)',
        col = ifelse(point_color == 'black', 'white', point_color))
 
   ### Reset mfrow in case user wishes to create other base R plots ###
