@@ -153,10 +153,10 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   ### grid.arrange() requires each of the graphs to be created beforehand ###
   f1 <- rvf(y = res, x = fit, ylabel = 'Residuals')          # Figure 1 - Residuals vs. Fitted.
-  f2 <- rvf(y = pct, x = fit, ylabel = 'Residuals Margin') + # Figure 2 - Residuals Margin (%) vs. Fitted.
+  f2 <- rvf(y = pct, x = fit, ylabel = 'Residuals (%)') + # Figure 2 - Residuals Margin (%) vs. Fitted.
     scale_y_continuous(labels = scales::percent)
   f3 <- histres(x = res, xlabel = 'Residuals')               # Figure 3 - Distribution of Residuals.
-  f4 <- histres(x = pct, xlabel = 'Residuals Margin') +      # Figure 4 - Distribution of Residuals Margin (%).
+  f4 <- histres(x = pct, xlabel = 'Residuals (%)') +      # Figure 4 - Distribution of Residuals Margin (%).
     scale_x_continuous(labels = scales::percent)
 
   ### Arrange in 2x2 grid ###
