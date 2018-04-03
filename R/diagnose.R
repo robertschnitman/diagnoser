@@ -43,7 +43,7 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
                      point_color = 'black', line_color = 'black', pch = 1, lwd = 1) {
 
   ### Type-checking ###
-  lgm_condition <- class(model) == 'lm' | class(model)[1] == 'glm'
+  lgm_condition <- class(model)[1] %in% c('lm', 'glm')
   nls_condition <- class(model) == 'nls'
 
   stopifnot(lgm_condition | nls_condition)
@@ -84,7 +84,7 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   ### Graph is modified based on fit_type and residual_type specifications. ###
   fit_type <- fit_type
-  family   <- if (class(model) == 'lm') {
+  family   <- if (class(model)[1] == 'lm') {
     'lm'
   } else if (class(model)[1] == 'glm') {
     model$family[1]
