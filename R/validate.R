@@ -2,6 +2,7 @@
 #'
 #' @param model An lm, glm, or nls object.
 #' @param dataframe Logical. FALSE (default) outputs a matrix; TRUE outputs a dataframe.
+#' @param ... Arguments passed to resid().
 #' @return Vector or dataframe. Includes F-statistic, R-squared, RMSE, and others.
 #' @details The broom library's glance() had a vague label for the F statistic (simply "statistic") and lacked the pseudo R-squared, which is commonly based on McFadden's version (i.e. 1 - (residual deviance / null deviance)).
 #' While the same function is friendly for data frames, it's wide form is cumbersome for quickly ascertaining model validity. Thus, validate() produces similar output as a column vector. Those who wish to have the values in broom's format can always transpose the vector.
@@ -60,7 +61,7 @@
 ########################################################################################
 
 ##### === BEGIN === #####
-validate <- function(model, dataframe = FALSE) {
+validate <- function(model, dataframe = FALSE, ...) {
 
   ### Type-checking ###
   stopifnot(any(c('lm', 'glm', 'nls') %in% class(model)[1]))
@@ -69,7 +70,7 @@ validate <- function(model, dataframe = FALSE) {
   summ     <- summary(model)
 
   ### Mutual statistics ###
-  r      <- resid(model)             # Easier to read when setting up variables.
+  r      <- resid(model, ...)             # Easier to read when setting up variables.
   depvar <- model.frame(model)[[1]]  # Dependent variable values.
 
   n               <- nobs(model)     #  Exclude from "common" object for ordering purposes.
