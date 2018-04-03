@@ -46,8 +46,8 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
                        alpha = 1) {
 
   ### Type-checking ###
-  lgm_condition <- class(model) == 'lm' | class(model)[1] == 'glm'
-  nls_condition <- class(model) == 'nls'
+  lgm_condition <- class(model)[1] %in% c('lm', 'glm')
+  nls_condition <- class(model)[1] == 'nls'
 
   stopifnot(lgm_condition | nls_condition)
 
@@ -69,7 +69,7 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   if (any(!'model' %in% names(model))) {
 
-    stop('No model frame exists. If the model input is an nls object, please change it to the following format: nls(y ~ x, data, model = TRUE, ...)')
+    stop('No model frame exists. If the model input is an nls object, please change it to the following format: nls(y ~ x, data, model = TRUE)')
 
   }
 
@@ -78,11 +78,11 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   ### Graph is modified based on fit_type and residual_type specifications. ###
   fit_type <- fit_type
-  family   <-  if (class(model) == 'lm') {
+  family   <-  if (class(model)[1] == 'lm') {
     'lm'
   } else if (class(model)[1] == 'glm') {
     model$family[1]
-  } else if (class(model) == 'nls') {
+  } else if (class(model)[1] == 'nls') {
     'nls'
   }
   pp       <- 'Predicted Probabilities'
@@ -153,10 +153,10 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   ### grid.arrange() requires each of the graphs to be created beforehand ###
   f1 <- rvf(y = res, x = fit, ylabel = 'Residuals')          # Figure 1 - Residuals vs. Fitted.
-  f2 <- rvf(y = pct, x = fit, ylabel = 'Residuals (%)') + # Figure 2 - Residuals Margin (%) vs. Fitted.
+  f2 <- rvf(y = pct, x = fit, ylabel = 'Residuals (%)') +    # Figure 2 - Residuals Margin (%) vs. Fitted.
     scale_y_continuous(labels = scales::percent)
   f3 <- histres(x = res, xlabel = 'Residuals')               # Figure 3 - Distribution of Residuals.
-  f4 <- histres(x = pct, xlabel = 'Residuals (%)') +      # Figure 4 - Distribution of Residuals Margin (%).
+  f4 <- histres(x = pct, xlabel = 'Residuals (%)') +         # Figure 4 - Distribution of Residuals Margin (%).
     scale_x_continuous(labels = scales::percent)
 
   ### Arrange in 2x2 grid ###
