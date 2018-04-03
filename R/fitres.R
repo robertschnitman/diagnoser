@@ -36,7 +36,7 @@
 fitres <- function(model, data = NULL, fit_type = 'response', residual_type = 'response') {
 
   ### 1. Type-check model and data inputs. ###
-  lgm_condition <- class(model) == 'lm' | class(model)[1] == 'glm'
+  lgm_condition <- class(model)[1] %in% c('lm', 'glm')
   nls_condition <- class(model) == 'nls'
 
   stopifnot(lgm_condition | nls_condition)
@@ -56,7 +56,7 @@ fitres <- function(model, data = NULL, fit_type = 'response', residual_type = 'r
   ### 2. Collect the fit and residuals into a matrix to compare NROWs. ###
   fit             <- predict(model, type = fit_type, na.action = na.exclude)
   actual          <- model.frame(model)[[1]]
-  residual        <- if (lgm_condition[1]) {
+  residual        <- if (lgm_condition) {
 
     resid(model, type = residual_type)
 
