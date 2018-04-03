@@ -4,12 +4,14 @@
 \alias{validate}
 \title{Common regression fit statistics in a vector.}
 \usage{
-validate(model, dataframe = FALSE)
+validate(model, dataframe = FALSE, ...)
 }
 \arguments{
 \item{model}{An lm, glm, or nls object.}
 
 \item{dataframe}{Logical. FALSE (default) outputs a matrix; TRUE outputs a dataframe.}
+
+\item{...}{Arguments passed to resid().}
 }
 \value{
 Vector or dataframe. Includes F-statistic, R-squared, RMSE, and others.
