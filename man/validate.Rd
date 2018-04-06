@@ -26,34 +26,63 @@ While the same function is friendly for data frames, it's wide form is cumbersom
 \section{Output definitions (alphabetical order)}{
 
 adj.rsq = Adjusted R-Squared.
+
 aer = Apparent Error Rate, calculated as the proportion of misclassifications (i.e. number of incorrect / total cases). Cutoff <= 0.5.
+
 AIC = Akaike Information Criterion.
+
 BIC = Bayesian Information Criterion.
+
 convergence_tolerance = Tolerance of convergence, calculated from summary(model)$convInfo$finTol
+
 df.den = degrees of freedom, denominator.
+
 df.null = Degrees of freedom for the null deviance.
+
 df.num = degrees of freedom, numerator.
+
 df.sigma = degrees of freedom for sigma.
+
 F.stat = F statistic
+
 iterations = Number of iterations for NLS model to converge.
+
 loglik = Log Likelihood.
+
 mad = Median Absolute Deviation.
+
 mae = Mean Absolute Error.
+
 mpe = Mean Percentage Error.
+
 medianpe = Median Percentage Error.
+
 n = number of observations used in the model.
+
 null.deviance = Null Deviance.
+
 p.value = p-value for the F statistic.
+
 pseudo.rsq.mcfad = McFadden's Pseudo R-Squared, calculated as 1 - (residual.deviance/null.deviance).
+
 residual.deviance = Residual Deviance.
+
 residual.mean = Mean of the residual.
+
 residual.median = Median of the residual.
+
 residual.sd = Standard deviation of the residual.
-residual.se = Standard error of the residual .
+
+residual.se = Standard error of the residual.
+
 rmse = Root Mean Square Error, calculated as sqrt(mean(resid(model)^2)).
+
 rsq = R-squared.
+
 sdpe = Standard Deviation of the Percent Error.
+
 sepe = Standard Error of the Percent Error (sd(residuals %)/sqrt(n)).
+
 sigma = Standard deviation of the NLS model, calculated from summary(model)$sigma
 }
 
