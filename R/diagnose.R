@@ -16,11 +16,8 @@
 #' diagnose(model.lm, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lwd = 2)
 #'
 #' # NLS case
-#' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+#' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
 #' diagnose(model.nls)
-#'
-#' @section Warning:
-#' NLS objects will only work if "model = TRUE" is specified in the original NLS function.
 #'
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
@@ -44,15 +41,10 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   ### Type-checking ###
   lgm_condition <- class(model)[1] %in% c('lm', 'glm')
-  nls_condition <- class(model) == 'nls'
+  nls_condition <- class(model)[1] == 'nls'
 
   stopifnot(lgm_condition | nls_condition)
 
-  if (any(!'model' %in% names(model))) {
-
-    stop('No model frame exists. If the model input is an nls object, please change it to the following format: nls(y ~ x, data, model = TRUE, ...)')
-
-  }
 
   ### Set up fitted values, residuals, and 2x2 frame ###
   fit <- predict(model, type = fit_type)
@@ -66,7 +58,7 @@ diagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   }
 
-  act <- model.frame(model)[[1]]
+  act <- res + fit
   pct <- (res/act)*100                     # "Margin": residuals as a % of actual values.
 
   fitr       <- cbind(fit, res, act, pct)
