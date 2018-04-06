@@ -26,7 +26,7 @@ While the same function is friendly for data frames, it's wide form is cumbersom
 \section{Output definitions (alphabetical order)}{
 
 adj.rsq = Adjusted R-Squared.
-aer = Apparent Error Rate, calculated as the proportion of misclassifications (i.e. number of incorrect / total cases).
+aer = Apparent Error Rate, calculated as the proportion of misclassifications (i.e. number of incorrect / total cases). Cutoff <= 0.5.
 AIC = Akaike Information Criterion.
 BIC = Bayesian Information Criterion.
 convergence_tolerance = Tolerance of convergence, calculated from summary(model)$convInfo$finTol
@@ -64,7 +64,7 @@ validate(model.lm, TRUE)
 model.glm <- glm(data = mtcars, am ~ mpg + wt, family = binomial(link = 'logit'))
 validate(model.glm)
 
-model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
 validate(model.nls)
 
 }
