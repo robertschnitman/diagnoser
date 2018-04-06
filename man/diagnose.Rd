@@ -28,11 +28,6 @@ diagnose(model, fit_type = "response", residual_type = "response",
 \description{
 Graphically diagnose model residuals.
 }
-\section{Warning}{
-
-NLS objects will only work if "model = TRUE" is specified in the original NLS function.
-}
-
 \examples{
 
 # OLS case
@@ -41,7 +36,7 @@ diagnose(model.lm) # defaults
 diagnose(model.lm, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lwd = 2)
 
 # NLS case
-model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
 diagnose(model.nls)
 
 }
