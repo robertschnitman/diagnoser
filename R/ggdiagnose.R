@@ -16,11 +16,8 @@
 #' ggdiagnose(model, bins = NROW(mtcars), se = FALSE, freqpct = TRUE)
 #'
 #' # NLS case
-#' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+#' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
 #' ggdiagnose(model.nls)
-#'
-#' @section Warning:
-#' NLS objects will only work if "model = TRUE" is specified in the original NLS function.
 #'
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
 
@@ -67,12 +64,6 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
 
   options(warn = 0)
 
-  if (any(!'model' %in% names(model))) {
-
-    stop('No model frame exists. If the model input is an nls object, please change it to the following format: nls(y ~ x, data, model = TRUE)')
-
-  }
-
   ### Set alpha value so that ggplot2 functions can process it ###
   a <- alpha
 
@@ -101,7 +92,7 @@ ggdiagnose <- function(model, fit_type = 'response', residual_type = 'response',
     r
 
   }
-  act <- model.frame(model)[[1]]
+  act <- res + fit
 
   pct <- (res/act)
   df  <- as.data.frame(cbind(fit, res, pct))
