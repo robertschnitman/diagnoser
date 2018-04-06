@@ -33,7 +33,7 @@ AIC = Akaike Information Criterion.
 
 BIC = Bayesian Information Criterion.
 
-convergence_tolerance = Tolerance of convergence, calculated from summary(model)$convInfo$finTol
+convergence_tolerance = Tolerance of convergence, calculated from summary(model)$convInfo$finTol.
 
 df.den = degrees of freedom, denominator.
 
