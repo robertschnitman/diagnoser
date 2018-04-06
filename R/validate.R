@@ -13,12 +13,12 @@
 #' model.glm <- glm(data = mtcars, am ~ mpg + wt, family = binomial(link = 'logit'))
 #' validate(model.glm)
 #'
-#' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+#' model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
 #' validate(model.nls)
 #'
 #' @section Output definitions (alphabetical order):
 #' adj.rsq = Adjusted R-Squared.
-#' aer = Apparent Error Rate, calculated as the proportion of misclassifications (i.e. number of incorrect / total cases).
+#' aer = Apparent Error Rate, calculated as the proportion of misclassifications (i.e. number of incorrect / total cases). Cutoff <= 0.5.
 #' AIC = Akaike Information Criterion.
 #' BIC = Bayesian Information Criterion.
 #' convergence_tolerance = Tolerance of convergence, calculated from summary(model)$convInfo$finTol
@@ -70,8 +70,9 @@ validate <- function(model, dataframe = FALSE, ...) {
   summ     <- summary(model)
 
   ### Mutual statistics ###
-  r      <- resid(model, ...)             # Easier to read when setting up variables.
-  depvar <- model.frame(model)[[1]]  # Dependent variable values.
+  fit    <- predict(model, type = 'response')
+  r      <- resid(model, ...)        # Easier to read when setting up variables.
+  actual <- r + fit                  # Residual = actual - fit --> Residual + fit = actual.
 
   n               <- nobs(model)     #  Exclude from "common" object for ordering purposes.
   residual.median <- median(r)
@@ -81,9 +82,9 @@ validate <- function(model, dataframe = FALSE, ...) {
   rmse            <- sqrt(mean(r^2))
   mad             <- median(abs(r - median(r)))
   mae             <- mean(abs(r))
-  medianpe        <- median(r/depvar)
-  mpe             <- mean(r/depvar)
-  sdpe            <- sd(r/depvar)
+  medianpe        <- median(r/actual)
+  mpe             <- mean(r/actual)
+  sdpe            <- sd(r/actual)
   sepe            <- sdpe/sqrt(n)
   AIC             <- AIC(model)
   BIC             <- BIC(model)
@@ -125,8 +126,6 @@ validate <- function(model, dataframe = FALSE, ...) {
 
     } # Apparent Error Rate
 
-    fit               <- predict(model, type = 'response')
-    actual            <- model.frame(model)[[1]]
     fit_binary        <- ifelse(fit < 0.5, 0, 1)
     aer               <- aer(actual, fit_binary)
 
@@ -134,9 +133,13 @@ validate <- function(model, dataframe = FALSE, ...) {
     glm_stats         <- rbind(null.deviance, residual.deviance, df.null, df.residual)
 
     output            <- if (family(model)$link == 'logit') {
+
       rbind(n, pseudo.rsq.mcfad, aer, glm_stats, common)
+
     } else {
+
       rbind(n, pseudo.rsq.mcfad, glm_stats, common)
+
     }
 
   ### Case 3: NLS ###
@@ -160,7 +163,7 @@ validate <- function(model, dataframe = FALSE, ...) {
 
   value_col <- colnames(output) # The model object name can vary,
                                 #   and we need to order the final
-								#   output columns accordingly.
+                                #   output columns accordingly.
 
   if (dataframe == FALSE) {
 
