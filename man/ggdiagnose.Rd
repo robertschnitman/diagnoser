@@ -29,11 +29,6 @@ which is the residuals as a percentage of the actual dependent variable values.
 \description{
 Graphically diagnose model residuals (ggplot2 version).
 }
-\section{Warning}{
-
-NLS objects will only work if "model = TRUE" is specified in the original NLS function.
-}
-
 \examples{
 
 # OLS case
@@ -41,7 +36,7 @@ model <- lm(data = mtcars, formula = mpg ~ wt + gear)
 ggdiagnose(model, bins = NROW(mtcars), se = FALSE, freqpct = TRUE)
 
 # NLS case
-model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
 ggdiagnose(model.nls)
 
 }
