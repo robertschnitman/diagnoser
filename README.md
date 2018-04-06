@@ -63,7 +63,7 @@ diagnose(model.lm, fit_type = 'response', residual_type = 'response')
 #### Case 2: NLS
 
 ``` r
-model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
 diagnose(model.nls, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, lwd = 2)
   # Graph editing inputs. Recommended for larger data, as ggplot2 in ggdiagnose() and cdiagnose() can be slow.
 ```
@@ -74,7 +74,7 @@ diagnose(model.nls, point_color = '#00BFC4', line_color = '#F8766D', pch = 16, l
 
 ``` r
 # NLS case
-model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
 ggdiagnose(model.nls, fit_type = 'response', residual_type = 'response',
            bins = nobs(model.nls), se = TRUE, freqpct = TRUE, alpha = 0.5)
   # The fit_type option specifies prediction type in predict(). 
@@ -173,7 +173,7 @@ modeldf(model = model.glm, conf = 0.90) # conf = 0.95 is the default value; can 
 ### Case 3: NLS
 
 ``` r
-model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
 modeldf(model = model.nls, conf = 0.85) # conf = 0.95 is the default value; can be omitted.
 ```
 
@@ -280,11 +280,8 @@ validate(model.glm) # Note the inapplicability of the percent error (pe) statist
 ### Case 3: NLS
 
 ``` r
-model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality, model = TRUE)
-validate(model.nls) # Only works if "model = TRUE" is specified in nls().
-                    #   Setting "model = TRUE" will store the model frame
-                    #     and thus the dependent variable values, which
-                    #     the residuals can then be computed.
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
+validate(model.nls)
 ```
 
     ##                         model.nls
