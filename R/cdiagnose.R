@@ -35,7 +35,7 @@
 cdiagnose <- function(model, fit_type = 'response', residual_type = 'response', se = FALSE, alpha = 1) {
 
   ### Type-checking ###
-  stopifnot(class(model) == 'lm' | class(model)[1] == 'glm')
+  stopifnot(class(model)[1] == 'lm' | class(model)[1] == 'glm')
 
   options(warn = -1)
 
