@@ -27,17 +27,28 @@
 
 modeldf <- function(model, conf = 0.95) {
 
-  ### Model should be glm and conf argument should be within 0-1 ###
+  ### 1. Model should be glm and conf argument should be within 0-1 ###
   stopifnot(any(c('lm', 'glm', 'nls') %in% class(model)[1]), conf >= 0 & conf <= 1)
+  
+  ### 2. Verify that the user has the car library installed for vif() ###
+  if (!require(car)) {
+    
+    stop('Please install the car library so that the VIFs may be computed.')
+    
+  } else {
+    
+    require(car)
+    
+  }
 
-  ### Set up t/z statistics groups for value replacements in "Replace column names" ###
+  ### 3. Set up t/z statistics groups for value replacements in "Replace column names" ###
   t_grp <- c('gaussian', 'Gamma')
   z_grp <- c('binomial', 'poisson')
 
-  ### Save model estimates as a data frame. ###
+  ### 4. Save model estimates as a data frame. ###
   summary.df <- as.data.frame(summary(model)$coefficients)
 
-  ### Replace column names ###
+  ### 5. Replace column names ###
   names(summary.df) <- gsub('Estimate',   'beta', names(summary.df))
   names(summary.df) <- gsub('Std. Error', 'se',   names(summary.df))
 
@@ -52,7 +63,7 @@ modeldf <- function(model, conf = 0.95) {
 
   names(summary.df) <- gsub('^Pr.*', 'p', names(summary.df))
 
-  ### Generate new variables (non-VIF) ###
+  ### 6. Generate new variables (non-VIF) ###
   summary.df$term     <- rownames(summary.df)                               # Intercept & independent variables.
 
   ci                  <- suppressMessages(confint(model, level = conf))     # To set up ci columns; eliminate profile message.
@@ -61,7 +72,7 @@ modeldf <- function(model, conf = 0.95) {
 
   summary.df$moe      <- with(summary.df, ci_upper - beta)
 
-  ### VIF only works for OLS and GLM ###
+  ### 7. VIF only works for OLS and GLM ###
 
   if (any(c('lm', 'glm') %in% class(model)[1])) {
 
@@ -73,7 +84,7 @@ modeldf <- function(model, conf = 0.95) {
 
   }
 
-  ### Remove row names (redundant with term variable) ###
+  ### 8. Remove row names (redundant with term variable) ###
 
   if (any(c('lm', 'glm') %in% class(model)[1])) {
 
@@ -86,17 +97,17 @@ modeldf <- function(model, conf = 0.95) {
   }
 
 
-  ### Print reordered columns ###
+  ### 9. Print reordered columns ###
 
   if (class(model)[1] == 'nls') {
-    summary.df[, c('term',         # Intercept and independent variables.
-                   'beta',         # Coefficients.
-                   'se',           # Standard Error
-                   'moe',          # % Margin of Error, being specified by conf argument.
-                   'ci_lower',     # Lower bound of confidence interval.
-                   'ci_upper',     # Upper bound of confidence interval.
-                   't',            # T-statistic.
-                   'p')]           # p-value.
+    summary.df[, c('term',             # Intercept and independent variables.
+                   'beta',             # Coefficients.
+                   'se',               # Standard Error
+                   'moe',              # % Margin of Error, being specified by conf argument.
+                   'ci_lower',         # Lower bound of confidence interval.
+                   'ci_upper',         # Upper bound of confidence interval.
+                   't',                # T-statistic.
+                   'p')]               # p-value.
 
   } else if (class(model)[1] == 'lm' || (class(model)[1] == 'glm' & model$family[1] %in% t_grp)) {
     summary_vif.df[, c('term',         # Intercept and independent variables.
