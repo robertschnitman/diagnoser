@@ -19,7 +19,7 @@
 #' @section Output definitions (alphabetical order):
 #' adj.rsq = Adjusted R-Squared.
 #'
-#' aer = Apparent Error Rate, calculated as the proportion of misclassifications (i.e. number of incorrect / total cases). Cutoff <= 0.5.
+#' aer = Apparent Error Rate, calculated as the proportion of misclassifications (i.e. number of incorrect / total cases). Cutoff is the proportion of positive cases.
 #'
 #' AIC = Akaike Information Criterion.
 #'
