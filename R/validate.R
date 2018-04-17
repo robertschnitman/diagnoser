@@ -18,34 +18,63 @@
 #'
 #' @section Output definitions (alphabetical order):
 #' adj.rsq = Adjusted R-Squared.
+#'
 #' aer = Apparent Error Rate, calculated as the proportion of misclassifications (i.e. number of incorrect / total cases). Cutoff <= 0.5.
+#'
 #' AIC = Akaike Information Criterion.
+#'
 #' BIC = Bayesian Information Criterion.
+#'
 #' convergence_tolerance = Tolerance of convergence, calculated from summary(model)$convInfo$finTol
+#'
 #' df.den = degrees of freedom, denominator.
+#'
 #' df.null = Degrees of freedom for the null deviance.
+#'
 #' df.num = degrees of freedom, numerator.
+#'
 #' df.sigma = degrees of freedom for sigma.
+#'
 #' F.stat = F statistic
+#'
 #' iterations = Number of iterations for NLS model to converge.
+#'
 #' loglik = Log Likelihood.
+#'
 #' mad = Median Absolute Deviation.
+#'
 #' mae = Mean Absolute Error.
+#'
 #' mpe = Mean Percentage Error.
+#'
 #' medianpe = Median Percentage Error.
+#'
 #' n = number of observations used in the model.
+#'
 #' null.deviance = Null Deviance.
+#'
 #' p.value = p-value for the F statistic.
+#'
 #' pseudo.rsq.mcfad = McFadden's Pseudo R-Squared, calculated as 1 - (residual.deviance/null.deviance).
+#'
 #' residual.deviance = Residual Deviance.
+#'
 #' residual.mean = Mean of the residual.
+#'
 #' residual.median = Median of the residual.
+#'
 #' residual.sd = Standard deviation of the residual.
-#' residual.se = Standard error of the residual .
+#'
+#' residual.se = Standard error of the residual.
+#'
 #' rmse = Root Mean Square Error, calculated as sqrt(mean(resid(model)^2)).
+#'
 #' rsq = R-squared.
+#'
 #' sdpe = Standard Deviation of the Percent Error.
+#'
 #' sepe = Standard Error of the Percent Error (sd(residuals %)/sqrt(n)).
+#'
 #' sigma = Standard deviation of the NLS model, calculated from summary(model)$sigma
 #'
 #' @seealso \url{https://github.com/robertschnitman/diagnoser}
@@ -120,19 +149,37 @@ validate <- function(model, dataframe = FALSE, ...) {
     df.residual       <- summ$df.residual
     pseudo.rsq.mcfad  <- 1 - (residual.deviance/null.deviance)
 
-    aer               <- function(y, yhat) {
-
-      length(yhat[yhat != y])/length(y)
-
-    } # Apparent Error Rate
-
-    fit_binary        <- ifelse(fit < 0.5, 0, 1)
-    aer               <- aer(actual, fit_binary)
-
 
     glm_stats         <- rbind(null.deviance, residual.deviance, df.null, df.residual)
 
     output            <- if (family(model)$link == 'logit') {
+
+      actual_glm <- model.frame(model)[1]
+      actual_glm <- if (NROW(unique(actual_glm)) > 2) {
+
+        stop('More than 2 unique values in the dependent variable were detected.
+           Please use a multinomial logistic/probit method instead!')
+
+      } else if (all(c(0, 1) != unique(actual_glm[order(actual_glm), ]))) {
+
+        y <- as.numeric(factor(actual_glm))
+
+        y[min(y)] <- 0
+
+        y[max(y)] <- 1
+
+        y
+
+      } else if (all(c(0, 1) == unique(actual_glm[order(actual_glm), ]))) {
+
+        model.frame(model)[1]
+
+      }
+
+      act_table  <- as.data.frame(table(actual_glm)) # For Apparent Error Rate, aer.
+      cutoff     <- with(act_table, Freq[actual_glm == 1]/sum(Freq))
+      fit_binary <- ifelse(fit <= cutoff, 0, 1)
+      aer        <- length(fit_binary[fit_binary != actual_glm])/NROW(actual_glm)
 
       rbind(n, pseudo.rsq.mcfad, aer, glm_stats, common)
 
