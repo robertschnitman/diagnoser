@@ -311,7 +311,7 @@ validate(model.nls)
 The functions discussed and demonstrated will be improved on a continuing basis to (1) minimize the programming tedium in statistical reporting and (2) assist people in diagnosing the validity of their results. New functions to be added based on feasibility and future needs as necessary.
 
 ## 7. References
-`broom` library. https://github.com/tidyverse/broom
+`broom` library. https://github.com/tidyverse/broom  
 Raju Rimal's diagPlot. https://rpubs.com/therimalaya/43190
 
 *End of Document*
