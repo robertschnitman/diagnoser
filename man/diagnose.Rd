@@ -4,8 +4,7 @@
 \alias{diagnose}
 \title{Graphically diagnose model residuals.}
 \usage{
-diagnose(model, fit_type = "response", residual_type = "response",
-  point_color = "black", line_color = "black", pch = 1, lwd = 1)
+diagnosemodel, fit_type = 'response', residual_type = 'response', point_color = 'black', line_color = 'black', pch = 1, lwd = 1)
 }
 \arguments{
 \item{model}{An lm, glm, or nls object.}

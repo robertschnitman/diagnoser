@@ -4,8 +4,7 @@
 \alias{ggdiagnose}
 \title{Graphically diagnose model residuals (ggplot2 version).}
 \usage{
-ggdiagnose(model, fit_type = "response", residual_type = "response",
-  bins = 30, se = TRUE, freqpct = FALSE, alpha = 1)
+ggdiagnose(model, fit_type = 'response', residual_type = 'response', bins = 30, se = TRUE, freqpct = FALSE, alpha = 1)
 }
 \arguments{
 \item{model}{An lm or glm object.}

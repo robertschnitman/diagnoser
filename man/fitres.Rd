@@ -4,8 +4,7 @@
 \alias{fitres}
 \title{Create matrix of model fit, residuals, and residuals % (proportion).}
 \usage{
-fitres(model, data = NULL, fit_type = "response",
-  residual_type = "response")
+fitres(model, data = NULL, fit_type = 'response', residual_type = 'response')
 }
 \arguments{
 \item{model}{An lm, glm, or nls(model = TRUE) object.}

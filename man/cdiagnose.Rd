@@ -4,8 +4,7 @@
 \alias{cdiagnose}
 \title{Graphically diagnose model residuals ("classic" version with ggplot2 graphics).}
 \usage{
-cdiagnose(model, fit_type = "response", residual_type = "response",
-  se = FALSE, alpha = 1)
+cdiagnose(model, fit_type = 'response', residual_type = 'response', se = FALSE, alpha = 1)
 }
 \arguments{
 \item{model}{An lm or glm object.}
