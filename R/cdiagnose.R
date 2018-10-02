@@ -1,5 +1,7 @@
 #' Graphically diagnose model residuals ("classic" version with ggplot2 graphics).
 #'
+#' @usage cdiagnose(model, fit_type = 'response', residual_type = 'response', se = FALSE, alpha = 1)
+#'
 #' @param model An lm or glm object.
 #' @param fit_type String. Default is "response". Type of fitted values to use based on options in predict().
 #' @param residual_type String. Default is "response". Type of residuals values to use based on options in resid().

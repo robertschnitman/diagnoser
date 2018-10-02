@@ -1,5 +1,7 @@
 #' Create matrix of model fit, residuals, and residuals % (proportion).
 #'
+#' @usage fitres(model, data = NULL, fit_type = 'response', residual_type = 'response')
+#'
 #' @param model An lm, glm, or nls(model = TRUE) object.
 #' @param data Dataframe. If defined, column-wise binds predictions/residuals to dataframe.
 #' @param fit_type String. Prediction type. See ?predict for details.

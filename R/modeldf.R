@@ -1,5 +1,7 @@
 #' Transform lm, glm, or nls object into a data frame with margin of error and confidence intervals.
 #'
+#' @usage modeldf(model, conf = 0.95)
+#'
 #' @param model An lm, glm, or nls model object.
 #' @param conf A confidence level, 0-1.
 #' @return A data frame.
@@ -29,16 +31,16 @@ modeldf <- function(model, conf = 0.95) {
 
   ### 1. Model should be glm and conf argument should be within 0-1 ###
   stopifnot(any(c('lm', 'glm', 'nls') %in% class(model)[1]), conf >= 0 & conf <= 1)
-  
+
   ### 2. Verify that the user has the car library installed for vif() ###
   if (!require(car)) {
-    
+
     stop('Please install the car library so that the VIFs may be computed.')
-    
+
   } else {
-    
+
     require(car)
-    
+
   }
 
   ### 3. Set up t/z statistics groups for value replacements in "Replace column names" ###
@@ -54,11 +56,17 @@ modeldf <- function(model, conf = 0.95) {
 
   names(summary.df) <- if (class(model) == 'lm' | class(model) == 'nls' ||
                            model$family[1] %in% t_grp) {
+
       gsub('t value', 't', names(summary.df))
+
     } else if (class(model)[1] == 'glm' & model$family[1] %in% z_grp) {
+
       gsub('z value', 'z', names(summary.df))
+
     } else {
+
       stop('Invalid family/link. \n  Valid options are gaussian/identity, Gamma/inverse, binomial/logit, and poisson/log. (b \' v \')b ')
+
   }
 
   names(summary.df) <- gsub('^Pr.*', 'p', names(summary.df))
@@ -98,38 +106,21 @@ modeldf <- function(model, conf = 0.95) {
 
 
   ### 9. Print reordered columns ###
+  cols_common <- c('term', 'beta', 'se', 'moe', 'ci_lower', 'ci_upper')
+  cols_t      <- c('t', 'p')
+  cols_z      <- c('z', 'p')
 
   if (class(model)[1] == 'nls') {
-    summary.df[, c('term',             # Intercept and independent variables.
-                   'beta',             # Coefficients.
-                   'se',               # Standard Error
-                   'moe',              # % Margin of Error, being specified by conf argument.
-                   'ci_lower',         # Lower bound of confidence interval.
-                   'ci_upper',         # Upper bound of confidence interval.
-                   't',                # T-statistic.
-                   'p')]               # p-value.
+
+    summary.df[, c(cols_common, cols_t)]
 
   } else if (class(model)[1] == 'lm' || (class(model)[1] == 'glm' & model$family[1] %in% t_grp)) {
-    summary_vif.df[, c('term',         # Intercept and independent variables.
-                       'beta',         # Coefficients.
-                       'se',           # Standard Error
-                       'moe',          # % Margin of Error, being specified by conf argument.
-                       'ci_lower',     # Lower bound of confidence interval.
-                       'ci_upper',     # Upper bound of confidence interval.
-                       't',            # T-statistic.
-                       'p',            # p-value.
-                       'vif')]         # VIF
+
+    summary_vif.df[, c(cols_common, cols_t, 'vif')]
 
   } else if (class(model)[1] != 'lm' & class(model)[1] == 'glm' & model$family[1] %in% z_grp) {
-    summary_vif.df[, c('term',         # Intercept and independent variables.
-                       'beta',         # Coefficients.
-                       'se',           # Standard Error
-                       'moe',          # % Margin of Error, being specified by conf argument.
-                       'ci_lower',     # Lower bound of confidence interval.
-                       'ci_upper',     # Upper bound of confidence interval.
-                       'z',            # z-statistic.
-                       'p',            # p-value.
-                       'vif')]         # VIF
+
+    summary_vif.df[, c(cols_common, cols_z, 'vif')]
 
   }
 

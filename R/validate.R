@@ -1,5 +1,7 @@
 #' Common regression fit statistics in a vector.
 #'
+#' @usage validate(model, dataframe = FALSE, ...)
+#'
 #' @param model An lm, glm, or nls object.
 #' @param dataframe Logical. FALSE (default) outputs a matrix; TRUE outputs a dataframe.
 #' @param ... Arguments passed to resid().

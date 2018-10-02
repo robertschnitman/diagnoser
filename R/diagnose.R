@@ -1,5 +1,7 @@
 #' Graphically diagnose model residuals.
 #'
+#' @usage diagnosemodel, fit_type = 'response', residual_type = 'response', point_color = 'black', line_color = 'black', pch = 1, lwd = 1)
+#'
 #' @param model An lm, glm, or nls object.
 #' @param fit_type String. Default is "response". Type of fitted values to use based on options in predict().
 #' @param residual_type String. Default is "response". Type of residuals values to use based on options in resid().
