@@ -178,9 +178,9 @@ model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
 modeldf(model = model.nls, conf = 0.85) # conf = 0.95 is the default value; can be omitted.
 ```
 
-    ##   parameter        coef         se         moe    ci_lower    ci_upper           t            p
-    ## 1    theta0 -121.608226 13.2364581 19.40604989 -140.672736 -102.202176   -9.187369 2.167395e-15
-    ## 2    theta1    1.170315  0.0182639  0.02489023    1.141823    1.195206   64.078073 3.014033e-91
+    ##   parameter    estimate         se         moe    ci_lower    ci_upper          t            p
+    ## 1    theta0 -121.608226 13.2364581 19.40604989 -140.672736 -102.202176  -9.187369 2.167395e-15
+    ## 2    theta1    1.170315  0.0182639  0.02489023    1.141823    1.195206  64.078073 3.014033e-91
 
 ## 5. validate()
 
@@ -311,7 +311,7 @@ validate(model.nls)
 The functions discussed and demonstrated will be improved on a continuing basis to (1) minimize the programming tedium in statistical reporting and (2) assist people in diagnosing the validity of their results. New functions to be added based on feasibility and future needs as necessary.
 
 ## 7. References
-`broom` library. https://github.com/tidyverse/broom  
-Raju Rimal's diagPlot. https://rpubs.com/therimalaya/43190
+1. `broom` library. https://github.com/tidyverse/broom  
+2. Raju Rimal's diagPlot. https://rpubs.com/therimalaya/43190
 
 *End of Document*
