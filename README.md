@@ -150,7 +150,7 @@ model.lm <- lm(data = mtcars, formula = mpg ~ disp + hp + wt + gear + am)
 modeldf(model = model.lm, conf = 0.90) # conf = 0.95 is the default value; can be omitted.
 ```
 
-    ##          term         beta         se        moe    ci_lower    ci_upper          t            p      vif
+    ##          term         coef         se        moe    ci_lower    ci_upper          t            p      vif
     ## 1 (Intercept) 32.108024910 4.84359733 8.26132640 23.84669851 40.36935131  6.6289625 4.959127e-07       NA
     ## 2          am  1.605381694 1.78234460 3.03999888 -1.43461719  4.64538058  0.9007134 3.760085e-01 3.583076
     ## 3        disp  0.005352328 0.01178752 0.02010500 -0.01475267  0.02545733  0.4540675 6.535481e-01 9.668205
@@ -165,7 +165,7 @@ model.glm <- glm(data = mtcars, formula = am ~ mpg + disp + hp, family = binomia
 modeldf(model = model.glm, conf = 0.90) # conf = 0.95 is the default value; can be omitted.
 ```
 
-    ##          term        beta          se         moe     ci_lower    ci_upper         z          p       vif
+    ##          term        coef          se         moe     ci_lower    ci_upper         z          p       vif
     ## 1 (Intercept) -33.8128314 24.17533401 26.83504619 -94.19070326 -6.97778523 -1.398650 0.16191796        NA
     ## 2        disp  -0.0654460  0.04304626  0.04707836  -0.16992781 -0.01836764 -1.520364 0.12841942 15.021316
     ## 3          hp   0.1493636  0.07871156  0.20423473   0.05857355  0.35359832  1.897607 0.05774791 23.014959
@@ -178,9 +178,9 @@ model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
 modeldf(model = model.nls, conf = 0.85) # conf = 0.95 is the default value; can be omitted.
 ```
 
-    ##     term        beta         se         moe    ci_lower    ci_upper         t             p
-    ## 1 theta0 -121.608226 13.2364581 19.40604989 -140.672736 -102.202176 -9.187369  2.167395e-15
-    ## 2 theta1    1.170315  0.0182639  0.02489023    1.141823    1.195206  64.078073 3.014033e-91
+    ##   parameter        coef         se         moe    ci_lower    ci_upper           t            p
+    ## 1    theta0 -121.608226 13.2364581 19.40604989 -140.672736 -102.202176   -9.187369 2.167395e-15
+    ## 2    theta1    1.170315  0.0182639  0.02489023    1.141823    1.195206   64.078073 3.014033e-91
 
 ## 5. validate()
 
