@@ -51,7 +51,8 @@ modeldf <- function(model, conf = 0.95) {
   summary.df <- as.data.frame(summary(model)$coefficients)
 
   ### 5. Replace column names ###
-  names(summary.df) <- gsub('Estimate',   'beta', names(summary.df))
+  names(summary.df) <- gsub('Estimate', 'coef', names(summary.df))
+
   names(summary.df) <- gsub('Std. Error', 'se',   names(summary.df))
 
   names(summary.df) <- if (class(model) == 'lm' | class(model) == 'nls' ||
@@ -78,7 +79,8 @@ modeldf <- function(model, conf = 0.95) {
   summary.df$ci_lower <- t(t(ci[rownames(ci) == rownames(summary.df), 1]))  # Confidence Interval: lower.
   summary.df$ci_upper <- t(t(ci[rownames(ci) == rownames(summary.df), 2]))  # Confidence Interval: upper.
 
-  summary.df$moe      <- with(summary.df, ci_upper - beta)
+
+  summary.df$moe      <- with(summary.df, ci_upper - coef)
 
   ### 7. VIF only works for OLS and GLM ###
 
@@ -106,21 +108,23 @@ modeldf <- function(model, conf = 0.95) {
 
 
   ### 9. Print reordered columns ###
-  cols_common <- c('term', 'beta', 'se', 'moe', 'ci_lower', 'ci_upper')
+  cols_common <- c('coef', 'se', 'moe', 'ci_lower', 'ci_upper')
   cols_t      <- c('t', 'p')
   cols_z      <- c('z', 'p')
 
   if (class(model)[1] == 'nls') {
 
-    summary.df[, c(cols_common, cols_t)]
+    names(summary.df) <- gsub('term', 'parameter', names(summary.df))
+
+    summary.df[, c('parameter', cols_common, cols_t)]
 
   } else if (class(model)[1] == 'lm' || (class(model)[1] == 'glm' & model$family[1] %in% t_grp)) {
 
-    summary_vif.df[, c(cols_common, cols_t, 'vif')]
+    summary_vif.df[, c('term', cols_common, cols_t, 'vif')]
 
   } else if (class(model)[1] != 'lm' & class(model)[1] == 'glm' & model$family[1] %in% z_grp) {
 
-    summary_vif.df[, c(cols_common, cols_z, 'vif')]
+    summary_vif.df[, c('term', cols_common, cols_z, 'vif')]
 
   }
 
