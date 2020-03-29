@@ -25,6 +25,12 @@
 # install.packages("devtools")
 devtools::install_github("robertschnitman/diagnoser")
 ```
+## Preface
+
+Alternative versions of this document:
+
+1. Gitbook: https://rs-diagnoser.netlify.com/
+2. PDF: https://github.com/robertschnitman/diagnoser/blob/master/docs/diagnoser_handbook.pdf
 
 ## 1. Introduction
 
