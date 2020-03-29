@@ -5,8 +5,8 @@ author: "Robert Schnitman"
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 site: bookdown::bookdown_site
 output: 
-  bookdown::gitbook: default
   bookdown::pdf_book: default
+  bookdown::gitbook: default
 biblio-style: apalike
 link-citations: yes
 description: "The `diagnoser` package contains tools for regression diagnostics."
@@ -161,7 +161,7 @@ head(fitres(model    = model.lm,
 ```
 
 
-# modeldf()
+# `modeldf()`
 
 The function `modeldf()` has similar features to tidying model objects with additions. The margin of error (`moe`) and confidence interval columns (`ci\_\`) would inform those in the health sciences the impact range of their variables of interest--other discplines may benefit as well from these estimates. The variance inflation factors (*VIF*)--which are estimated with `vif()` from `car`--measure the extent of collinearity in linear models.
 
@@ -198,7 +198,7 @@ modeldf(model = model.nls, conf = 0.80)
 ```
 
 
-# validate()
+# `validate()`
 
 The `glance()` function from `broom` had a vague label for the F statistic (simply "statistic") and lacked any kind of pseudo R-squared for logistic regressions.
 
