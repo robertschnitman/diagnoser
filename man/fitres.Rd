@@ -2,7 +2,7 @@
 % Please edit documentation in R/fitres.R
 \name{fitres}
 \alias{fitres}
-\title{Create matrix of model fit, residuals, and residuals % (proportion).}
+\title{Create matrix of model fit, residuals, and residuals proportions.}
 \usage{
 fitres(model, data = NULL, fit_type = 'response', residual_type = 'response')
 }
@@ -19,7 +19,7 @@ fitres(model, data = NULL, fit_type = 'response', residual_type = 'response')
 A matrix OR dataframe (if data is not null).
 }
 \description{
-Create matrix of model fit, residuals, and residuals % (proportion).
+Create matrix of model fit, residuals, and residuals proportions.
 }
 \details{
 fitres() creates a matrix of the fitted values, residuals, and residuals as a proportion (percent) of the actual dependent variable values based on an OLS model or GLM. If the data input is defined, then said matrix is column-wise binded to the specified dataset.
