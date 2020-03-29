@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 The *diagnose() Functions | Handbook for the diagnoser R Package</title>
+  <meta name="description" content="The diagnoser package contains tools for regression diagnostics." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 The *diagnose() Functions | Handbook for the diagnoser R Package" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="The diagnoser package contains tools for regression diagnostics." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 The *diagnose() Functions | Handbook for the diagnoser R Package" />
+  
+  <meta name="twitter:description" content="The diagnoser package contains tools for regression diagnostics." />
+  
+
+<meta name="author" content="Robert Schnitman" />
+
+
+<meta name="date" content="2020-03-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="installing-diagnoser.html"/>
+<link rel="next" href="fitres-and-fitresdf.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="installing-diagnoser.html"><a href="installing-diagnoser.html"><i class="fa fa-check"></i><b>2</b> Installing <code>diagnoser</code></a></li>
+<li class="chapter" data-level="3" data-path="the-diagnose-functions.html"><a href="the-diagnose-functions.html"><i class="fa fa-check"></i><b>3</b> The <code>*diagnose()</code> Functions</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="the-diagnose-functions.html"><a href="the-diagnose-functions.html#diagnose-and-ggdiagnose"><i class="fa fa-check"></i><b>3.1</b> <code>diagnose()</code> and <code>ggdiagnose()</code></a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="the-diagnose-functions.html"><a href="the-diagnose-functions.html#diagnose"><i class="fa fa-check"></i><b>3.1.1</b> <code>diagnose()</code></a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-diagnose-functions.html"><a href="the-diagnose-functions.html#ggdiagnose"><i class="fa fa-check"></i><b>3.1.2</b> <code>ggdiagnose()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="the-diagnose-functions.html"><a href="the-diagnose-functions.html#cdiagnose"><i class="fa fa-check"></i><b>3.2</b> <code>cdiagnose()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="fitres-and-fitresdf.html"><a href="fitres-and-fitresdf.html"><i class="fa fa-check"></i><b>4</b> <code>fitres()</code> and <code>fitresdf()</code></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="fitres-and-fitresdf.html"><a href="fitres-and-fitresdf.html#without-specifying-data"><i class="fa fa-check"></i><b>4.1</b> Without specifying <code>data</code></a></li>
+<li class="chapter" data-level="4.2" data-path="fitres-and-fitresdf.html"><a href="fitres-and-fitresdf.html#with-specifying-data"><i class="fa fa-check"></i><b>4.2</b> With specifying <code>data</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="modeldf.html"><a href="modeldf.html"><i class="fa fa-check"></i><b>5</b> modeldf()</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="modeldf.html"><a href="modeldf.html#case-1-ols-1"><i class="fa fa-check"></i><b>5.1</b> Case 1: OLS</a></li>
+<li class="chapter" data-level="5.2" data-path="modeldf.html"><a href="modeldf.html#case-2-glm-logit"><i class="fa fa-check"></i><b>5.2</b> Case 2: GLM (logit)</a></li>
+<li class="chapter" data-level="5.3" data-path="modeldf.html"><a href="modeldf.html#case-3-nls"><i class="fa fa-check"></i><b>5.3</b> Case 3: NLS</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="validate.html"><a href="validate.html"><i class="fa fa-check"></i><b>6</b> validate()</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="validate.html"><a href="validate.html#case-1-ols-2"><i class="fa fa-check"></i><b>6.1</b> Case 1: OLS</a></li>
+<li class="chapter" data-level="6.2" data-path="validate.html"><a href="validate.html#case-2-glm-logit-1"><i class="fa fa-check"></i><b>6.2</b> Case 2: GLM (logit)</a></li>
+<li class="chapter" data-level="6.3" data-path="validate.html"><a href="validate.html#case-3-nls-1"><i class="fa fa-check"></i><b>6.3</b> Case 3: NLS</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Handbook for the <code>diagnoser</code> R Package</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="the-diagnose-functions" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> The <code>*diagnose()</code> Functions</h1>
+<div id="diagnose-and-ggdiagnose" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> <code>diagnose()</code> and <code>ggdiagnose()</code></h2>
+<p>The functions <code>diagnose()</code> and <code>ggdiagnose()</code> provide alternatives for the <code>plot(model.object)</code> approach. The Q-Q, Scale-Location, and Residuals-vs.-Leverage plots in the latter method can present difficulties in interpretations. For example, Cook’s Distance typically is not taught at the secondary and undergraduate levels–when it is, teachers will forego explanation of the math due to its complexity and instead focus solely on the interpretation, leaving students in the dark on how the statistic works. If the goal is to maximize students’ comprehension of detecting heteroskedasticity, one option is to replace the three previously mentioned graphs with histograms and an addition of another variable: residuals as a percentage of the values for the dependent variable (i.e. <code>(residuals ÷ actual values)*100</code>).</p>
+<p>Thinking of residuals in terms of percent differences can help determine their <em>magnitude</em>. For example, if you notice an outlier in the residuals having the value of “5”, does this issue necessitate a re-estimation of the model that excludes this observation? A common method is to examine the (adjusted) R-squared before-and-after the outlier exclusion. The problem of “mining” the model occurs, however, and heightens the risk of a Type 1 Error (i.e. false positive). One solution, then, is to confirm whether this extremity is substantively different from the rest of the values–you may, based on prior knowledge, decide whether thresholds of 10% or 15% should be marked as such.</p>
+<p>Overall, with these functions, students will learn how to visualize homoskedasticity/heteroskedasticity and the magnitude of outliers based on familiar concepts as opposed to being inundated with hastily-taught new ones that assume a sufficient understanding of linear algebra.</p>
+<div id="diagnose" class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> <code>diagnose()</code></h3>
+<div id="case-1-ols" class="section level4 unnumbered" number="">
+<h4>Case 1: OLS</h4>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="the-diagnose-functions.html#cb3-1"></a><span class="co"># OLS case</span></span>
+<span id="cb3-2"><a href="the-diagnose-functions.html#cb3-2"></a>model.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data =</span> mtcars, <span class="dt">formula =</span> mpg <span class="op">~</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>gear)</span>
+<span id="cb3-3"><a href="the-diagnose-functions.html#cb3-3"></a></span>
+<span id="cb3-4"><a href="the-diagnose-functions.html#cb3-4"></a><span class="kw">diagnose</span>(model.lm, </span>
+<span id="cb3-5"><a href="the-diagnose-functions.html#cb3-5"></a>         <span class="dt">fit_type      =</span> <span class="st">&#39;response&#39;</span>, </span>
+<span id="cb3-6"><a href="the-diagnose-functions.html#cb3-6"></a>         <span class="dt">residual_type =</span> <span class="st">&#39;response&#39;</span>)</span></code></pre></div>
+<p><img src="diagnoser_handbook_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="the-diagnose-functions.html#cb4-1"></a>  <span class="co"># The fit_type option specifies prediction type in predict(). </span></span>
+<span id="cb4-2"><a href="the-diagnose-functions.html#cb4-2"></a>  <span class="co">#   Similarly, residual_type specifies for resid().</span></span>
+<span id="cb4-3"><a href="the-diagnose-functions.html#cb4-3"></a>  <span class="co">#   These inputs are useful for glm objects of binomial family.</span></span></code></pre></div>
+</div>
+<div id="case-2-nls" class="section level4 unnumbered" number="">
+<h4>Case 2: NLS</h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="the-diagnose-functions.html#cb5-1"></a>model.nls &lt;-<span class="st"> </span><span class="kw">nls</span>(Ozone <span class="op">~</span><span class="st"> </span>theta0 <span class="op">+</span><span class="st"> </span>Temp<span class="op">^</span>theta1, airquality)</span>
+<span id="cb5-2"><a href="the-diagnose-functions.html#cb5-2"></a></span>
+<span id="cb5-3"><a href="the-diagnose-functions.html#cb5-3"></a><span class="kw">diagnose</span>(model.nls, </span>
+<span id="cb5-4"><a href="the-diagnose-functions.html#cb5-4"></a>         <span class="dt">point_color =</span> <span class="st">&#39;#00BFC4&#39;</span>, </span>
+<span id="cb5-5"><a href="the-diagnose-functions.html#cb5-5"></a>         <span class="dt">line_color  =</span> <span class="st">&#39;#F8766D&#39;</span>, </span>
+<span id="cb5-6"><a href="the-diagnose-functions.html#cb5-6"></a>         <span class="dt">pch         =</span> <span class="dv">16</span>, </span>
+<span id="cb5-7"><a href="the-diagnose-functions.html#cb5-7"></a>         <span class="dt">lwd         =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="diagnoser_handbook_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="the-diagnose-functions.html#cb6-1"></a><span class="co"># Recommended for larger data, </span></span>
+<span id="cb6-2"><a href="the-diagnose-functions.html#cb6-2"></a><span class="co"># as ggplot2 in ggdiagnose() and cdiagnose() can be slow.</span></span></code></pre></div>
+</div>
+</div>
+<div id="ggdiagnose" class="section level3" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> <code>ggdiagnose()</code></h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="the-diagnose-functions.html#cb7-1"></a><span class="co"># NLS case</span></span>
+<span id="cb7-2"><a href="the-diagnose-functions.html#cb7-2"></a>model.nls &lt;-<span class="st"> </span><span class="kw">nls</span>(Ozone <span class="op">~</span><span class="st"> </span>theta0 <span class="op">+</span><span class="st"> </span>Temp<span class="op">^</span>theta1, airquality)</span>
+<span id="cb7-3"><a href="the-diagnose-functions.html#cb7-3"></a></span>
+<span id="cb7-4"><a href="the-diagnose-functions.html#cb7-4"></a><span class="kw">ggdiagnose</span>(model.nls, </span>
+<span id="cb7-5"><a href="the-diagnose-functions.html#cb7-5"></a>           <span class="dt">fit_type      =</span> <span class="st">&#39;response&#39;</span>, </span>
+<span id="cb7-6"><a href="the-diagnose-functions.html#cb7-6"></a>           <span class="dt">residual_type =</span> <span class="st">&#39;response&#39;</span>,</span>
+<span id="cb7-7"><a href="the-diagnose-functions.html#cb7-7"></a>           <span class="dt">bins          =</span> <span class="kw">nobs</span>(model.nls), </span>
+<span id="cb7-8"><a href="the-diagnose-functions.html#cb7-8"></a>           <span class="dt">se            =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb7-9"><a href="the-diagnose-functions.html#cb7-9"></a>           <span class="dt">freqpct       =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb7-10"><a href="the-diagnose-functions.html#cb7-10"></a>           <span class="dt">alpha         =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="diagnoser_handbook_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="the-diagnose-functions.html#cb8-1"></a>  <span class="co"># The fit_type option specifies prediction type in predict(). </span></span>
+<span id="cb8-2"><a href="the-diagnose-functions.html#cb8-2"></a>  <span class="co">#   Similarly, residual_type specifies for resid().</span></span>
+<span id="cb8-3"><a href="the-diagnose-functions.html#cb8-3"></a>  <span class="co">#   These inputs are useful for glm objects of binomial family.</span></span>
+<span id="cb8-4"><a href="the-diagnose-functions.html#cb8-4"></a>  <span class="co"># Default bins value is 30.</span></span>
+<span id="cb8-5"><a href="the-diagnose-functions.html#cb8-5"></a>  <span class="co"># Default se value is TRUE.</span></span>
+<span id="cb8-6"><a href="the-diagnose-functions.html#cb8-6"></a>  <span class="co"># Default freqpct value is FALSE.</span></span>
+<span id="cb8-7"><a href="the-diagnose-functions.html#cb8-7"></a>  <span class="co"># Default alpha value is 1.   </span></span></code></pre></div>
+</div>
+</div>
+<div id="cdiagnose" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> <code>cdiagnose()</code></h2>
+<p>For those who prefer it, I also present a “classic” version of the original base R residual diagnostics plot: <code>cdiagnose()</code>, a recreation of <code>plot(model.object)</code> with ggplot2 graphics. The Residuals vs. Leverage graph is the most differentiated one from the original, using the size of the points to indicate the degree of Cook’s Distance (as inspired by Raju Rimal’s <code>diagPlot()</code>: <a href="https://rpubs.com/therimalaya/43190" class="uri">https://rpubs.com/therimalaya/43190</a>).</p>
+<p>Because base R’s plotting of model objects do not include NLM/NLS objects, neither does <code>cdiagnose()</code>, which is justified considering the linear algebra involved in leverage and Cook’s Distance. Nonetheless, future work will consider an alternative for non-linear models.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="the-diagnose-functions.html#cb9-1"></a><span class="co"># OLS case</span></span>
+<span id="cb9-2"><a href="the-diagnose-functions.html#cb9-2"></a>model.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data =</span> Orange, <span class="dt">formula =</span> <span class="kw">log</span>(circumference) <span class="op">~</span><span class="st"> </span>age)</span>
+<span id="cb9-3"><a href="the-diagnose-functions.html#cb9-3"></a></span>
+<span id="cb9-4"><a href="the-diagnose-functions.html#cb9-4"></a><span class="kw">cdiagnose</span>(model.lm, </span>
+<span id="cb9-5"><a href="the-diagnose-functions.html#cb9-5"></a>          <span class="dt">fit_type      =</span> <span class="st">&#39;response&#39;</span>,</span>
+<span id="cb9-6"><a href="the-diagnose-functions.html#cb9-6"></a>          <span class="dt">residual_type =</span> <span class="st">&#39;response&#39;</span>,</span>
+<span id="cb9-7"><a href="the-diagnose-functions.html#cb9-7"></a>          <span class="dt">se            =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb9-8"><a href="the-diagnose-functions.html#cb9-8"></a>          <span class="dt">alpha         =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p><img src="diagnoser_handbook_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="the-diagnose-functions.html#cb10-1"></a>  <span class="co"># The fit_type option specifies prediction type in predict(). </span></span>
+<span id="cb10-2"><a href="the-diagnose-functions.html#cb10-2"></a>  <span class="co">#   Similarly, residual_type specifies for resid().</span></span>
+<span id="cb10-3"><a href="the-diagnose-functions.html#cb10-3"></a>  <span class="co">#   These inputs are useful for glm objects of binomial family.</span></span>
+<span id="cb10-4"><a href="the-diagnose-functions.html#cb10-4"></a>  <span class="co"># Default bins value is 30.</span></span>
+<span id="cb10-5"><a href="the-diagnose-functions.html#cb10-5"></a>  <span class="co"># Default se value is FALSE.</span></span>
+<span id="cb10-6"><a href="the-diagnose-functions.html#cb10-6"></a>  <span class="co"># Default alpha value is 1.</span></span></code></pre></div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="installing-diagnoser.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="fitres-and-fitresdf.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"search": false
+});
+});
+</script>
+
+</body>
+
+</html>

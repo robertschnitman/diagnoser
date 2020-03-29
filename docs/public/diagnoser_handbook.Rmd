@@ -1,0 +1,252 @@
+---
+documentclass: book
+title:  Handbook for the `diagnoser` R Package
+author: "Robert Schnitman"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+site: bookdown::bookdown_site
+output: 
+  bookdown::gitbook: default
+  bookdown::pdf_book: default
+biblio-style: apalike
+link-citations: yes
+description: "The `diagnoser` package contains tools for regression diagnostics."
+---
+
+# Introduction {#index}
+
+The `diagnoser` package contains tools for regression diagnostics. Base R's `plot(model.object)` was the primary influence, as it was a useful tool for quickly assessing estimation bias and existence of heteroskedasticity; but interpreting more specialized concepts such as Cook's Distance proved to be difficult to understand for those without linear algebra knowledge. To improve upon comprehension for introductory students, I developed `diagnose()` and `ggdiagnose()`. Individuals with a fondness for the classics would appreciate `cdiagnose()`, which recreates the original `plot(model.object)` with `ggplot2` graphics.
+
+Other functions such as `fitres()`, `modeldf()`, and `validate()` were inspired by tidyverse's `broom` library. While `broom` eases the process of transforming model objects into data frames, outputs from `tidy()` lacked estimates integral to the social and health sciences, such as the margin of error for OLS estimates. Additionally, `glance()` does not produce a pseudo r-squared for general linear models. The functions `modeldf()` and `validate()` seek to close the gaps from these broom functions.
+
+The sections that follow teach you how to install this library and how to use these functions.
+
+# Installing `diagnoser`
+
+The library `diagnoser` currently is only installable via GitHub and is contingent on R versions at or above 3.4.2. To install the package, first install `devtools` so that you may make use of the function `install_github`, referencing `diagnoser` by the package creator's username ("robertschnitman") followed by "/diagnoser" as shown in the code below:
+
+```{r install1, eval = FALSE}
+## Ensure that you are running R 3.4.2 or higher.
+## Package Dependencies:
+#     lazyeval (>= 0.2.1)
+#  Package Imports:
+#     ggplot2 (>= 2.2.1), 
+#     gridExtra (>= 2.3), 
+#     scales (>= 0.5.0), 
+#     car (>= 2.1)
+
+# Install library necessary for installing diagnoser.
+install.packages("devtools") 
+
+# Install diagnoser via devtools.
+devtools::install_github("robertschnitman/diagnoser")
+```
+
+The following sections will assume that you have loaded this library, so please load it so that the codes in the mentioned sections will be executable for you.
+
+```{r install2, message = FALSE}
+library(diagnoser)
+```
+
+
+# The `*diagnose()` Functions
+
+## `diagnose()` and `ggdiagnose()`
+
+The functions `diagnose()` and `ggdiagnose()` provide alternatives for the `plot(model.object)` approach. The Q-Q, Scale-Location, and Residuals-vs.-Leverage plots in the latter method can present difficulties in interpretations. For example, Cook's Distance typically is not taught at the secondary and undergraduate levels--when it is, teachers will forego explanation of the math due to its complexity and instead focus solely on the interpretation, leaving students in the dark on how the statistic works. If the goal is to maximize students' comprehension of detecting heteroskedasticity, one option is to replace the three previously mentioned graphs with histograms and an addition of another variable: residuals as a percentage of the values for the dependent variable (i.e. `(residuals ÷ actual values)*100`).
+
+Thinking of residuals in terms of percent differences can help determine their *magnitude*. For example, if you notice an outlier in the residuals having the value of "5", does this issue necessitate a re-estimation of the model that excludes this observation? A common method is to examine the (adjusted) R-squared before-and-after the outlier exclusion. The problem of "mining" the model occurs, however, and heightens the risk of a Type 1 Error (i.e. false positive). One solution, then, is to confirm whether this extremity is substantively different from the rest of the values--you may, based on prior knowledge, decide whether thresholds of 10% or 15% should be marked as such.
+
+Overall, with these functions, students will learn how to visualize homoskedasticity/heteroskedasticity and the magnitude of outliers based on familiar concepts as opposed to being inundated with hastily-taught new ones that assume a sufficient understanding of linear algebra.
+
+### `diagnose()`
+
+#### Case 1: OLS {-}
+
+```{r}
+# OLS case
+model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
+
+diagnose(model.lm, 
+         fit_type      = 'response', 
+         residual_type = 'response')
+  # The fit_type option specifies prediction type in predict(). 
+  #   Similarly, residual_type specifies for resid().
+  #   These inputs are useful for glm objects of binomial family.
+```
+
+
+#### Case 2: NLS {-}
+
+```{r, warning = FALSE}
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
+
+diagnose(model.nls, 
+         point_color = '#00BFC4', 
+         line_color  = '#F8766D', 
+         pch         = 16, 
+         lwd         = 2)
+
+# Recommended for larger data, 
+# as ggplot2 in ggdiagnose() and cdiagnose() can be slow.
+```
+
+### `ggdiagnose()`
+
+```{r, warning = FALSE, message = FALSE}
+# NLS case
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
+
+ggdiagnose(model.nls, 
+           fit_type      = 'response', 
+           residual_type = 'response',
+           bins          = nobs(model.nls), 
+           se            = TRUE, 
+           freqpct       = TRUE, 
+           alpha         = 0.5)
+  # The fit_type option specifies prediction type in predict(). 
+  #   Similarly, residual_type specifies for resid().
+  #   These inputs are useful for glm objects of binomial family.
+  # Default bins value is 30.
+  # Default se value is TRUE.
+  # Default freqpct value is FALSE.
+  # Default alpha value is 1.   
+```
+
+
+## `cdiagnose()`
+
+For those who prefer it, I also present a "classic" version of the original base R residual diagnostics plot: `cdiagnose()`, a recreation of `plot(model.object)` with ggplot2 graphics. The Residuals vs. Leverage graph is the most differentiated one from the original, using the size of the points to indicate the degree of Cook's Distance (as inspired by Raju Rimal's `diagPlot()`: https://rpubs.com/therimalaya/43190).
+
+Because base R's plotting of model objects do not include NLM/NLS objects, neither does `cdiagnose()`, which is justified considering the linear algebra involved in leverage and Cook's Distance. Nonetheless, future work will consider an alternative for non-linear models.
+
+```{r, message = FALSE}
+# OLS case
+model.lm <- lm(data = Orange, formula = log(circumference) ~ age)
+
+cdiagnose(model.lm, 
+          fit_type      = 'response',
+          residual_type = 'response',
+          se            = FALSE,
+          alpha         = 1)
+  # The fit_type option specifies prediction type in predict(). 
+  #   Similarly, residual_type specifies for resid().
+  #   These inputs are useful for glm objects of binomial family.
+  # Default bins value is 30.
+  # Default se value is FALSE.
+  # Default alpha value is 1.
+```
+
+
+# `fitres()` and `fitresdf()`
+
+The function `fitres()` will look similar to those who have used `augment()` from `broom`. It creates a matrix of the fitted values, residuals, and residuals as a proportion (percent) based on the actual dependent variable's values. When the *data* input is specified, the function produces a dataframe that *merges* the fitted values and residual variables as columns to said specified dataset. The function `fitresdf()` acts similarly except that its output is a `data frame`.
+
+## Without specifying `data`
+```{r}
+model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
+
+head(fitres(model.lm, fit_type = 'response'))
+    # default type value is 'response'.
+```
+
+
+## With specifying `data`
+
+```{r}
+model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
+
+head(fitres(model    = model.lm, 
+            data     = mtcars, 
+            fit_type = 'response'))
+```
+
+
+# modeldf()
+
+The function `modeldf()` has similar features to tidying model objects with additions. The margin of error (`moe`) and confidence interval columns (`ci\_\`) would inform those in the health sciences the impact range of their variables of interest--other discplines may benefit as well from these estimates. The variance inflation factors (*VIF*)--which are estimated with `vif()` from `car`--measure the extent of collinearity in linear models.
+
+## Case 1: OLS
+
+```{r, message = FALSE, warning = FALSE}
+model.lm <- lm(data    = mtcars, 
+               formula = mpg ~ disp + hp + wt + gear + am)
+
+modeldf(model = model.lm, conf = 0.90) 
+
+# conf = 0.95 is the default value; can be omitted.
+```
+
+
+## Case 2: GLM (logit)
+
+```{r, warning = FALSE}
+model.glm <- glm(data   = mtcars, formula = am ~ mpg + disp + hp, 
+                 family = binomial(link = 'logit'))
+
+modeldf(model = model.glm, conf = 0.85) 
+# conf = 0.95 is the default value; can be omitted.
+```
+
+## Case 3: NLS
+
+```{r, warning = FALSE}
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
+
+modeldf(model = model.nls, conf = 0.80) 
+
+# conf = 0.95 is the default value; can be omitted.
+```
+
+
+# validate()
+
+The `glance()` function from `broom` had a vague label for the F statistic (simply "statistic") and lacked any kind of pseudo R-squared for logistic regressions.
+
+Furthermore, while the same function is friendly for data frames, its wide form is cumbersome for quickly ascertaining model validity. Thus, `validate()` produces similar output as a column vector, adding McFadden's pseudo R-squared and the apparent error rate--defined as the ratio of the number of incorrect predictions to correct ones (i.e. number incorrect / number correct)--for logistic regressions. Those who wish to have the values in the format of `broom` can always transpose the vector. Alternatively, converting the output to a dataframe is simple by setting `dataframe = TRUE` in the function.
+
+Output definitions are in the help file associated with this function.
+
+## Case 1: OLS
+
+```{r}
+model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
+
+validate(model.lm)
+```
+
+
+```{r}
+model.lm <- lm(data = mtcars, formula = mpg ~ wt + gear)
+
+validate(model.lm, TRUE) # data frame
+```
+
+
+## Case 2: GLM (logit)
+
+```{r}
+model.glm <- glm(formula = am ~ mpg + wt, mtcars, 
+                 family  = binomial(link = 'logit'))
+
+validate(model.glm) 
+# Note the inapplicability of the percent error (pe) statistics.
+```
+
+## Case 3: NLS
+
+```{r, message = FALSE, warning = FALSE}
+model.nls <- nls(Ozone ~ theta0 + Temp^theta1, airquality)
+
+validate(model.nls)
+```
+
+
+# Conclusion
+
+The functions discussed and demonstrated will be improved on a continuing basis to (1) minimize the programming tedium in statistical reporting and (2) assist people in diagnosing the validity of their results. New functions to be added based on feasibility and future needs as necessary.
+
+
+# References {-}
+`broom` library. https://github.com/tidyverse/broom  
+
+Raju Rimal's diagPlot. https://rpubs.com/therimalaya/43190
