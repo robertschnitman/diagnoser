@@ -1,4 +1,4 @@
-#' Create matrix of model fit, residuals, and residuals % (proportion).
+#' Create matrix of model fit, residuals, and residuals proportions.
 #'
 #' @usage fitres(model, data = NULL, fit_type = 'response', residual_type = 'response')
 #'
