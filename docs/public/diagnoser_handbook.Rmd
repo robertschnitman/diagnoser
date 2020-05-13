@@ -2,7 +2,7 @@
 documentclass: book
 title:  Handbook for the `diagnoser` R Package
 author: "Robert Schnitman"
-date: '`r format(Sys.Date(), "%B %d, %Y")`'
+date: "`r paste0('March 29, 2020 (Last updated: ', format(Sys.Date(), '%B %d, %Y'), ')')`"
 site: bookdown::bookdown_site
 output: 
   bookdown::pdf_book: default
@@ -250,3 +250,7 @@ The functions discussed and demonstrated will be improved on a continuing basis 
 `broom` library. https://github.com/tidyverse/broom  
 
 Raju Rimal's diagPlot. https://rpubs.com/therimalaya/43190
+
+# See also {-}
+
+Robert Schnitman's profile. https://robertschnitman.netlify.app
