@@ -29,7 +29,7 @@ devtools::install_github("robertschnitman/diagnoser")
 
 Alternative versions of this document:
 
-1. Gitbook: https://rs-diagnoser.netlify.com/
+1. Gitbook: https://diagnoser.netlify.com/
 2. PDF: https://github.com/robertschnitman/diagnoser/blob/master/docs/diagnoser_handbook.pdf
 
 ## 1. Introduction
